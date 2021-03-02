@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <title> Form </title>
+        <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-analytics.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-database.js"></script>
+        <script src="main.js"></script>
+        <link rel="stylesheet" href="main.css">
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    </head>
+    <div id="loading"></div>
+
+    <body>
+        <h1> Sign In </h1>
+        <div id="formContainer">
+            <div id="header"></div>
+            <input type="email" placeholder="email" id="email"/>
+            <input type="password" placeholder="password" id="password"/>
+            <input type="text" placeholder="referral code" id="referral"/>
+
+            <button class = "button"  onclick="signUp()" id="signUp">Sign Up</button>
+            <button class = "button" onclick="signIn()" id="SignIn">Sign In</button>
+            
+        </div>
+
+
+
+    </body>
+
+   
+
+
+
+
+</html>
+
+
+
+
+
