@@ -184,7 +184,7 @@
                                         }
                                         tempReceiveData2.Transactions.push(ReceiveTransactionObj2);
                                         db.collection("users").doc(Auth.currentUser.uid).set(tempReceiveData2).then(() => {
-                                            alert("You lost " + (betAmount).toFixed(4).toString() + " PEPPAS with a " + (bettingReturn) + "x return rate. You rolled a " + rolledNumber.toString());
+                                            alert("You lost " + Number(betAmount).toFixed(4).toString() + " PEPPAS with a " + (bettingReturn) + "x return rate. You rolled a " + rolledNumber.toString());
                                             $(document).ready(function(){
                                             firebase.auth().onAuthStateChanged(user => {
                                             var docRef = db.collection("users").doc(Auth.currentUser.uid);
