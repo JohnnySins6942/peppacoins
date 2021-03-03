@@ -30,7 +30,7 @@
                 docRef.get().then((doc) => {
                 if (doc.exists) {
                     data = doc.data();
-                    $("#peppaAmount").text("Your Wallet: " + data.Coins.toFixed(4).toString() + " PEPPAS");
+                    $("#peppaAmount").text("Your Wallet: " + Number(data.Coins).toFixed(4).toString() + " PEPPAS");
                 }
             })
         })
