@@ -1,5 +1,12 @@
 
 
+.header {
+  padding: 60px;
+  text-align: center;
+  background: #f4511e;
+  color: rgba(251, 183, 198, 1);
+  font-size: 30px;
+}
 #loading {
   display: block;
   position: absolute;
@@ -43,6 +50,7 @@
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
+
 /* Modal Content */
 .modal-content {
   background-color: #fefefe;
@@ -53,6 +61,16 @@
   width: 80%;
   overflow: scroll;
 }
+.modal-content1 {
+  background-color: #fefefe;
+  margin: auto;
+  height: 300px;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  overflow: auto;
+}
+
 
 /* The Close Button */
 .close {

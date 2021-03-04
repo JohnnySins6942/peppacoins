@@ -26,6 +26,7 @@ function onReady(callback) {
   }
   
   onReady(function() {
+    setVisible('.page', true);
     setVisible('#loading', false);
   });
 
@@ -109,10 +110,52 @@ function onReady(callback) {
                     if (doc.exists) {
                         var data = doc.data();
                         price.innerHTML = "1 PEPPA = " + data.PeppaValue + "USD";
+                        console.log("cool");
                     }
+                    console.log("cool");
                 })
+                console.log("cooler");
+                var modal = document.getElementById("LoginModal");
+                var span = document.getElementsByClassName("close")[0];
+                modal.style.display = "block";
+                span.onclick = function() {
+                modal.style.display = "none";
+                }
+                modal.style.display = "none";
+                window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+                }
+            }
+        }else{
+            if(window.location.href.indexOf("index") > -1){
+            var price = document.getElementById("PeppaPrice");
+            var docRef = db.collection("data").doc("data");
+            docRef.get().then((doc) => {
+                if (doc.exists) {
+                    var data = doc.data();
+                    price.innerHTML = "1 PEPPA = " + data.PeppaValue + "USD";
+                }
+            })
+            $(document).ready(function(){
+                var btn = document.getElementById("Loginbtn");
+                btn.onclick = function() {
+            var modal = document.getElementById("LoginModal");
+            var span = document.getElementsByClassName("close")[0];
+            modal.style.display = "block";
+            span.onclick = function() {
+            modal.style.display = "none";
+            }
+            window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
             }
         }
+    }
+            })
+        }
+    }
         })
     }
 
@@ -218,8 +261,10 @@ function onReady(callback) {
                 })
             })
             .catch((error) => {
-                console.error("Error adding document: ", error);
+                console.log(error);
             });    
+        }).catch((error) => {
+            alert(error);
         })
     }
     else{
@@ -293,6 +338,8 @@ function onReady(callback) {
                             })
                         })
                     })    
+                }).catch((error) => {
+                    alert(error);
                 })
             }
         });
@@ -302,10 +349,11 @@ function onReady(callback) {
     }
     })
     .catch((error) => {
-        console.log("Error getting documents: ", error);
+        console.log("error");
     });
     }
     }
+
         
     function SendPeppa(){
         var receiverAddress = document.getElementById("receiverAddress");
@@ -1002,4 +1050,3 @@ function Redeem(giftType)
         break;
     }
 }
-    
