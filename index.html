@@ -6,6 +6,7 @@
         <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-analytics.js"></script>
         <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-firestore.js"></script>
         <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-database.js"></script>
+        <script src="main.js"></script>
         <link rel="stylesheet" href="index.css">
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     </head>
@@ -17,7 +18,7 @@
             <div class="header" id="myHeader">
                 <ul id="parent">
             <li>
-                <button class="btn pink"id="Loginbtn"style="z-index: 3;"onclick="bigpp()">Login/Signup</button>
+                <button class="btn pink"id="Loginbtn"style="z-index: 3;">Login/Signup</button>
             </li>
             <li>
                 <h5 id = "PeppaPrice">PeppaCoins Price: 0.000000006USD</h1>
@@ -27,11 +28,7 @@
             <h1 id = "introText">PeppaCoins is the new instant instant, safe, and anonymous Cryptocurrency. Powered by dreams, fueled by memes.</h1>
         </div>
 
-            <script>
-                function bigpp(){
-                    console.log("cool");
-                }
-</script>
+
 
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
        
@@ -257,9 +254,51 @@ for (i = 0; i < acc.length; i++) {
     } 
   });
 }
-        </script>
-                    <script src="main.js"></script>
 
+$(document).ready(function(){
+                var btn = document.getElementById("Loginbtn");
+                var btn2 = document.getElementById("Loginbtn2");
+                btn2.onclick = function(){
+                    var modal = document.getElementById("signupModal");
+                    var lmodal = document.getElementById("loginModal");
+                    lmodal.style.display="none";
+                    modal.style.display = "block";
+                    window.onclick = function(event) {
+                        if (event.target == modal) {
+                            modal.style.display = "none";
+                        }
+                }
+                
+            }
+                btn.onclick = function() {
+                    console.log("cool");
+            var modal = document.getElementById("signupModal");
+            var lmodal = document.getElementById("loginModal");
+            lmodal.style.display="none";
+            modal.style.display = "block";
+            window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    }
+    
+            })
+            $(document).ready(function(){
+                var btn = document.getElementById("signupbtn");
+                btn.onclick = function() {
+            var modal = document.getElementById("loginModal");
+            modal.style.display = "block";
+            var smodal = document.getElementById("signupModal");
+            smodal.style.display="none";
+            window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    }
+            })
+        </script>
         <div id="loginModal" class="modal">
 
             <div class="register-photo">
