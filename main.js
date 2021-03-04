@@ -141,6 +141,7 @@ function onReady(callback) {
                 
             }
                 btn.onclick = function() {
+                    console.log("cool");
             var modal = document.getElementById("signupModal");
             var lmodal = document.getElementById("loginModal");
             lmodal.style.display="none";
