@@ -1,0 +1,75 @@
+  #particles-js {
+    position: absolute;
+    width: 100%;
+    height: 600px;
+    top:0;
+    left:0;
+    background-color: #f4511e;
+    background-image: url("https://i.postimg.cc/rw4FFKHT/Design69-Pix-Teller-1.png");
+  }
+
+  .btn {
+    border: none;
+    background-color: inherit;
+    padding: 14px 28px;
+    font-size: 21px;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Helvetica;
+  }
+  h1, h2, h3, h4, h5{
+    font-family: Helvetica;
+    color:rgb(243, 179, 193);
+  }
+
+
+  #parent {
+    list-style: none;
+    width: 100%;
+    height: 90px;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+#parent > li {
+    display: inline-block;
+    width: 15%;
+    height: 100%;
+}
+.column {
+    float: left;
+    width: 23.5%;
+  }
+  
+  /* Clearfix (clear floats) */
+  .row::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+
+#introText{
+    height: 125px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0);
+}
+  
+  /* On mouse-over */
+  .btn:hover {background: #f4511e;}
+  
+  .green {color: green;}
+  .blue {color: dodgerblue;}
+  .orange {color: orange;}
+  .red {color: red;}
+  .pink {color: rgba(251, 183, 198, 1);}
+  .black {color: black;}
+  .white {color: rgb(255, 255, 255);}
+  
