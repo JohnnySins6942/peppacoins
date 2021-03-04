@@ -110,25 +110,12 @@ function onReady(callback) {
                     if (doc.exists) {
                         var data = doc.data();
                         price.innerHTML = "1 PEPPA = " + data.PeppaValue + "USD";
-                        console.log("cool");
                     }
-                    console.log("cool");
                 })
-                console.log("cooler");
-                var modal = document.getElementById("LoginModal");
-                var span = document.getElementsByClassName("close")[0];
-                modal.style.display = "block";
-                span.onclick = function() {
-                modal.style.display = "none";
-                }
-                modal.style.display = "none";
-                window.onclick = function(event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
-                }
+            
             }
         }else{
+            
             if(window.location.href.indexOf("index") > -1){
             var price = document.getElementById("PeppaPrice");
             var docRef = db.collection("data").doc("data");
@@ -140,13 +127,39 @@ function onReady(callback) {
             })
             $(document).ready(function(){
                 var btn = document.getElementById("Loginbtn");
-                btn.onclick = function() {
-            var modal = document.getElementById("LoginModal");
-            var span = document.getElementsByClassName("close")[0];
-            modal.style.display = "block";
-            span.onclick = function() {
-            modal.style.display = "none";
+                var btn2 = document.getElementById("Loginbtn2");
+                btn2.onclick = function(){
+                    var modal = document.getElementById("signupModal");
+                    var lmodal = document.getElementById("loginModal");
+                    lmodal.style.display="none";
+                    modal.style.display = "block";
+                    window.onclick = function(event) {
+                        if (event.target == modal) {
+                            modal.style.display = "none";
+                        }
+                }
+                
             }
+                btn.onclick = function() {
+            var modal = document.getElementById("signupModal");
+            var lmodal = document.getElementById("loginModal");
+            lmodal.style.display="none";
+            modal.style.display = "block";
+            window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    }
+    
+            })
+            $(document).ready(function(){
+                var btn = document.getElementById("signupbtn");
+                btn.onclick = function() {
+            var modal = document.getElementById("loginModal");
+            modal.style.display = "block";
+            var smodal = document.getElementById("signupModal");
+            smodal.style.display="none";
             window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = "none";
@@ -485,8 +498,8 @@ function onReady(callback) {
 
     function signIn(){
             
-        var email = document.getElementById("email");
-        var password = document.getElementById("password");
+        var email = document.getElementById("email1");
+        var password = document.getElementById("password1");
             
         const promise = Auth.signInWithEmailAndPassword(email.value, password.value);
         promise.catch(e => alert(e.message)); 
@@ -499,7 +512,6 @@ function onReady(callback) {
                     window.location.href = "wallet.html";
                 }
         })
-        console.log("cool");
             return firebase.auth().signInWithEmailAndPassword(email, password);
         })
         .catch((error) => {

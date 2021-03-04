@@ -8,6 +8,59 @@
     background-image: url("https://i.postimg.cc/rw4FFKHT/Design69-Pix-Teller-1.png");
   }
 
+  .body{
+    overflow-y: scroll;
+    }
+    .body::-webkit-scrollbar {
+      display: none;
+  }
+  .accordion {
+    background-color: rgb(250, 223, 229);
+    cursor: pointer;
+    padding: 18px;
+    width: 95%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 25px;
+    transition: 0.4s;
+    margin-left:45px;
+  }
+  footer {
+    text-align: center;
+    background-color: #7c2d15;
+    color: white;
+    left:0;
+    width:100%;
+    bottom:0;
+    margin-left:-15px;
+    position: fixed;
+    margin-bottom: 0px;
+    margin:0;
+  }
+  .active, .accordion:hover {
+    background-color: rgb(243, 179, 193);
+  }
+  
+  .accordion:after {
+    content: '\002B';
+    color: #777;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+  }
+  
+  .active:after {
+    content: "\2212";
+  }
+  
+  .panel {
+    padding: 0 18px;
+    background-color: rgb(250, 223, 229);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+  }
   .btn {
     border: none;
     background-color: inherit;
@@ -34,11 +87,49 @@
     overflow-y: hidden;
 }
 
+
 #parent > li {
     display: inline-block;
     width: 15%;
     height: 100%;
 }
+
+#parent1 {
+  list-style: none;
+  width: 100%;
+  height: 150px;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+
+#parent1 > li {
+  display: inline-block;
+  width: 40%;
+  height: 100%;
+}
+
+#parent2 {
+  list-style: none;
+  width: 100%;
+  height: 150px;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+
+#parent2 > li {
+  display: inline-block;
+  width: 24%;
+  height: 100%;
+}
+
 .column {
     float: left;
     width: 23.5%;
@@ -62,14 +153,154 @@
     background-color: rgba(255, 255, 255, 0);
 }
   
+  /* The Modal (background) */
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 420px;
+    height: 100%; /* Full height */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    overflow-x:hidden;
+  }
+  .modal-content1 {
+    background-color: #fefefe00;
+    margin: auto;
+    height: 420px;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 690px;
+    overflow-x:hidden;
+  }  
+  
+
+  .register-photo {
+    background: #42637e00;
+    padding: 80px 0
+}
+
+.register-photo .image-holder {
+    display: table-cell;
+    width: 500px;
+    background: url(https://i.ibb.co/stnJCZw/download-1.jpg);
+    background-size: cover;
+    height:400px;
+    border-radius: 15px;
+}
+
+.register-photo .form-container {
+    display: table;
+    max-width: 900px;
+    width:60%;
+    height:50%;
+    border-radius: 6px;
+    margin: 0 auto;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1)
+    
+}
+
+.register-photo form {
+    display: table-cell;
+    width: 400px;
+    background-color: #ffffff;
+    padding: 40px 60px;
+    color: #505e6c;
+    border-radius: 15px;
+}
+
+@media (max-width:991px) {
+    .register-photo form {
+        padding: 40px
+    }
+}
+
+.register-photo form h2 {
+    font-size: 24px;
+    line-height: 1.5;
+    margin-bottom: 30px
+}
+
+.register-photo form .form-control {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #dfe7f1;
+    border-radius: 0;
+    box-shadow: none;
+    outline: none;
+    color: inherit;
+    text-indent: 0px;
+    height: 40px
+    
+}
+
+.register-photo form .form-check {
+    font-size: 13px;
+    line-height: 20px
+}
+
+.register-photo form .btn-primary {
+    background: green;
+    border: none;
+    border-radius: 4px;
+    padding: 11px;
+    box-shadow: none;
+    margin-top: 35px;
+    text-shadow: none;
+    outline: none !important
+}
+
+.register-photo form .btn-primary:hover,
+.register-photo form .btn-primary:active {
+    background: green
+}
+
+.register-photo form .btn-primary:active {
+    transform: translateY(1px)
+}
+
+.register-photo form .already {
+    display: block;
+    text-align: center;
+    font-size: 12px;
+    color: #6f7a85;
+    opacity: 0.9;
+}
+
+
   /* On mouse-over */
   .btn:hover {background: #f4511e;}
   
   .green {color: green;}
   .blue {color: dodgerblue;}
-  .orange {color: orange;}
+  .orange {color: #f4511e;}
   .red {color: red;}
   .pink {color: rgba(251, 183, 198, 1);}
   .black {color: black;}
   .white {color: rgb(255, 255, 255);}
+
+
+  .btn1 {
+    border: none;
+    background-color: inherit;
+    padding: 14px 28px;
+    font-size: 21px;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Helvetica;
+  }
+    /* On mouse-over */
+    .btn1:hover {background:rgba(251, 183, 198, 1);}
+  
+    .green {color: green;}
+    .blue {color: dodgerblue;}
+    .orange {color: #f4511e;}
+    .red {color: red;}
+    .pink {color: rgba(251, 183, 198, 1);}
+    .black {color: black;}
+    .white {color: rgb(255, 255, 255);}
   
