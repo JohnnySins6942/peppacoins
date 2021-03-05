@@ -329,6 +329,8 @@ function onReady(callback) {
     function SendPeppa(){
         var receiverAddress = document.getElementById("receiverAddress");
         var TransactionAmount = document.getElementById("amount");
+        var modal = document.getElementById("sendModal");
+        modal.style.display = "none";
         var NetworkFee = (Number(TransactionAmount.value) * 0.01).toFixed(4);
         db.collection("users").where("Address", "==", receiverAddress.value)
         .get()
@@ -609,7 +611,6 @@ function onReady(callback) {
                 document.getElementById("Coins2").innerHTML = Number(coins).toFixed(4) + " PEPPAS";
                 document.getElementById("UserAddress").innerHTML =  address;
                 document.getElementById("UserAddress2").innerHTML =  address;
-                document.getElementById("referralCode").innerHTML = "Your Referral Code: " + data.ReferralCode;
                 document.getElementById("BlocksMined").innerHTML = "Blocks Mined: " + blocksMined.toString();
                 document.getElementById("MultiplierValue").innerHTML = "Multiplier: " + data.Multiplier.toFixed(2) + "x";
                 var docRef = db.collection("data").doc("data");
@@ -633,14 +634,21 @@ function onReady(callback) {
                     {
                         const li = `
                         <li>
-                        <div style="background-color:pink;width:600px;border:15px solid red;padding:40px;margin:20px;">
-                        <h2 id="TransactionIndex">Transaction Number ${(Number((i+1)) + Number(data.PreviousTransactions)).toString()} (Sent Transaction)</h2>
-                        <h3 id="TransactionAmount">Sent Amount: -${Number(transactions[i].Amount).toFixed(4).toString()} PEPPA</h3>
-                        <h4 id="ReceiverWallet">Receiver Wallet: ${transactions[i].ReceiverAddress}</h3>
-                        <h4 id="SenderWallet">Your Wallet: ${transactions[i].SenderAddress}</h3>
-                        <h3 id="TransactionTime">TransactionTime: ${transactions[i].TransactionDate.toDate()}</h3> 
-                        <h3 id="TransactionTime">NetworkFee: ${Number(transactions[i].NetworkFee).toFixed(4).toString()} PEPPA</h3> 
-                        </div>'
+                        <button style="border-radius:10px;"class="accordion">Transaction Number ${(Number((i+1)) + Number(data.PreviousTransactions)).toString()} <br> -${Number(transactions[i].Amount).toFixed(4).toString()} PEPPA</button>
+                        <div style="border-radius:10px;"class="panel">
+                        <h2 style="text-align:center">Receiver Address: </h2>
+                        <button onclick="copyToClipboard('#address${[i]}')"class="btnTransparent pink" style="z-index: 2;    display: block;
+                        width: 30em;
+                        line-height: 3em;
+                        padding: 0.2em;
+                        margin:0.3em;	
+                        border: 1px solid  #ccc ;  
+                        border-radius: 8px;
+                        -webkit-appearance:normal;
+                        font-size: 1em;
+                        word-wrap: break-word;margin-left:70px"><h2 id="address${[i]}" style="text-align:center;">${transactions[i].ReceiverAddress}</h2></button>
+                        <h5 style="text-align:center;">TransactionTime: ${transactions[i].TransactionDate.toDate()}</h5>
+                        </div>
                         </li>
                         `;
                         html += li;
@@ -648,18 +656,43 @@ function onReady(callback) {
                     else{
                         const li = `
                         <li>
-                        <div style="background-color:pink;width:600px;border:15px solid red;padding:40px;margin:20px;">
-                        <h2 id="TransactionIndex">Transaction Number ${(Number((i+1)) + Number(data.PreviousTransactions)).toString()} (Received Transaction)</h2>
-                        <h3 id="TransactionAmount">Received Amount: +${Number(transactions[i].Amount).toFixed(4).toString()} PEPPA</h3>
-                        <h4 id="ReceiverWallet">Your Wallet: ${transactions[i].ReceiverAddress}</h3>
-                        <h4 id="SenderWallet">Sender Wallet: ${transactions[i].SenderAddress}</h3>
-                        <h3 id="TransactionTime">TransactionTime: ${transactions[i].TransactionDate.toDate()} PEPPA</h3> 
-                        </div>'
+                        
+                        <button style="border-radius:10px;" class="accordion">Transaction Number ${(Number((i+1)) + Number(data.PreviousTransactions)).toString()} <br> +${Number(transactions[i].Amount).toFixed(4).toString()} PEPPA</button>
+                        <div style="border-radius:10px;"class="panel">
+                        <h2 style="text-align:center">Sender Address: </h2>
+                        <button onclick="copyToClipboard('#address${[i]}')"class="btnTransparent pink" style="z-index: 2;    display: block;
+                        width: 30em;
+                        line-height: 3em;
+                        padding: 0.2em;
+                        margin:0.3em;	
+                        border: 1px solid  #ccc ;  
+                        border-radius: 8px;
+                        -webkit-appearance:normal;
+                        font-size: 1em;
+                        word-wrap: break-word;margin-left:70px"><h2 id="address${[i]}" style="text-align:center;">${transactions[i].SenderAddress}</h2></button>
+                        <h5 style="text-align:center;">TransactionTime: ${transactions[i].TransactionDate.toDate()}</h5>
+                        </div>
                         </li>
                         `;
                         html += li;
                     }
                     list.innerHTML = html;
+
+                   
+                    var acc = document.getElementsByClassName("accordion");
+                    var p;
+                    
+                    for (p = 0; p < acc.length; p++) {
+                      acc[p].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var panel = this.nextElementSibling;
+                        if (panel.style.maxHeight) {
+                          panel.style.maxHeight = null;
+                        } else {
+                          panel.style.maxHeight = panel.scrollHeight + "px";
+                        } 
+                      });
+                    }
                 } 
                 else{
                     transactions.splice(transactions[i], 1);   
@@ -709,7 +742,6 @@ function onReady(callback) {
             console.log("Error getting document:", error);
         });
     }
-        
     function signOut(){
             
         Auth.signOut();

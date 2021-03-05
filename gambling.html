@@ -100,8 +100,7 @@
                                         var Rcoins = Rdata.Coins;
                                         if(Rcoins > 0)
                                         {
-                                            console.log(Rcoins)
-                                        var ReceivetempCoin = Number(Rcoins) + Number(betAmount * bettingReturn);  
+                                        var ReceivetempCoin = Number(Rcoins) + (Number(betAmount * bettingReturn)/2);  
                                         console.log(ReceivetempCoin)
                                         var tempReceiveData = {
                                             Coins: ReceivetempCoin,
@@ -117,8 +116,7 @@
                                         }
 
                                         var ReceiveTransactionObj = {
-                                            ReceiverAddress: Rdata.Address,
-                                            SenderAddress: Rdata.Address,
+                                            SenderAddress: "PeppaCoins Casino",
                                             TransactionDate: new Date(),
                                             Amount: Number(betAmount),
                                             send: false
@@ -175,8 +173,7 @@
                                         }
 
                                         var ReceiveTransactionObj2 = {
-                                            ReceiverAddress: Rdata2.Address,
-                                            SenderAddress: Rdata2.Address,
+                                            ReceiverAddress: "PeppaCoins Casino",
                                             TransactionDate: new Date(),
                                             Amount: Number(betAmount),
                                             send: true,

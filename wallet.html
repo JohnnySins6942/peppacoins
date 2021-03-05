@@ -34,7 +34,7 @@
         <h3 style="text-align: center;">Total Balance</h3>
         <h1 style="text-align: center;" id="USDValue">0USD</h1>
 
-        <div style="background-color: rgb(39, 36, 36); width:95%; margin-left:14px; border-radius: 8px;" >
+        <div style="background-color: rgb(39, 36, 36); width:95%; margin-left:20px; border-radius: 8px;" >
         <button onclick="copyToClipboard('#UserAddress')"class="btnTransparent pink" style="z-index: 2;    display: block;
         width: 20em;
         line-height: 1em;
@@ -48,7 +48,6 @@
         <div style="margin-left: 325; background-color: rgba(255, 105, 180, 0); width: 78px;height:73px;position: absolute;margin-top: -77;">
             <h4 style="margin-top:15px;margin-right:7px;text-align: right; word-wrap: break-word; font-size: 12px; height:15px;"id="Coins">0.0000</h4>
             <h4 style="margin-bottom:5px;margin-right:7px;text-align: right; word-wrap: break-word; font-size: 12px;"id="USDValue2">0.0000</h4>
-            <h4 style="margin-bottom:5px;margin-right:7px;text-align: right; word-wrap: break-word; font-size: 12px;"id="referralCode">Referral Code: 69j27434</h4>
         </div>
             
 <script>
@@ -107,15 +106,20 @@ if (event.target == modal) {
 </script>
 
 <div id="sendModal" class="modal">
-    <div class="modal-content">
-        <input type="text" placeholder="Address" id="receiverAddress"/>
-    <input type="number" placeholder="Transaction Amount" id="amount"/>
-    <button class = "button" onclick="SendPeppa()" id="send">Send PeppaCoin</button>
+    <div style="border-radius:12px;background-color:rgb(63, 59, 59)"class="modal-content">
+        <h1 style="text-align:center">Send Transaction</h1>
+        <label style="font-size:25px;color:rgba(251, 183, 198, 1); text-align:center; margin-left:130px;"for="fname">Address</label>
+
+        <input type="text" class="receiverAddress" placeholder="Address" id="receiverAddress"/>
+        <label style="font-size:25px;color:rgba(251, 183, 198, 1); text-align:center;margin-left:72px;"for="fname">Transaction Amount</label>
+    <input type="number" class="receiverAddress" placeholder="Transaction Amount" id="amount"/>
+<br><br><br><Br>
+    <button style="margin-left:65px; margin-top:-30px;" class = "button2" onclick="SendPeppa()" id="send">Send PeppaCoin</button>
     </div>
 </div>
 
 
-    <button id="sendbtn">Send PeppaCoins</button>
+    <h1 style="margin-left:35px;font-size:35px;">Transactions:<button style="margin-left: 285px;"class="button1" id="sendbtn">Send</button></h1>
         <div>
             <ul id="transactionList">
             </ul>
@@ -124,5 +128,6 @@ if (event.target == modal) {
         </div>
         </div>
     </div>
+
     </body>
 </html>
