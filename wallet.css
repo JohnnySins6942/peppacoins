@@ -1,0 +1,137 @@
+.sidenav {
+    height: 100%;
+    width: 175px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 20px;
+  }
+  
+  .sidenav a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+  }
+  
+  .sidenav a:hover {
+    color: #f1f1f1;
+  }
+  
+  .balance {
+    margin-left: 175px; /* Same as the width of the sidenav */
+    padding: 0px 10px;
+    background-color:black;
+    width:425px;
+    z-index: 1;
+    position:fixed;
+    top:0;
+    left:0;
+    overflow-x:hidden;
+    padding-top:20px;
+    height:100%;
+  }
+  .transactions{
+    margin-left: 620px; /* Same as the width of the sidenav */
+    padding: 0px 10px;
+    background-color:rgb(0, 0, 0);
+    width:745px;
+    z-index: 1;
+    position:fixed;
+    top:0;
+    left:0;
+    overflow-x:hidden;
+    padding-top:20px;
+    height:100%;
+  }
+
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 420px;
+    height: 100%; /* Full height */
+    overflow: scroll;
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  .modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    height: 300px;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    overflow: none;
+  }
+  #loading {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(251, 183, 198, 1);
+    background-image: url("https://i.postimg.cc/d0J0T4NH/ezgif-2-6d0b072c3d3f-unscreen.gif");
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  
+  @media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+  }
+  h1, h2, h3, h4, h5{
+    font-family: Helvetica;
+    color:rgb(243, 179, 193);
+  }
+  .btn {
+    border: none;
+    background-color: inherit;
+    padding: 14px 28px;
+    font-size: 21px;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Helvetica;
+  } 
+
+    /* On mouse-over */
+    .btn:hover {background:rgb(0, 0, 0);}
+  
+    .green {color: green;}
+    .blue {color: dodgerblue;}
+    .orange {color: #f4511e;}
+    .red {color: red;}
+    .pink {color: rgba(251, 183, 198, 1);}
+    .black {color: black;}
+    .white {color: rgb(255, 255, 255);}
+
+    .btnTransparent {
+        border: none;
+        background-color: inherit;
+        padding: 14px 28px;
+        font-size: 21px;
+        cursor: pointer;
+        display: inline-block;
+        font-family: Helvetica;
+      }
+        /* On mouse-over */
+        .btnTransparent:hover {background:rgba(0, 0, 0, 0);}
+      
+        .green {color: green;}
+        .blue {color: dodgerblue;}
+        .orange {color: #f4511e;}
+        .red {color: red;}
+        .pink {color: rgba(251, 183, 198, 1);}
+        .black {color: black;}
+        .white {color: rgb(255, 255, 255);}
+  

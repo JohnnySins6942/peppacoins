@@ -7,6 +7,19 @@
     background-color: #f4511e;
     background-image: url("https://i.postimg.cc/rw4FFKHT/Design69-Pix-Teller-1.png");
   }
+  #loading {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(251, 183, 198, 1);
+    background-image: url("https://i.postimg.cc/d0J0T4NH/ezgif-2-6d0b072c3d3f-unscreen.gif");
+    background-repeat: no-repeat;
+    background-position: center;
+  }
 
   .body{
     overflow-y: scroll;

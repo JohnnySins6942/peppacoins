@@ -7,7 +7,7 @@
         <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-firestore.js"></script>
         <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-database.js"></script>
         <script src="main.js"></script>
-        <link rel="stylesheet" href="main.css">
+        <link rel="stylesheet" href="wallet.css">
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     </head>
     <div id="loading"></div>
@@ -16,45 +16,113 @@
 
 
     <body>
-        <div class="page" style="display: none">
-        <div>
-        <button onclick = "Navigate('wallet')" id = "wallet">Wallet</button>
-        <button onclick = "Navigate('faucet')" id = "faucet">Faucet</button>
-        <button onclick = "Navigate('gambling')" id = "gambling">Gambling</button>
-        <button onclick = "Navigate('trade')" id = "trade">Trade</button>
-        <button onclick = "Navigate('referrals')" id = "referrals">Referrals</button>
-        <button onclick="signOut()" id="signOut">Sign Out</button>
-        <h1 id = "PeppaPrice">PeppaCoins Price: 0.000000006USD</h1>
+<div class="page">
+        <div class="sidenav">
+            <h4 id = "PeppaPrice" style="text-align: center;">PeppaCoins Price: 0.000000006USD</h4>
+            <button style="margin-left:18px;"class="btn pink"id="wallet"style="z-index: 3;"onclick = "Navigate('wallet')">Wallet</button>
+            <button style="margin-left:17px;"class="btn pink"id="faucet"style="z-index: 3;"onclick = "Navigate('faucet')">Faucet</button>
+            <button style="margin-left:16px;"class="btn pink"id="gambling"style="z-index: 3;"onclick = "Navigate('gambling')">Gambling</button>
+            <button style="margin-left:15px;"class="btn pink"id="trade"style="z-index: 3;"onclick = "Navigate('trade')">Trade</button>
+            <button style="margin-left:14px;"class="btn pink"id="referrals"style="z-index: 3;"onclick = "Navigate('referrals')">Referrals</button>
+            <br><br><br><br><br><br><br><br><br><Br><br><br><br>
+            <button style="margin-left:14px;margin-bottom:5px;"class="btn pink"id="signOut"style="z-index: 3;"onclick = "signOut()">Sign Out</button>
         </div>
 
-        <h1> Your Wallet </h1>
-        <h2 id="Coins">0.0000</h2>
-        <h3 id="USDValue">0USD</h3>
-        <h3 id="MultiplierValue">1.00x</h3>
-        <h2 id="UserAddress">PEPPA</h2>
-        <h2 id="BlocksMined">Blocks Mined: 0</h2>
+
+        <div class="balance">
+            <Br>
+        <h3 style="text-align: center;">Total Balance</h3>
+        <h1 style="text-align: center;" id="USDValue">0USD</h1>
+
+        <div style="background-color: rgb(39, 36, 36); width:95%; margin-left:14px; border-radius: 8px;" >
+        <button onclick="copyToClipboard('#UserAddress')"class="btnTransparent pink" style="z-index: 2;    display: block;
+        width: 20em;
+        line-height: 1em;
+        padding: 0.2em;
+        margin:0.3em;	
+        border: 1px solid  #ccc ;  
+        border-radius: 8px;
+        -webkit-appearance:normal;
+        font-size: 1em;
+        word-wrap: break-word;margin-left:2px"><p id="UserAddress"></p></button>
+        <div style="margin-left: 325; background-color: rgba(255, 105, 180, 0); width: 78px;height:73px;position: absolute;margin-top: -77;">
+            <h4 style="margin-top:15px;margin-right:7px;text-align: right; word-wrap: break-word; font-size: 12px; height:15px;"id="Coins">0.0000</h4>
+            <h4 style="margin-bottom:5px;margin-right:7px;text-align: right; word-wrap: break-word; font-size: 12px;"id="USDValue2">0.0000</h4>
+            <h4 style="margin-bottom:5px;margin-right:7px;text-align: right; word-wrap: break-word; font-size: 12px;"id="referralCode">Referral Code: 69j27434</h4>
+        </div>
+            
+<script>
+    function copyToClipboard(element) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val($(element).text()).select();
+  document.execCommand("copy");
+  $temp.remove();
+  alert("Address Copied!")
+}
+    </script>
+    </div>
+        <br><br><br><br><br>
+        <h3 style="text-align: center;" id="MultiplierValue">1.00x</h3>
+        <h2 style="text-align: center;" id="BlocksMined">Blocks Mined: 0</h2>
 
         <div id="myProgress">
             <div id="myBar">0%</div>
         </div>
 
-        <button class = "button" onclick="Mining()" id="mining">Start Mining</button>
 
+        </div>
+        <div class="transactions">
         <div>
+            <div style="background-color: rgb(39, 36, 36); width:95%; margin-left:14px; border-radius: 8px;" >
+                <button onclick="copyToClipboard('#UserAddress')"class="btnTransparent pink" style="z-index: 2;    display: block;
+                width: 37em;
+                line-height: 1em;
+                padding: 0.2em;
+                margin:0.3em;	
+                border: 1px solid  #ccc ;  
+                border-radius: 8px;
+                -webkit-appearance:normal;
+                font-size: 1em;
+                word-wrap: break-word;margin-left:2px"><p id="UserAddress2"></p></button>
+                <div style="margin-left: 600; background-color: rgba(255, 105, 180, 0); width: 78px;height:73px;position: absolute;margin-top: -70;">
+                    <h4 style="margin-top:15px;margin-right:7px;text-align: right; word-wrap: break-word; font-size: 12px; height:15px;"id="Coins2">0.0000</h4>
+                    <h4 style="margin-bottom:5px;margin-right:7px;text-align: right; word-wrap: break-word; font-size: 12px;"id="USDValue3">0.0000</h4>
+                </div>
+            </div>
+            <Br><br><br>
+        </div>
+<script>            $(document).ready(function(){
+    var btn = document.getElementById("sendbtn");
+    btn.onclick = function() {
+var modal = document.getElementById("sendModal");
+modal.style.display = "block";
+window.onclick = function(event) {
+if (event.target == modal) {
+    modal.style.display = "none";
+}
+}
+}
+})
+</script>
+
+<div id="sendModal" class="modal">
+    <div class="modal-content">
         <input type="text" placeholder="Address" id="receiverAddress"/>
-        <input type="number" placeholder="Transaction Amount" id="amount"/>
-        <button class = "button" onclick="SendPeppa()" id="send">Send PeppaCoin</button>
-        </div>
+    <input type="number" placeholder="Transaction Amount" id="amount"/>
+    <button class = "button" onclick="SendPeppa()" id="send">Send PeppaCoin</button>
+    </div>
+</div>
 
-        <div>
-        <h2 id="referralCode">Referral Code: 69j27434</h2>
-        </div>
 
+    <button id="sendbtn">Send PeppaCoins</button>
         <div>
             <ul id="transactionList">
             </ul>
 
         </div>
         </div>
+        </div>
+    </div>
     </body>
 </html>

@@ -125,49 +125,6 @@ function onReady(callback) {
                     price.innerHTML = "1 PEPPA = " + data.PeppaValue + "USD";
                 }
             })
-            $(document).ready(function(){
-                var btn = document.getElementById("Loginbtn");
-                var btn2 = document.getElementById("Loginbtn2");
-                btn2.onclick = function(){
-                    var modal = document.getElementById("signupModal");
-                    var lmodal = document.getElementById("loginModal");
-                    lmodal.style.display="none";
-                    modal.style.display = "block";
-                    window.onclick = function(event) {
-                        if (event.target == modal) {
-                            modal.style.display = "none";
-                        }
-                }
-                
-            }
-                btn.onclick = function() {
-                    console.log("cool");
-            var modal = document.getElementById("signupModal");
-            var lmodal = document.getElementById("loginModal");
-            lmodal.style.display="none";
-            modal.style.display = "block";
-            window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-    }
-    
-            })
-            $(document).ready(function(){
-                var btn = document.getElementById("signupbtn");
-                btn.onclick = function() {
-            var modal = document.getElementById("loginModal");
-            modal.style.display = "block";
-            var smodal = document.getElementById("signupModal");
-            smodal.style.display="none";
-            window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-    }
-            })
         }
     }
         })
@@ -648,8 +605,10 @@ function onReady(callback) {
                 var address = data.Address;
                 var blocksMined = data.BlocksMined;
                 var transactions = data.Transactions;
-                document.getElementById("Coins").innerHTML = Number(coins).toFixed(4);
-                document.getElementById("UserAddress").innerHTML = "Your wallet Address: " + address;
+                document.getElementById("Coins").innerHTML = Number(coins).toFixed(4) + " PEPPAS";
+                document.getElementById("Coins2").innerHTML = Number(coins).toFixed(4) + " PEPPAS";
+                document.getElementById("UserAddress").innerHTML =  address;
+                document.getElementById("UserAddress2").innerHTML =  address;
                 document.getElementById("referralCode").innerHTML = "Your Referral Code: " + data.ReferralCode;
                 document.getElementById("BlocksMined").innerHTML = "Blocks Mined: " + blocksMined.toString();
                 document.getElementById("MultiplierValue").innerHTML = "Multiplier: " + data.Multiplier.toFixed(2) + "x";
@@ -657,7 +616,9 @@ function onReady(callback) {
                 docRef.get().then((Datadoc) => {
                     if (Datadoc.exists) {
                         var data = Datadoc.data();
-                        document.getElementById("USDValue").innerHTML = "≈ " + (Number(Number(coins) * Number(data.PeppaValue))).toFixed(4) + " USD";
+                        document.getElementById("USDValue").innerHTML = "$" + (Number(Number(coins) * Number(data.PeppaValue))).toFixed(4);
+                        document.getElementById("USDValue2").innerHTML = "$" + (Number(Number(coins) * Number(data.PeppaValue))).toFixed(4);
+                        document.getElementById("USDValue3").innerHTML = "$" + (Number(Number(coins) * Number(data.PeppaValue))).toFixed(4);
                     }
                 })
 
