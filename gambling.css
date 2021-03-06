@@ -8,7 +8,6 @@
     background-color: #111;
     overflow-x: hidden;
     padding-top: 20px;
-    position:absolute;
   }
   h1, h2, h3, h4, h5{
     font-family: Helvetica;
@@ -27,10 +26,10 @@
     background-repeat: no-repeat;
     background-position: center;
   }
-  .faucet {
+  .gambling {
     margin-left: 175px; /* Same as the width of the sidenav */
     padding: 0px 10px;
-    background-color:black;
+    background-color:rgb(48, 45, 45);
     width:87.3%;
     z-index: 1;
     position:fixed;
@@ -40,6 +39,33 @@
     padding-top:20px;
     height:100%;
   }
+  .topnav {
+    overflow: hidden;
+    width:100%;
+    background-color: rgb(20, 20, 20);
+    margin-left:-13px;
+    margin-top:-25px;
+  }
+  /* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 3px 0.2px;
+  text-decoration: none;
+  font-size: 17px;
+}
+.BetPanel{
+  background-color:black;
+  width:80%;
+  height:70%;
+  margin: auto;
+  margin-top:5%;
+  border-radius:10px;
+}
+
+
+  
   .receiverAddress{
     width: 60%;
     padding: 12px 20px;
@@ -67,6 +93,19 @@
   .receiverAddress[type=text]:focus {
     border: 3px solid rgba(251, 183, 198, 1);
     border-radius: 12px;
+  }
+  input[type=number], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color:rgb(48, 45, 45);
+    color:rgba(251, 183, 198, 1);
+    font-family: Helvetica;
+    font-size:19px;
   }
   .btn {
     border: none;

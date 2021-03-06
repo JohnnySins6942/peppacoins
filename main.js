@@ -625,6 +625,18 @@ function onReady(callback) {
 
                 arrayLength = transactions.length;
                 var j = 0;
+                var tempData = {
+                    Coins: data.Coins,
+                    BlocksMined: data.BlocksMined,
+                    Address: data.Address,
+                    Transactions: transactions,
+                    newFaucetTime: data.newFaucetTime,
+                    ReferralCode: data.ReferralCode,
+                    Referrals: data.Referrals,
+                    Referrer: data.Referrer,
+                    Multiplier: data.Multiplier,
+                    PreviousTransactions: Number(data.PreviousTransactions)
+                }
                 for (var i = arrayLength - 1; i >= 0; i--) {
                     j++;
                     if (j <= 20)
@@ -696,23 +708,11 @@ function onReady(callback) {
                 } 
                 else{
                     transactions.splice(transactions[i], 1);   
-                    var tempData = {
-                        Coins: data.Coins,
-                        BlocksMined: data.BlocksMined,
-                        Address: data.Address,
-                        Transactions: transactions,
-                        newFaucetTime: data.newFaucetTime,
-                        ReferralCode: data.ReferralCode,
-                        Referrals: data.Referrals,
-                        Referrer: data.Referrer,
-                        Multiplier: data.Multiplier,
-                        PreviousTransactions: Number(data.PreviousTransactions)
-                    }
-                    tempData.PreviousTransactions += 1;
-
-                    db.collection("users").doc(Auth.currentUser.uid).set(tempData).then(() => {
-                    })
+                    tempData.PreviousTransactions = tempData.PreviousTransactions+1;
+                    console.log(tempData.PreviousTransactions);
                 } 
+                db.collection("users").doc(Auth.currentUser.uid).set(tempData)
+
 
             }
 
