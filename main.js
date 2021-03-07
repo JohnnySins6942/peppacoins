@@ -611,6 +611,7 @@ function onReady(callback) {
                 document.getElementById("Coins2").innerHTML = Number(coins).toFixed(4) + " PEPPAS";
                 document.getElementById("UserAddress").innerHTML =  address;
                 document.getElementById("UserAddress2").innerHTML =  address;
+                document.getElementById("UserAddress3").innerHTML = address;
                 document.getElementById("BlocksMined").innerHTML = "Blocks Mined: " + blocksMined.toString();
                 document.getElementById("MultiplierValue").innerHTML = "Multiplier: " + data.Multiplier.toFixed(2) + "x";
                 var docRef = db.collection("data").doc("data");

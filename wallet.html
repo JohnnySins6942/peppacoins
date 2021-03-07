@@ -64,13 +64,6 @@
         <br><br><br><br><br>
         <h3 style="text-align: center;" id="MultiplierValue">1.00x</h3>
         <h2 style="text-align: center;" id="BlocksMined">Blocks Mined: 0</h2>
-
-        <div id="myProgress">
-            <div id="myBar">0%</div>
-        </div>
-
-
-        </div>
         <div class="transactions">
         <div>
             <div style="background-color: rgb(39, 36, 36); width:95%; margin-left:14px; border-radius: 8px;" >
@@ -103,6 +96,34 @@ if (event.target == modal) {
 }
 }
 })
+
+function htmlEncode(value) { 
+      return $('<div/>').text(value) 
+        .html(); 
+    } 
+function OpenReceive(){
+                    let finalURL = 
+                  'https://chart.googleapis.com/chart?cht=qr&chl=' + 
+                      htmlEncode($('#UserAddress').text()) + 
+                      '&chs=160x160&chld=L|0' 
+                    $('.qr-code').attr('src', finalURL); 
+                  }
+  
+                $(document).ready(function(){
+                  var btn = document.getElementById("receivebtn");
+                  btn.onclick = function() {
+                      OpenReceive();
+                      var modal = document.getElementById("ReceiveModal");
+                      modal.style.display = "block";
+                      window.onclick = function(event) {
+                      if (event.target == modal) {
+                          modal.style.display = "none";
+                      }
+                      }
+                      }
+                      })
+                    
+
 </script>
 
 <div id="sendModal" class="modal">
@@ -117,9 +138,31 @@ if (event.target == modal) {
     <button style="margin-left:65px; margin-top:-30px;" class = "button2" onclick="SendPeppa()" id="send">Send PeppaCoin</button>
     </div>
 </div>
+<div id="ReceiveModal" class="modal">
+    <div style="border-radius:12px;background-color:rgb(63, 59, 59)"class="modal-content1">
+        <h1 style="text-align: center;">Receive Transactions</h1>
+        <h2 style="text-align:center">Wallet QR Code:</h2>
+        <img style="margin-left:90px;"src= 
+        "https://chart.googleapis.com/chart?cht=qr&chl=Hello+World&chs=160x160&chld=L|0"
+            class="qr-code img-thumbnail img-responsive" /> 
+            <div style="background-color: rgb(39, 36, 36); width:95%; margin-left:8.7px; border-radius: 8px;" >
+                <button onclick="copyToClipboard('#UserAddress')"class="btnTransparent pink" style="z-index: 2;    display: block;
+                width: 20em;
+                line-height: 2em;
+                padding: 0.2em;
+                margin:0.3em;	
+                border: 1px solid  #ccc ;  
+                border-radius: 8px;
+                -webkit-appearance:normal;
+                font-size: 1em;
+                word-wrap: break-word;margin-left:2.5px"><p id="UserAddress3"></p></button>
+                <div style="margin-left: 325; background-color: rgba(255, 105, 180, 0); width: 78px;height:73px;position: absolute;margin-top: -77;">
+                </div>
+                </div>
+    </div>
+</div>
 
-
-    <h1 style="margin-left:35px;font-size:35px;">Transactions:<button style="margin-left: 285px;"class="button1" id="sendbtn">Send</button></h1>
+<h1 style="margin-left:35px;font-size:35px;">Transactions:<button style="margin-left: 135px;"class="button1" id="receivebtn">Receive</button><button style="margin-left: 10px;"class="button1" id="sendbtn">Send</button></h1>
         <div>
             <ul id="transactionList">
             </ul>
@@ -127,7 +170,18 @@ if (event.target == modal) {
         </div>
         </div>
         </div>
-    </div>
+        
+            <script src= 
+              "https://code.jquery.com/jquery-3.5.1.js"> 
+                              function htmlEncode(value) { 
+                  return $('<div/>').text(value) 
+                    .html(); 
+                } 
+              
+            </script> 
+            
+  
+      </div>
 
     </body>
 </html>

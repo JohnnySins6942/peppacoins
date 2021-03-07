@@ -89,7 +89,10 @@
   .sidenav a:hover {
     color: #f1f1f1;
   }
-  
+  .qr-code { 
+    max-width: 200px; 
+    margin: 10px; 
+  } 
   .balance {
     margin-left: 175px; /* Same as the width of the sidenav */
     padding: 0px 10px;
@@ -135,6 +138,15 @@
     background-color: #fefefe;
     margin: auto;
     height: 350px;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 25%;
+    overflow: hidden;
+  }
+  .modal-content1 {
+    background-color: #fefefe;
+    margin: auto;
+    height: 450px;
     padding: 20px;
     border: 1px solid #888;
     width: 25%;

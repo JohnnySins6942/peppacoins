@@ -25,6 +25,7 @@
         x = false;
 
         $(document).ready(function(){
+            doubleReload();
             firebase.auth().onAuthStateChanged(user => {
             var docRef = db.collection("users").doc(Auth.currentUser.uid);
                 docRef.get().then((doc) => {
@@ -53,9 +54,9 @@
                 LessThanGamble = Math.round(100000 - (returnRate * 1000));
                 console.log(LessThanGamble)
 
-                $("#result").text((betAmount * (bettingReturn)).toString() + " PEPPAS");     
-                $("#ChangePercent").text(returnRate.toString() + "%");   
-                $("#lessThanOdds").text(">" + LessThanGamble.toString());  
+                $("#result").val((betAmount * (bettingReturn)).tofixed(4).toString() + " PEPPAS");     
+                $("#ChangePercent").val(returnRate.toString() + "%");   
+                $("#lessThanOdds").val(">" + LessThanGamble.toString());  
             });
             $("#gamblingAmount").on("change", function(){
                 // Print entered value in a div box
@@ -75,15 +76,20 @@
                     betAmount = 0;
                     $("#gamblingAmount").val(betAmount.toString());
                 }
+                else if(Number(betAmount) > 5000000)
+                {
+                    betAmount = 5000000;
+                    $("#gamblingAmount").val(betAmount.toString());
+                }
                 if(Number(betAmount) > Number(coins))
                 {
                     betAmount = Number(coins);
                     $("#gamblingAmount").val(betAmount.toString());
-                    $("#result").text(betAmount * (bettingReturn).toString() + " PEPPAS");     
+                    $("#result").val(betAmount * (bettingReturn).tofixed(4).toString() + " PEPPAS");     
                 }
                 returnRate = 100 - (Math.sqrt(bettingReturn/99000) * 100)
                 // Print entered value in a div box
-                $("#result").text(betAmount * (bettingReturn).toString() + " PEPPAS");  
+                $("#result").val(betAmount * (bettingReturn).tofixed(4).toString() + " PEPPAS");  
             }
         })   
             });
@@ -91,7 +97,6 @@
         function Gamble()
         {
             rolledNumber = Math.floor(Math.random() * 100000)
-            $("#finalRoll").text(rolledNumber.toString());
             if(rolledNumber > LessThanGamble)
             {
                 console.log(LessThanGamble);
@@ -102,7 +107,7 @@
                                         var Rcoins = Rdata.Coins;
                                         if(Rcoins > 0)
                                         {
-                                        var ReceivetempCoin = Number(Rcoins) + (Number(betAmount * bettingReturn)/2);  
+                                        var ReceivetempCoin = Number(Rcoins) + (Number(betAmount * bettingReturn) - betAmount);  
                                         console.log(ReceivetempCoin)
                                         var tempReceiveData = {
                                             Coins: ReceivetempCoin,
@@ -125,7 +130,9 @@
                                         }
                                         tempReceiveData.Transactions.push(ReceiveTransactionObj);
                                         db.collection("users").doc(Auth.currentUser.uid).set(tempReceiveData).then(() => {
+                                            $("#finalRoll").val(rolledNumber.toString());
                                             alert("You won " + (betAmount * bettingReturn).toFixed(4).toString() + " PEPPAS with a " + (bettingReturn) + "x return rate. You rolled a " + rolledNumber.toString());
+                                            doubleReload();
                                             $(document).ready(function(){
                                             firebase.auth().onAuthStateChanged(user => {
                                             var docRef = db.collection("users").doc(Auth.currentUser.uid);
@@ -133,9 +140,8 @@
                                                 if (doc.exists) {
                                                     data = doc.data();
                                                     $("#peppaAmount").text("Your Wallet: " + data.Coins.toFixed(4).toString() + " PEPPAS");
-                                                    betAmount = "1";
-                                                    $("#gamblingAmount").val("1");
-                                                    $("#result").text(betAmount * (bettingReturn).toString() + " PEPPAS");     
+                                                    $("#peppaAmount2").text("Balance: " + Number(data.Coins).toFixed(4).toString() + " PEPPAS");
+                                                    $("#result").val(betAmount * (bettingReturn).tofixed(4).toString() + " PEPPAS");     
                                                 }
                                             })
                                         })
@@ -183,7 +189,9 @@
                                         }
                                         tempReceiveData2.Transactions.push(ReceiveTransactionObj2);
                                         db.collection("users").doc(Auth.currentUser.uid).set(tempReceiveData2).then(() => {
+                                            $("#finalRoll").val(rolledNumber.toString());
                                             alert("You lost " + Number(betAmount).toFixed(4).toString() + " PEPPAS with a " + (bettingReturn) + "x return rate. You rolled a " + rolledNumber.toString());
+                                            doubleReload();
                                             $(document).ready(function(){
                                             firebase.auth().onAuthStateChanged(user => {
                                             var docRef = db.collection("users").doc(Auth.currentUser.uid);
@@ -191,9 +199,10 @@
                                                 if (doc.exists) {
                                                     data = doc.data();
                                                     $("#peppaAmount").text("Your Wallet: " + data.Coins.toFixed(4).toString() + " PEPPAS");
+                                                    $("#peppaAmount2").text("Balance: " + Number(data.Coins).toFixed(4).toString() + " PEPPAS");
                                                     betAmount = 1;
-                                                    $("#gamblingAmount").val("1");
-                                                    $("#result").text(betAmount * (bettingReturn).toString() + " PEPPAS");     
+                                                    $("#gamblingAmount").val("1.0000");
+                                                    $("#result").val(betAmount * (bettingReturn).tofixed(4).toString() + " PEPPAS");     
                                                 }
                                             })
                                         })
@@ -211,6 +220,7 @@
                                 }); 
             }
         }
+
     </script>
 
 
@@ -230,28 +240,268 @@
             
             
         <div class="topnav">
-            <a style="margin-top:10px;margin-left:1%;"><button class="btn pink"id="wallet"style="z-index: 3;">PeppaBet</button></a>
-            <a style="margin-top:10px;"><button class="btn pink"id="wallet"style="z-index: 3;">Fairness</button></a>
-            <a style="margin-top:10px;"><button class="btn pink"id="wallet"style="z-index: 3;">FAQ</button></a>
+            <a style="margin-top:10px;margin-left:1%;"><button class="btn pink"id="PeppaBet"style="z-index: 3;">PeppaBet</button></a>
+            <a style="margin-top:10px;"><button class="btn pink"id="Fairness"style="z-index: 3;">Fairness</button></a>
+            <a style="margin-top:10px;"><button class="btn pink"id="FAQ"style="z-index: 3;">FAQ</button></a>
             <a style="margin-top:10px;"><button style="margin-left:17px;"class="btn pink"id="faucet"style="z-index: 3;"onclick = "Navigate('faucet')">Faucet</button></a>
             <a style="margin-top:-65px; margin-left:76%;"><h4 style="text-align:center" id= "peppaAmount" >Balance: 500 PEPPAS</h4></a>
     </div>
     <div class="BetPanel">
         <br style="display: block;
         line-height:0px;">
-        <h5 style="margin-left:2%;"id="peppaAmount2">Gambling</h5>
-        <input style="width:30%; height:10%;margin-left:1.5%"type="number" id="gamblingAmount" name="firstname" placeholder="Bet Amount" value="0"/>
-        <input style="width:30%; height:10%;margin-left:25%"type="number" placeholder="Gambling Return" id="gamblingReturn" value = "2"/>
+        <div class="topnav1">
+        <a><h5 style="margin-left:8%;"id="peppaAmount2"></h5></a>
+        <a><h5 style="margin-left:150%;font-size:13px;width:250px;"id="PeppaMaxBet">Max Bet: 5,000,000 PEPPAS</h5></div></a>
+        <input style="width:30%; height:10%;margin-left:1.5%;"type="number" id="gamblingAmount" name="firstname" placeholder="Bet Amount" value="1.0000"/>
+        <input disabled="disabled" style="border-radius:2px;font-size:19;display:inline-block;font-family:Helvetica;width:15%; height:10%;margin-left:-0.7%;background-color:inherit;border: 2px solid rgb(75, 71, 71);color:rgb(126, 115, 115)"type="text" value = "Bet Amount"/>
+        <input style="display: inline-block;width:30%; height:10%;margin-left:5%"type="number" placeholder="Gambling Return" id="gamblingReturn" value = "2.0000"/>
+        <input disabled="disabled" style="border-radius:2px;font-size:19;display:inline-block;font-family:Helvetica;width:15%; height:10%;margin-left:-0.7%;background-color:inherit;border: 2px solid rgb(75, 71, 71);color:rgb(126, 115, 115)"type="text" value = "Bet Return"/>
 
-        <h2>Gambling Return</h2>
-        <h2 id="result">2 Peppas</h2>
-        <h2 id="ChangePercent">49.5000%</h2>
-        <h2 id="lessThanOdds"> >50500</h2>
-        <button class = "button" onclick="Gamble()" id="faucetSend">Gamble PEPPA!</button>
+        <br><br>
+        <button style="margin-left:5%;border-radius: 2px;" id="betAmountd2"class = "button1">1/2</button>
+        <button style="border-radius: 2px;" id="betAmount2x" class = "button1">2X</button>
+        <button style="border-radius: 2px;" id="betAmountMIN" class = "button1">MIN</button>
+        <button style="border-radius: 2px;" id="betAmountMAX"class = "button1">MAX</button>
+        
+        <button style="margin-left:12%;border-radius: 2px;" id="betReturnd2"class = "button1">1/2</button>
+        <button style="border-radius: 2px;" class = "button1" id="betReturn2x">2X</button>
+        <button style="border-radius: 2px;" class = "button1" id="betReturnMIN">MIN</button>
+        <button style="border-radius: 2px;" class = "button1" id="betReturnMAX">MAX</button>
 
-        <h2 id="finalRoll">34</h2>
+        <br><br><br>
+        <input disabled="disabled"style="display: inline-block;width:30%; height:10%;margin-left:4%"type="text" placeholder="Gambling Return" id="result" value = "2 PEPPAS"/>
+        <input disabled="disabled" style="border-radius:2px;font-size:19;display:inline-block;font-family:Helvetica;width:10%; height:10%;margin-left:-0.7%;background-color:inherit;border: 2px solid rgb(75, 71, 71);color:rgb(126, 115, 115)"type="text" value = " Profit"/>
+        <input disabled="disabled"style="display: inline-block;width:30%; height:10%;margin-left:6.8%"type="text" placeholder="Gambling Return" id="ChangePercent" value = "49.5000%"/>
+        <input disabled="disabled" style="border-radius:2px;font-size:19;display:inline-block;font-family:Helvetica;width:16%; height:10%;margin-left:-0.7%;background-color:inherit;border: 2px solid rgb(75, 71, 71);color:rgb(126, 115, 115)"type="text" value = "Win Chance"/>
+        <br><br>
+        <input disabled="disabled" style="text-align:center;border-radius:2px;font-size:23;display:inline-block;font-family:Helvetica;width:25%; height:15%;margin-left:10.3%;background-color:inherit;border: 2px solid rgb(75, 71, 71);color:rgb(126, 115, 115)"type="text" id="lessThanOdds" value = ">50500"/>
+        <button class = "button1" style="margin-left:4%;width:18%;font-size:21;border-radius:8px;" onclick="Gamble()" id="faucetSend">Gamble PEPPA!</button>
+        <input disabled="disabled" style="text-align:center;border-radius:2px;font-size:23;display:inline-block;font-family:Helvetica;width:25%; height:15%;margin-left:3.7%;background-color:inherit;border: 2px solid rgb(75, 71, 71);color:rgb(126, 115, 115)"type="text" id="finalRoll"value = "Make a bet"/>
+
+
+        <div id="FairnessModal" class="modal">
+            <div class="modal-content">
+            <h1 style="text-align: center;">Fairneses Verification</h1><br style="display: block;
+            line-height:0px;">
+            <h4 style="text-align:center;">PeppaBet is a Fair dice game for PeppaCoins.<br>
+                <br>
+                That means this site cannot cheat you by algorithmically picking numbers to make you lose.
+            <br><br>
+            Numbers are generated randomly from 0-99999. By our random number generator. The number generation code is as follows:
+            <Br><Br>
+                rolledNumber = Math.floor(Math.random() * 100000)
+        <br><br>
+    The Formula for calculating bet odds/percentage are as follows:
+    <Br><br>
+    (Math.pow((Math.sqrt(100/(bettingReturn))/10),2.029).toFixed(6) * 100).toFixed(4)
+    
+    </h4>
+    <button class = "button1" style="margin-left:40%;width:20%;font-size:18;border-radius:18px;" id="finishFairness">Got It!</button>
+            </div>
+        </div>
+
+        <div id="FAQmodal" class="modal">
+            <div class="modal-content">
+            <h1 style="text-align: center;">PeppaBets FAQ</h1><br style="display: block;
+            line-height:0px;">
+            <h4 style="text-align:center;">What is PeppaBets?</h4>
+
+                <h5 style="text-align:center;">PeppaBets is the next best thing to win PeppaCoins after the faucet!
+
+                PeppaBets is a simple game, you enter in a bet and select a chance (which determines your profit). After you roll the dice a random number is generated using our fair algorithm.
+                If your rolled number is greater than the number needed, you win and go home with the profits!</h5>
+            <h4 style="text-align:center;">How do I get PeppaCoins?</h4>
+
+            <h5 style="text-align:center;"> There are multiple ways to get free PeppaCoins! The most common way is to mine PeppaCoins. Peppacoins can be mined on the web app and the desktop mining app. You can also get Peppacoins from discord by participating in server airdrops, contests, competitions and as well as using the Peppacoins faucet Chatbot (Coming Soon!). Finally, you can use our web app's faucet, as well as of course, PeppaBets Casino. Purchasing Peppacoins is not yet available but will be an added feature in the future </h5>
+
+            <h4 style="text-align:center;">How do I use PeppaBets?</h4>
+            <h5 style="text-align:center;">Pick a bet, 1 PeppaCoins is the minimum. Pick a chance, which reflects your numbers and payout amounts. You can raise or lower your chances per/bet. A random number between 0-99999 will be generated upon each roll. If you're over your chosen bet target, you win!</h5>
+
+            <h4 style="text-align:center;">Is there a House Edge?</h4>
+            <h5 style="text-align:center;">Yes there is a slight house edge. The current house edge is 1% - much lower than some casinos which have edges as high as 15%!</h5>
+                
+            <h4 style="text-align:center;">What is the "House Edge"?</h4>
+            <h5 style="text-align:center;">The house edge is built in to the payouts. For example if you play the 50% game and win, you receive 1.98 times your bet as your payout. If there was no house edge, you would receive 2 times your bet. 1.98 is 1% less than 2. That is the house edge.</h5>
+               
+            <h4 style="text-align:center;">How Do I Trust PeppaBets is Fair & Legitimate?</h4>
+            <h5 style="text-align:center;">Check the "Fairness" Page</h5>
+            
+            <h4 style="text-align:center;">What is the "Max Bet"?</h4>
+            <h5 style="text-align:center;">The Max bet is 5,000,000. This means you cannot bet over 5,000,000 PeppaCoins</h5>
+            <br>
+    <button class = "button1" style="margin-left:39%;width:20%;font-size:18;border-radius:18px;" id="finishFAQ">Got It!</button>
+            </div>
+        </div>
     </div>
         </div>
     </div>
+
+    <script>           
+     $(document).ready(function(){
+        var btn = document.getElementById("Fairness");
+        btn.onclick = function() {
+    var modal = document.getElementById("FairnessModal");
+    modal.style.display = "block";
+    var btn2=document.getElementById("finishFairness");
+    window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+    btn2.onclick= function(event){
+        modal.style.display = "none";
+    }
+}
+}
+    })
+    $(document).ready(function(){
+        var btn = document.getElementById("FAQ");
+        btn.onclick = function() {
+    var modal = document.getElementById("FAQmodal");
+    modal.style.display = "block";
+    var btn2=document.getElementById("finishFAQ");
+    window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+    btn2.onclick= function(event){
+        modal.style.display = "none";
+    }
+}
+}
+    })
+</script>
+    <script>            
+    function doubleReload(){
+        firebase.auth().onAuthStateChanged(user => {
+        var docRef = db.collection("users").doc(Auth.currentUser.uid);
+                docRef.get().then((Receivedoc) => {
+                                    if (Receivedoc.exists) {
+                                        var Rdata = Receivedoc.data();
+                                        var coins = Rdata.Coins;
+                                        var betAmount2x = document.getElementById("betAmount2x");
+                                        betAmount2x.onclick = function() {
+                                            betAmount *=2;
+                                            if(betAmount > coins && betAmount < 5000000)
+                                            {
+                                                betAmount=coins;
+                                                $("#gamblingAmount").val(Number(betAmount).toFixed(4).toString());
+                                            }
+                                            else if(betAmount < coins && betAmount > 5000000 ||betAmount > coins && betAmount > 5000000)
+                                            {
+                                                betAmount=5000000;
+                                                $("#gamblingAmount").val(Number(betAmount).toFixed(4).toString()); 
+                                            }
+                                            else{
+                                                $("#gamblingAmount").val(Number(betAmount).toFixed(4).toString());
+                                            }
+                                        }
+                                        var betAmountd2 = document.getElementById("betAmountd2");
+                                        betAmountd2.onclick = function() {
+                                            betAmount /=2;
+                                            if(betAmount < 1)
+                                            {
+                                                betAmount=1;
+                                                $("#gamblingAmount").val(Number(betAmount).toFixed(4).toString());
+                                            }
+                                            else{
+                                                $("#gamblingAmount").val(Number(betAmount).toFixed(4).toString());
+                                            }
+                                        }
+                                        var betAmountMIN = document.getElementById("betAmountMIN");
+                                        betAmountMIN.onclick = function() {
+                                            betAmount =1;
+                                                $("#gamblingAmount").val(Number(betAmount).toFixed(4).toString());
+                                        }
+
+                                        var betAmountMAX = document.getElementById("betAmountMAX");
+                                        betAmountMAX.onclick = function() {
+                                            betAmount = coins;
+                                            if(betAmount > 5000000)
+                                            {
+                                                betAmount=5000000;
+                                                $("#gamblingAmount").val(Number(betAmount).toFixed(4).toString()); 
+                                            }
+                                            else{
+                                                $("#gamblingAmount").val(Number(betAmount).toFixed(4).toString());
+                                            }
+                                        }
+                                        var betReturn2x = document.getElementById("betReturn2x");
+                                        betReturn2x.onclick = function() {
+                                            bettingReturn *=2;
+                                            console.log("cool");
+                                            if(bettingReturn > 750)
+                                            {
+                                                bettingReturn=750;
+                                                $("#gamblingReturn").val(Number(bettingReturn).toFixed(4).toString());
+                                                returnRate = (Math.pow((Math.sqrt(100/(bettingReturn))/10),2.029).toFixed(6) * 100).toFixed(4)
+                                                LessThanGamble = Math.round(100000 - (returnRate * 1000));
+
+                                                $("#result").val((betAmount * (bettingReturn)).toString() + " PEPPAS");     
+                                                $("#ChangePercent").val(returnRate.toString() + "%");   
+                                                $("#lessThanOdds").val(">" + LessThanGamble.toString());  
+                                            }
+                                            else{
+                                                $("#gamblingReturn").val(Number(bettingReturn).toFixed(4).toString());
+                                                returnRate = (Math.pow((Math.sqrt(100/(bettingReturn))/10),2.029).toFixed(6) * 100).toFixed(4)
+                                                LessThanGamble = Math.round(100000 - (returnRate * 1000));
+
+                                                $("#result").val((betAmount * (bettingReturn)).toString() + " PEPPAS");     
+                                                $("#ChangePercent").val(returnRate.toString() + "%");   
+                                                $("#lessThanOdds").val(">" + LessThanGamble.toString());
+                                            }
+                                        }
+                                        var betReturnd2 = document.getElementById("betReturnd2");
+                                        betReturnd2.onclick = function() {
+                                            bettingReturn /=2;
+                                            console.log("cool");
+                                            if(bettingReturn < 1.012)
+                                            {
+                                                bettingReturn=1.012;
+                                                $("#gamblingReturn").val(Number(bettingReturn).toFixed(4).toString());
+                                                returnRate = (Math.pow((Math.sqrt(100/(bettingReturn))/10),2.029).toFixed(6) * 100).toFixed(4)
+                                                LessThanGamble = Math.round(100000 - (returnRate * 1000));
+
+                                                $("#result").val((betAmount * (bettingReturn)).toString() + " PEPPAS");     
+                                                $("#ChangePercent").val(returnRate.toString() + "%");   
+                                                $("#lessThanOdds").val(">" + LessThanGamble.toString());
+                                            }
+                                            else{
+                                                $("#gamblingReturn").val(Number(bettingReturn).toFixed(4).toString());
+                                                returnRate = (Math.pow((Math.sqrt(100/(bettingReturn))/10),2.029).toFixed(6) * 100).toFixed(4)
+                                                LessThanGamble = Math.round(100000 - (returnRate * 1000));
+
+                                                $("#result").val((betAmount * (bettingReturn)).toString() + " PEPPAS");     
+                                                $("#ChangePercent").val(returnRate.toString() + "%");   
+                                                $("#lessThanOdds").val(">" + LessThanGamble.toString());
+                                            }
+                                        }
+                                        var betReturnMIN = document.getElementById("betReturnMIN");
+                                        betReturnMIN.onclick = function() {
+                                            bettingReturn =1.012;
+                                                $("#gamblingReturn").val(Number(bettingReturn).toFixed(4).toString());
+                                                returnRate = (Math.pow((Math.sqrt(100/(bettingReturn))/10),2.029).toFixed(6) * 100).toFixed(4)
+                                                LessThanGamble = Math.round(100000 - (returnRate * 1000));
+
+                                                $("#result").val((betAmount * (bettingReturn)).toString() + " PEPPAS");     
+                                                $("#ChangePercent").val(returnRate.toString() + "%");   
+                                                $("#lessThanOdds").val(">" + LessThanGamble.toString());
+                                            }
+
+                                        var betReturnMAX = document.getElementById("betReturnMAX");
+                                        betReturnMAX.onclick = function() {
+                                            bettingReturn = 750;
+                                                $("#gamblingReturn").val(Number(bettingReturn).toFixed(4).toString());
+                                                returnRate = (Math.pow((Math.sqrt(100/(bettingReturn))/10),2.029).toFixed(6) * 100).toFixed(4)
+                                                LessThanGamble = Math.round(100000 - (returnRate * 1000));
+
+                                                $("#result").val((betAmount * (bettingReturn)).toString() + " PEPPAS");     
+                                                $("#ChangePercent").val(returnRate.toString() + "%");   
+                                                $("#lessThanOdds").val(">" + LessThanGamble.toString());
+                                            }
+                                }
+                            })
+                            })
+                        }
+    </script>
     </body>
 </html>

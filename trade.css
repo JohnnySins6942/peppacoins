@@ -1,14 +1,14 @@
 .sidenav {
-  height: 100%;
-  width: 12.9%;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  background-color: #111;
-  overflow-x: hidden;
-  padding-top: 20px;
-}
+    height: 100%;
+    width: 12.9%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 20px;
+  }
   h1, h2, h3, h4, h5{
     font-family: Helvetica;
     color:rgb(243, 179, 193);
@@ -26,7 +26,7 @@
     background-repeat: no-repeat;
     background-position: center;
   }
-  .faucet {
+  .trade {
     margin-left: 175px; /* Same as the width of the sidenav */
     padding: 0px 10px;
     background-color:rgb(48, 45, 45);
@@ -39,16 +39,7 @@
     padding-top:20px;
     height:100%;
   }
-  .receiverAddress{
-    width: 60%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    font-size:24px;
-    color:rgba(251, 183, 198, 1);
-    border-radius: 12px;
-    margin-left:224px;
-  }
+
   .button1 {
     background-color: #4c93af; /* Green */
     border: none;

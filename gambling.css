@@ -55,6 +55,19 @@
   text-decoration: none;
   font-size: 17px;
 }
+.topnav1 {
+  overflow: hidden;
+  width:100%;
+  margin-left:-13px;
+  margin-top:-25px;
+}
+/* Style the links inside the navigation bar */
+.topnav1 a {
+float: left;
+padding: 13px 0.2px;
+width:300px;
+text-decoration: none;
+}
 .BetPanel{
   background-color:black;
   width:80%;
@@ -107,6 +120,34 @@
     font-family: Helvetica;
     font-size:19px;
   }
+  input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color:rgb(48, 45, 45);
+    color:rgba(251, 183, 198, 1);
+    font-family: Helvetica;
+    font-size:19px;
+  }
+  .button1 {
+    background-color: #488ca700; /* Green */
+    border: none;
+    color: rgb(126, 115, 115);
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 1px;
+    border: 2px solid rgb(75, 71, 71);
+    margin-left:-5;
+  }
+.button1:hover {
+    background-color: rgb(94, 85, 85);
+  }
   .btn {
     border: none;
     background-color: inherit;
@@ -116,6 +157,31 @@
     display: inline-block;
     font-family: Helvetica;
   } 
+  /* The Modal (background) */
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 420px;
+    height: 100%; /* Full height */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    overflow-x:hidden;
+  }
+  .modal-content {
+    background-color: black;
+    margin: auto;
+    height: 420px;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 690px;
+    overflow-x:hidden;
+  }  
+  
 
     /* On mouse-over */
     .btn:hover {background:rgb(0, 0, 0);}
@@ -149,4 +215,4 @@
         .white {color: rgb(255, 255, 255);}
 
 
-        
+  

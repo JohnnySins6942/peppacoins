@@ -7,7 +7,7 @@
         <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-firestore.js"></script>
         <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-database.js"></script>
         <script src="main.js"></script>
-        <link rel="stylesheet" href="main.css">
+        <link rel="stylesheet" href="trade.css">
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     </head>
     <div id="loading"></div>
@@ -43,15 +43,17 @@
 
     <body>
         <div class="page" style="display: none">
-        <div>
-        <button onclick = "Navigate('wallet')" id = "wallet">Wallet</button>
-        <button onclick = "Navigate('faucet')" id = "faucet">Faucet</button>
-        <button onclick = "Navigate('gambling')" id = "gambling">Gambling</button>
-        <button onclick = "Navigate('trade')" id = "trade">Trade</button>
-        <button onclick = "Navigate('referrals')" id = "referrals">Referrals</button>
-        <button onclick="signOut()" id="signOut">Sign Out</button>
-        <h1 id = "PeppaPrice">PeppaCoins Price: 0.000000006USD</h1>
-        </div>
+<div class="sidenav">
+            <h4 id = "PeppaPrice" style="text-align: center;">PeppaCoins Price: 0.000000006USD</h4>
+            <button style="margin-left:18px;"class="btn pink"id="wallet"style="z-index: 3;"onclick = "Navigate('wallet')">Wallet</button>
+            <button style="margin-left:17px;"class="btn pink"id="faucet"style="z-index: 3;"onclick = "Navigate('faucet')">Faucet</button>
+            <button style="margin-left:16px;"class="btn pink"id="gambling"style="z-index: 3;"onclick = "Navigate('gambling')">Gambling</button>
+            <button style="margin-left:15px;"class="btn pink"id="trade"style="z-index: 3;"onclick = "Navigate('trade')">Trade</button>
+            <button style="margin-left:14px;"class="btn pink"id="referrals"style="z-index: 3;"onclick = "Navigate('referrals')">Referrals</button>
+            <br><br><br><br><br><br><br><br><br><Br><br><br><br>
+            <button style="margin-left:14px;margin-bottom:5px;"class="btn pink"id="signOut"style="z-index: 3;"onclick = "signOut()">Sign Out</button>
+            </div>
+        <div class="trade">
         <h1>Purchase PeppaCoins</h1>
         <button>Purchase PeppaCoins</button>
 
@@ -69,6 +71,7 @@
 
         <button id="AmazonBtn">Redeem Amazon Gift Card</button>
 
+        </div>
         <div id="AmazonModal" class="modal">
 
         <div class="modal-content">
@@ -126,6 +129,7 @@
             </div>
         </div>
 
+</div>
 </div>
 
         </div>
