@@ -94,7 +94,7 @@
     margin: 10px; 
   } 
   .balance {
-    margin-left: 175px; /* Same as the width of the sidenav */
+    margin-left: 12.9%; /* Same as the width of the sidenav */
     padding: 0px 10px;
     background-color:black;
     width:31.3%;
@@ -107,7 +107,7 @@
     height:100%;
   }
   .transactions{
-    margin-left: 620px; /* Same as the width of the sidenav */
+    margin-left: 45.2%; /* Same as the width of the sidenav */
     padding: 0px 10px;
     background-color:rgb(0, 0, 0);
     width:55.8%;

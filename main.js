@@ -58,48 +58,499 @@ function onReady(callback) {
                 InitializeTrade();
                 $(document).ready(function(){
                     var btn = document.getElementById("AmazonBtn");
+                    var div = document.getElementById("amazon");
+                    var div2 = document.getElementById("itunes");
+                    var div3 = document.getElementById("microsoft");
                     btn.onclick = function() {
                         var docRef = db.collection("data").doc("data");
                         docRef.get().then((doc) => {
                             if(doc.exists)
                             {
+                                var data = doc.data();
+                                var TenGc= document.getElementById("10AGC");
+                                var cost = document.getElementById("AmazonCost1");
+                    
+                                div.style.display="block";
+                                div2.style.display="none";
+                                div3.style.display="none";
+                                TenGc.value ="Cost After Fees: "  + ((10/Number(data.PeppaValue) + (10/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                                cost.innerHTML="10$"
+                                itemDisplay.innerHTML="10$ Amazon Gift Card"
+                            }
+                        })
+                    }
+                    var btn1 = document.getElementById("AmazonBtn1");
+                    btn1.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
                             var data = doc.data();
-                            modal.style.display = "block";
                             var TenGc= document.getElementById("10AGC");
-                            var TwoAGC= document.getElementById("25AGC");
-                            var ThreeGc= document.getElementById("50AGC");
-                            var FourGc= document.getElementById("100AGC");
-                            var FiveGc= document.getElementById("250AGC");
-                            var SixGc= document.getElementById("500AGC");
-                            var SevenGc= document.getElementById("1000AGC");
-                            var EightGc= document.getElementById("2500AGC");
+                            var cost = document.getElementById("AmazonCost1");
                 
                 
-                
-                            TenGc.innerHTML ="Cost After Fees: "  + ((10/Number(data.PeppaValue) + (10/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
-                            TwoAGC.innerHTML ="Cost After Fees: "  + ((25/Number(data.PeppaValue) + (25/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
-                            ThreeGc.innerHTML ="Cost After Fees: "  + ((50/Number(data.PeppaValue) + (50/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
-                            FourGc.innerHTML ="Cost After Fees: "  + ((100/Number(data.PeppaValue) + (100/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
-                            FiveGc.innerHTML ="Cost After Fees: "  + ((250/Number(data.PeppaValue) + (250/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
-                            SixGc.innerHTML ="Cost After Fees: "  + ((500/Number(data.PeppaValue) + (500/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
-                            SevenGc.innerHTML ="Cost After Fees: "  + ((1000/Number(data.PeppaValue) + (1000/Number(data.PeppaValue)* 0.075)).toFixed(4)).toString() + " PEPPAS";
-                            EightGc.innerHTML ="Cost After Fees: "  + ((2500/Number(data.PeppaValue) + (2500/Number(data.PeppaValue)* 0.075)).toFixed(4)).toString() + " PEPPAS";
-                
+                            TenGc.value ="Cost After Fees: "  + ((25/Number(data.PeppaValue) + (25/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="25$"
+                            itemDisplay.innerHTML="25$ Amazon Gift Card"
+                            document.getElementById("myDropdown").classList.toggle("show");
                         }
                         })
-                      }
-                            var modal = document.getElementById("AmazonModal");
-                            var span = document.getElementsByClassName("close")[0];
-                            modal.style.display = "block";
-                            span.onclick = function() {
-                            modal.style.display = "none";
+                    }
+                    var btn2 = document.getElementById("AmazonBtn2");
+                    btn2.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                            var data = doc.data();
+                            var TenGc= document.getElementById("10AGC");
+                            var cost = document.getElementById("AmazonCost1");
+                
+                
+                            TenGc.value ="Cost After Fees: "  + ((50/Number(data.PeppaValue) + (50/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="50$"
+                            itemDisplay.innerHTML="50$ Amazon Gift Card"
+                            document.getElementById("myDropdown").classList.toggle("show");
+                        }
+                        })
+                    }
+                    var btn0 = document.getElementById("AmazonBtn0");
+                    btn0.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                            var data = doc.data();
+                            var TenGc= document.getElementById("10AGC");
+                            var cost = document.getElementById("AmazonCost1");
+                
+                
+                            TenGc.value ="Cost After Fees: "  + ((10/Number(data.PeppaValue) + (10/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="10$"
+                            itemDisplay.innerHTML="10$ Amazon Gift Card"
+                            document.getElementById("myDropdown").classList.toggle("show");
+                        }
+                        })
+                    }
+                    var btn3 = document.getElementById("AmazonBtn3");
+                    btn3.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                            var data = doc.data();
+                            var TenGc= document.getElementById("10AGC");
+                            var cost = document.getElementById("AmazonCost1");
+                
+                
+                            TenGc.value ="Cost After Fees: "  + ((100/Number(data.PeppaValue) + (100/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="100$"
+                            itemDisplay.innerHTML="100$ Amazon Gift Card"
+                            document.getElementById("myDropdown").classList.toggle("show");
+                        }
+                        })
+                    }
+                    var btn4 = document.getElementById("AmazonBtn4");
+                    btn4.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                            var data = doc.data();
+                            var TenGc= document.getElementById("10AGC");
+                            var cost = document.getElementById("AmazonCost1");
+                
+                
+                            TenGc.value ="Cost After Fees: "  + ((250/Number(data.PeppaValue) + (250/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="250$"
+                            itemDisplay.innerHTML="250$ Amazon Gift Card"
+                            document.getElementById("myDropdown").classList.toggle("show");
+                        }
+                        })
+                    }
+                    var btn5 = document.getElementById("AmazonBtn5");
+                    btn5.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                            var data = doc.data();
+                            var TenGc= document.getElementById("10AGC");
+                            var cost = document.getElementById("AmazonCost1");
+                
+                
+                            TenGc.value ="Cost After Fees: "  + ((500/Number(data.PeppaValue) + (500/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="500$"
+                            itemDisplay.innerHTML="500$ Amazon Gift Card"
+                            document.getElementById("myDropdown").classList.toggle("show");
+                        }
+                        })
+                    }
+                    var btn6 = document.getElementById("AmazonBtn6");
+                    btn6.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                            var data = doc.data();
+                            var TenGc= document.getElementById("10AGC");
+                            var cost = document.getElementById("AmazonCost1");
+                
+                
+                            TenGc.value ="Cost After Fees: "  + ((1000/Number(data.PeppaValue) + (1000/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="1000$"
+                            itemDisplay.innerHTML="1000$ Amazon Gift Card"
+                            document.getElementById("myDropdown").classList.toggle("show");
+                        }
+                        })
+                    }
+                    var btn7 = document.getElementById("AmazonBtn7");
+                    btn7.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                            var data = doc.data();
+                            var TenGc= document.getElementById("10AGC");
+                            var cost = document.getElementById("AmazonCost1");
+                
+                
+                            TenGc.value ="Cost After Fees: "  + ((2500/Number(data.PeppaValue) + (2500/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="2500$"
+                            itemDisplay.innerHTML="2500$ Amazon Gift Card"
+                            document.getElementById("myDropdown").classList.toggle("show");
+                        }
+                        })
+                    }
+
+
+                    var btn = document.getElementById("ItunesBtn");
+                    btn.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                                var data = doc.data();
+                                var TenGc= document.getElementById("10IGC");
+                                var cost = document.getElementById("ItunesCost1");
+                    
+                                div2.style.display="block";
+                                div.style.display="none";
+                                div3.style.display="none";
+                                TenGc.value ="Cost After Fees: "  + ((10/Number(data.PeppaValue) + (10/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                                cost.innerHTML="10$"
+                                itemDisplay1.innerHTML="10$ Itunes Gift Card"
                             }
-                            modal.style.display = "none";
-                            window.onclick = function(event) {
-                            if (event.target == modal) {
-                                modal.style.display = "none";
+                        })
+                    }
+                    var ibtn1 = document.getElementById("ItunesBtn1");
+                    ibtn1.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                            var data = doc.data();
+                            var TenGc= document.getElementById("10IGC");
+                            var cost = document.getElementById("ItunesCost1");
+                
+                
+                            TenGc.value ="Cost After Fees: "  + ((25/Number(data.PeppaValue) + (25/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="25$"
+                            itemDisplay1.innerHTML="25$ Itunes Gift Card"
+                            document.getElementById("myDropdown1").classList.toggle("show");
+                        }
+                        })
+                    }
+                    var ibtn2 = document.getElementById("ItunesBtn2");
+                    ibtn2.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                            var data = doc.data();
+                            var TenGc= document.getElementById("10IGC");
+                            var cost = document.getElementById("ItunesCost1");
+                
+                
+                            TenGc.value ="Cost After Fees: "  + ((50/Number(data.PeppaValue) + (50/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="50$"
+                            itemDisplay1.innerHTML="50$ Itunes Gift Card"
+                            document.getElementById("myDropdown1").classList.toggle("show");
+                        }
+                        })
+                    }
+                    var ibtn0 = document.getElementById("ItunesBtn0");
+                    ibtn0.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                            var data = doc.data();
+                            var TenGc= document.getElementById("10IGC");
+                            var cost = document.getElementById("ItunesCost1");
+                
+                
+                            TenGc.value ="Cost After Fees: "  + ((10/Number(data.PeppaValue) + (10/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="10$"
+                            itemDisplay1.innerHTML="10$ Itunes Gift Card"
+                            document.getElementById("myDropdown1").classList.toggle("show");
+                        }
+                        })
+                    }
+                    var ibtn3 = document.getElementById("ItunesBtn3");
+                    ibtn3.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                            var data = doc.data();
+                            var TenGc= document.getElementById("10IGC");
+                            var cost = document.getElementById("ItunesCost1");
+                
+                
+                            TenGc.value ="Cost After Fees: "  + ((100/Number(data.PeppaValue) + (100/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="100$"
+                            itemDisplay1.innerHTML="100$ Itunes Gift Card"
+                            document.getElementById("myDropdown1").classList.toggle("show");
+                        }
+                        })
+                    }
+                    var ibtn4 = document.getElementById("ItunesBtn4");
+                    ibtn4.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                            var data = doc.data();
+                            var TenGc= document.getElementById("10IGC");
+                            var cost = document.getElementById("ItunesCost1");
+                
+                
+                            TenGc.value ="Cost After Fees: "  + ((250/Number(data.PeppaValue) + (250/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="250$"
+                            itemDisplay1.innerHTML="250$ Itunes Gift Card"
+                            document.getElementById("myDropdown1").classList.toggle("show");
+                        }
+                        })
+                    }
+                    var ibtn5 = document.getElementById("ItunesBtn5");
+                    ibtn5.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                            var data = doc.data();
+                            var TenGc= document.getElementById("10IGC");
+                            var cost = document.getElementById("ItunesCost1");
+                
+                
+                            TenGc.value ="Cost After Fees: "  + ((500/Number(data.PeppaValue) + (500/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="500$"
+                            itemDisplay1.innerHTML="500$ Itunes Gift Card"
+                            document.getElementById("myDropdown1").classList.toggle("show");
+                        }
+                        })
+                    }
+                    var ibtn6 = document.getElementById("ItunesBtn6");
+                    ibtn6.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                            var data = doc.data();
+                            var TenGc= document.getElementById("10IGC");
+                            var cost = document.getElementById("ItunesCost1");
+                
+                
+                            TenGc.value ="Cost After Fees: "  + ((1000/Number(data.PeppaValue) + (1000/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="1000$"
+                            itemDisplay1.innerHTML="1000$ Itunes Gift Card"
+                            document.getElementById("myDropdown1").classList.toggle("show");
+                        }
+                        })
+                    }
+                    var ibtn7 = document.getElementById("ItunesBtn7");
+                    ibtn7.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                            var data = doc.data();
+                            var TenGc= document.getElementById("10IGC");
+                            var cost = document.getElementById("ItunesCost1");
+                
+                
+                            TenGc.value ="Cost After Fees: "  + ((2500/Number(data.PeppaValue) + (2500/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="2500$"
+                            itemDisplay1.innerHTML="2500$ Itunes Gift Card"
+                            document.getElementById("myDropdown1").classList.toggle("show");
+                        }
+                        })
+                    }
+                    var Mbtn = document.getElementById("MicrosoftBtn");
+                    Mbtn.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                                var data = doc.data();
+                                var TenGc= document.getElementById("10MGC");
+                                var cost = document.getElementById("MicrosoftCost1");
+                    
+                                div2.style.display="none";
+                                div3.style.display="block";
+                                div.style.display="none";
+                                TenGc.value ="Cost After Fees: "  + ((10/Number(data.PeppaValue) + (10/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                                cost.innerHTML="10$"
+                                itemDisplay2.innerHTML="10$ Microsoft Gift Card"
                             }
-                            }
+                        })
+                    }
+                    var Mbtn1 = document.getElementById("MicrosoftBtn1");
+                    Mbtn1.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                            var data = doc.data();
+                            var TenGc= document.getElementById("10MGC");
+                            var cost = document.getElementById("MicrosoftCost1");
+                
+                
+                            TenGc.value ="Cost After Fees: "  + ((25/Number(data.PeppaValue) + (25/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="25$"
+                            itemDisplay2.innerHTML="25$ Microsoft Gift Card"
+                            document.getElementById("myDropdown2").classList.toggle("show");
+                        }
+                        })
+                    }
+                    var Mbtn2 = document.getElementById("MicrosoftBtn2");
+                    Mbtn2.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                            var data = doc.data();
+                            var TenGc= document.getElementById("10MGC");
+                            var cost = document.getElementById("MicrosoftCost1");
+                
+                
+                            TenGc.value ="Cost After Fees: "  + ((50/Number(data.PeppaValue) + (50/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="50$"
+                            itemDisplay2.innerHTML="50$ Microsoft Gift Card"
+                            document.getElementById("myDropdown2").classList.toggle("show");
+                        }
+                        })
+                    }
+                    var Mbtn0 = document.getElementById("MicrosoftBtn0");
+                    Mbtn0.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                            var data = doc.data();
+                            var TenGc= document.getElementById("10MGC");
+                            var cost = document.getElementById("MicrosoftCost1");
+                
+                
+                            TenGc.value ="Cost After Fees: "  + ((10/Number(data.PeppaValue) + (10/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="10$"
+                            itemDisplay2.innerHTML="10$ Microsoft Gift Card"
+                            document.getElementById("myDropdown2").classList.toggle("show");
+                        }
+                        })
+                    }
+                    var Mbtn3 = document.getElementById("MicrosoftBtn3");
+                    Mbtn3.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                            var data = doc.data();
+                            var TenGc= document.getElementById("10MGC");
+                            var cost = document.getElementById("MicrosoftCost1");
+                
+                
+                            TenGc.value ="Cost After Fees: "  + ((100/Number(data.PeppaValue) + (100/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="100$"
+                            itemDisplay2.innerHTML="100$ Microsoft Gift Card"
+                            document.getElementById("myDropdown2").classList.toggle("show");
+                        }
+                        })
+                    }
+                    var Mbtn4 = document.getElementById("MicrosoftBtn4");
+                    Mbtn4.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                            var data = doc.data();
+                            var TenGc= document.getElementById("10MGC");
+                            var cost = document.getElementById("MicrosoftCost1");
+                
+                
+                            TenGc.value ="Cost After Fees: "  + ((250/Number(data.PeppaValue) + (250/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="250$"
+                            itemDisplay2.innerHTML="250$ Microsoft Gift Card"
+                            document.getElementById("myDropdown2").classList.toggle("show");
+                        }
+                        })
+                    }
+                    var Mbtn5 = document.getElementById("MicrosoftBtn5");
+                    Mbtn5.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                            var data = doc.data();
+                            var TenGc= document.getElementById("10MGC");
+                            var cost = document.getElementById("MicrosoftCost1");
+                
+                
+                            TenGc.value ="Cost After Fees: "  + ((500/Number(data.PeppaValue) + (500/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="500$"
+                            itemDisplay2.innerHTML="500$ Microsoft Gift Card"
+                            document.getElementById("myDropdown2").classList.toggle("show");
+                        }
+                        })
+                    }
+                    var Mbtn6 = document.getElementById("MicrosoftBtn6");
+                    Mbtn6.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                            var data = doc.data();
+                            var TenGc= document.getElementById("10MGC");
+                            var cost = document.getElementById("MicrosoftCost1");
+                
+                
+                            TenGc.value ="Cost After Fees: "  + ((1000/Number(data.PeppaValue) + (1000/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="1000$"
+                            itemDisplay2.innerHTML="1000$ Microsoft Gift Card"
+                            document.getElementById("myDropdown2").classList.toggle("show");
+                        }
+                        })
+                    }
+                    var Mbtn7 = document.getElementById("MicrosoftBtn7");
+                    Mbtn7.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                            var data = doc.data();
+                            var TenGc= document.getElementById("10MGC");
+                            var cost = document.getElementById("MicrosoftCost1");
+                
+                
+                            TenGc.value ="Cost After Fees: "  + ((2500/Number(data.PeppaValue) + (2500/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="2500$"
+                            itemDisplay2.innerHTML="2500$ Microsoft Gift Card"
+                            document.getElementById("myDropdown2").classList.toggle("show");
+                        }
+                        })
+                    }
                 })
             }
             if(!window.location.href.indexOf("index") > -1)
@@ -617,12 +1068,12 @@ function onReady(callback) {
                 var docRef = db.collection("data").doc("data");
                 docRef.get().then((Datadoc) => {
                     if (Datadoc.exists) {
-                        var data = Datadoc.data();
-                        document.getElementById("USDValue").innerHTML = "$" + (Number(Number(coins) * Number(data.PeppaValue))).toFixed(4);
-                        document.getElementById("USDValue2").innerHTML = "$" + (Number(Number(coins) * Number(data.PeppaValue))).toFixed(4);
-                        document.getElementById("USDValue3").innerHTML = "$" + (Number(Number(coins) * Number(data.PeppaValue))).toFixed(4);
+                        var data1 = Datadoc.data();
+                        document.getElementById("USDValue").innerHTML = "$" + (Number(Number(coins) * Number(data1.PeppaValue))).toFixed(4);
+                        document.getElementById("USDValue2").innerHTML = "$" + (Number(Number(coins) * Number(data1.PeppaValue))).toFixed(4);
+                        document.getElementById("USDValue3").innerHTML = "$" + (Number(Number(coins) * Number(data1.PeppaValue))).toFixed(4);
                     }
-                })
+                
 
                 arrayLength = transactions.length;
                 var j = 0;
@@ -647,7 +1098,7 @@ function onReady(callback) {
                     {
                         const li = `
                         <li>
-                        <button style="border-radius:10px;"class="accordion">Transaction Number ${(Number((i+1)) + Number(data.PreviousTransactions)).toString()} <br> -${Number(transactions[i].Amount).toFixed(4).toString()} PEPPA</button>
+                        <button style="border-radius:10px;"class="accordion">Transaction Number ${(Number((i+1)) + Number(data.PreviousTransactions)).toString()} <br> -${Number(transactions[i].Amount).toFixed(4).toString()} PEPPA (-$${(Number(transactions[i].Amount) *  Number(data1.PeppaValue)).toFixed(4).toString()})</button>
                         <div style="border-radius:10px;"class="panel">
                         <h2 style="text-align:center">Receiver Address: </h2>
                         <button onclick="copyToClipboard('#address${[i]}')"class="btnTransparent pink" style="z-index: 2;    display: block;
@@ -670,7 +1121,7 @@ function onReady(callback) {
                         const li = `
                         <li>
                         
-                        <button style="border-radius:10px;" class="accordion">Transaction Number ${(Number((i+1)) + Number(data.PreviousTransactions)).toString()} <br> +${Number(transactions[i].Amount).toFixed(4).toString()} PEPPA</button>
+                        <button style="border-radius:10px;" class="accordion">Transaction Number ${(Number((i+1)) + Number(data.PreviousTransactions)).toString()} <br> +${Number(transactions[i].Amount).toFixed(4).toString()} PEPPA (+$${(Number(transactions[i].Amount) *  Number(data1.PeppaValue)).toFixed(4).toString()})</button>
                         <div style="border-radius:10px;"class="panel">
                         <h2 style="text-align:center">Sender Address: </h2>
                         <button onclick="copyToClipboard('#address${[i]}')"class="btnTransparent pink" style="z-index: 2;    display: block;
@@ -689,6 +1140,7 @@ function onReady(callback) {
                         `;
                         html += li;
                     }
+                    
                     list.innerHTML = html;
 
                    
@@ -715,7 +1167,8 @@ function onReady(callback) {
                 db.collection("users").doc(Auth.currentUser.uid).set(tempData)
 
 
-            }
+            }                
+        })
 
                 } else {
                 console.log("No such document!");
@@ -885,19 +1338,29 @@ function InitializeTrade()
 }
 
 function ClaimGiftCard(giftCardType, GiftCardAmount)
-{
-    console.log("cool");
+{   
+    if(giftCardType == "Amazon")
+    {
+    var regex = /[\d|,|.|\+]+/g;
+    GiftCardAmount = Number((document.getElementById("AmazonCost1").innerHTML).match(regex));
+    }
+    else if(giftCardType =="Itunes")
+    {
+        var regex = /[\d|,|.|\+]+/g;
+        GiftCardAmount = Number((document.getElementById("ItunesCost1").innerHTML).match(regex));
+    }
+    else if(giftCardType=="Microsoft")
+    {
+        var regex = /[\d|,|.|\+]+/g;
+        GiftCardAmount = Number((document.getElementById("MicrosoftCost1").innerHTML).match(regex));  
+    }
     var docRef = db.collection("data").doc("redeemdata");
     docRef.get().then((doc) => {
         if(doc.exists)
         {
-            console.log(giftCardType)
-    switch(giftCardType){
-        case "AmazonGiftCard":
             var docRef3 = db.collection("data").doc("data");
             docRef3.get().then((doc2) => {
                 if (doc2.exists) {
-
             var docRef2 = db.collection("users").doc(Auth.currentUser.uid);
             docRef2.get().then((Senddoc) => {
                 if (Senddoc.exists) {
@@ -905,17 +1368,17 @@ function ClaimGiftCard(giftCardType, GiftCardAmount)
                     var coins = data.Coins;
                     var data1 = doc2.data();
                     var data2 = doc.data();
-                    cost = (Number(Number(Number(GiftCardAmount)/Number(data1.PeppaValue))+ Number((10/Number(data1.PeppaValue) * 0.075))).toFixed(4));
+                    cost = (Number(Number(Number(GiftCardAmount)/Number(data1.PeppaValue))+ Number((GiftCardAmount/Number(data1.PeppaValue) * 0.075))).toFixed(4));
                     console.log(cost);
                     console.log(coins);
                     if (coins >= Number(cost)){
                         
-
-                    var tempArrayOBJ= {
+                        var tempArrayOBJ= {
                         emailAddress: Auth.currentUser.email,
                         PeppaBeforeTransaction: coins,
                         USERpeppaCoinsTransacted: cost,
                         GiftCardAmount: GiftCardAmount,
+                        GiftCardType:giftCardType,
                         USERPeppaAfterTransaction: (Number(coins) - Number(cost)),
                         TransactionDate: new Date()
                     }
@@ -925,7 +1388,7 @@ function ClaimGiftCard(giftCardType, GiftCardAmount)
                     tempOBJ.redeems.push(tempArrayOBJ);
 
                     var TransactionObj = {
-                        ReceiverAddress: "Peppa_Xh79XCvDGS2NmO9sKAtzBBZyjldTsroS36sdHXNb4ta7",
+                        ReceiverAddress: "PeppaCoins Exchange",
                         SenderAddress: data.Address,
                         TransactionDate: new Date(),
                         Amount: Number(cost),
@@ -960,9 +1423,6 @@ function ClaimGiftCard(giftCardType, GiftCardAmount)
         })
     }
 })
-        break;
-
-    }
     }
 })
 }

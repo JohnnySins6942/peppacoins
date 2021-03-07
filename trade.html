@@ -9,6 +9,7 @@
         <script src="main.js"></script>
         <link rel="stylesheet" href="trade.css">
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <div id="loading"></div>
 
@@ -50,89 +51,190 @@
             <button style="margin-left:16px;"class="btn pink"id="gambling"style="z-index: 3;"onclick = "Navigate('gambling')">Gambling</button>
             <button style="margin-left:15px;"class="btn pink"id="trade"style="z-index: 3;"onclick = "Navigate('trade')">Trade</button>
             <button style="margin-left:14px;"class="btn pink"id="referrals"style="z-index: 3;"onclick = "Navigate('referrals')">Referrals</button>
-            <br><br><br><br><br><br><br><br><br><Br><br><br><br>
+            <br><Br><Br><Br><br><Br><Br><br><Br><br><Br><br><Br>
             <button style="margin-left:14px;margin-bottom:5px;"class="btn pink"id="signOut"style="z-index: 3;"onclick = "signOut()">Sign Out</button>
-            </div>
+</div>
+        <div class="selector">
+            <h1 style="text-align:center">Trade your PeppaCoins</h1>
+            <input style="width:65%; height:50%;margin-left: 17.5%;"type="image" src="https://i.ibb.co/XJCz9sQ/Amazon-removebg-preview.png" id="AmazonBtn" />
+            <input disabled="disabled" style="text-align:center; border-radius:2px;font-size:19;display:inline-block;font-family:Helvetica;width:60%; height:10%;margin-left:20%;background-color:inherit;border: 2px solid rgb(75, 71, 71);color:rgb(126, 115, 115)"type="text" value = " Amazon Gift Cards"/>
+            <br><Br>
+            <input style="width:80%; height:35%;margin-left: 10.3%;"type="image" src="https://i.ibb.co/QmfKkXz/421-4216439-blockchain-bitcoin-cryptocurrency-currency-digital-alt-coins-clipart-removebg-preview.png" onClick="console.log('clicked')" />
+           <br><br><Br>
+            <input disabled="disabled" style="text-align:center; border-radius:2px;font-size:19;display:inline-block;font-family:Helvetica;width:50%; height:10%;margin-left:23.5%;background-color:inherit;border: 2px solid rgb(75, 71, 71);color:rgb(126, 115, 115)"type="text" value = " Crypto"/>
+            <br><Br><Br>
+            <input style="width:70%; height:30%;margin-left: 12.5%;"type="image" src="https://i.ibb.co/VBff7xg/itunes-removebg-preview-1.png" id="ItunesBtn" />
+           <br><br><Br>
+            <input disabled="disabled" style="text-align:center; border-radius:2px;font-size:19;display:inline-block;font-family:Helvetica;width:50%; height:10%;margin-left:23.5%;background-color:inherit;border: 2px solid rgb(75, 71, 71);color:rgb(126, 115, 115)"type="text" value = " Itunes Gift Card"/>
+            <Br><br><Br>
+            <input style="width:70%; height:30%;margin-left: 13%;"type="image" src="https://i.ibb.co/P1M5VmW/RE2-Ya7-B-1.png" id="MicrosoftBtn"/>
+            <br><br>
+             <input disabled="disabled" style="text-align:center; border-radius:2px;font-size:19;display:inline-block;font-family:Helvetica;width:50%; height:10%;margin-left:23.5%;background-color:inherit;border: 2px solid rgb(75, 71, 71);color:rgb(126, 115, 115)"type="text" value = " Microsoft Gift Card"/>
+             <Br><br><Br>
+            <input style="width:70%; height:30%;margin-left: 13.5%;"type="image" src="https://i.ibb.co/PDMZJ81/dec9c79aa6804f428d53f1715b071a7e.webp" id="StarbucksBtn" />
+            <br><br>
+            <input disabled="disabled" style="text-align:center; border-radius:2px;font-size:19;display:inline-block;font-family:Helvetica;width:50%; height:10%;margin-left:23.5%;background-color:inherit;border: 2px solid rgb(75, 71, 71);color:rgb(126, 115, 115)"type="text" value = " Starbucks Gift Card"/>
+            <br><br>
+            <br><br>
+ 
+        </div>
+
+
+
         <div class="trade">
-        <h1>Purchase PeppaCoins</h1>
-        <button>Purchase PeppaCoins</button>
 
-        <h1>Trade PeppaCoins</h1>
-        <div>
-        <h1>Bitcoin</h1>
-        <h1 id = "BitcoinPrice">Bitcoin Price: 50,000</h1>
-        <h1 id = "BitcoinPeppa">1 Bitcoin ≈ 500000000 PEPPA</h1>
-        <input type="number" placeholder="Amount of PEPPA to exchange" id="BTCPEPPAmount" value ="650000"/>
-        <input type="text" placeholder="Bitcoin Address" id="BTCADDRESS"/>
-        <h1 id = "BtcFees">Fees = 0.0004 BTC</h1>
-        <h1 id = "BitcoinPeppaOutput">≈ 0.00045843 BTC</h1>
-        <h1 id = "BitcoinPeppaOutputAfterFees">After Fees ≈ 0.00005843 BTC</h1>
-        <button onclick = "Redeem('bitcoin')">Exchange Peppa To Bitcoin!</button>
+            <div class="bitcoin" style="display:none;">
+                <h1>Trade PeppaCoins</h1>
+                <h1>Bitcoin</h1>
+                <h1 id = "BitcoinPrice">Bitcoin Price: 50,000</h1>
+                <h1 id = "BitcoinPeppa">1 Bitcoin ≈ 500000000 PEPPA</h1>
+                <input type="number" placeholder="Amount of PEPPA to exchange" id="BTCPEPPAmount" value ="650000"/>
+                <input type="text" placeholder="Bitcoin Address" id="BTCADDRESS"/>
+                <h1 id = "BtcFees">Fees = 0.0004 BTC</h1>
+                <h1 id = "BitcoinPeppaOutput">≈ 0.00045843 BTC</h1>
+                <h1 id = "BitcoinPeppaOutputAfterFees">After Fees ≈ 0.00005843 BTC</h1>
+                <button onclick = "Redeem('bitcoin')">Exchange Peppa To Bitcoin!</button>
+            </div>
 
-        <button id="AmazonBtn">Redeem Amazon Gift Card</button>
+            <div id = "amazon"class="amazon" style="display:none;">
+            <h1 style="text-align:center">Choose Gift Card Amount to redeem</h1>
+            <input style="width:50%; height:50%;margin-left: 24.5%;"type="image" src="https://i.ibb.co/XJCz9sQ/Amazon-removebg-preview.png" disabled/>
+              <h2 style="text-align:center" id="itemDisplay">10$ Amazon Gift Card</h2>
+              <input disabled="disabled" style="text-align:center; border-radius:2px;font-size:19;display:inline-block;font-family:Helvetica;width:55%; height:10%;margin-left:22%;background-color:inherit;border: 2px solid rgba(251, 183, 198, 1);color:rgba(251, 183, 198, 1)"type="text"id="10AGC" value = " Crypto"/>
+              <h3 style="text-align:center">Fee: 7.5%</h3>  
+              <br>  
+              <div class="dropdown">
+                  <h2 style="text-align:center;margin-left:180px;">Switch Gift Card Amounts</h2>
+                <button style="width:250px;text-align:center;background-color:rgba(251, 183, 198, 0);border: 3px solid rgba(251, 183, 198, 1); margin-left:205px;"onclick="myFunction()" id="AmazonCost1"class="dropbtn">10$</button>
+                <div id="myDropdown" class="dropdown-content">
+                    <button style="width:250px;text-align:center;background-color:rgba(251, 183, 198, 1);border: 3px solid rgba(251, 183, 198, 1); margin-left:205px;"id="AmazonBtn0"class="dropbtn">10$</button>
+                    <button style="width:250px;text-align:center;background-color:rgba(251, 183, 198, 1);border: 3px solid rgba(251, 183, 198, 1); margin-left:205px;" id="AmazonBtn1" class="dropbtn">25$</button>
+                    <button style="width:250px;text-align:center;background-color:rgba(251, 183, 198, 1);border: 3px solid rgba(251, 183, 198, 1); margin-left:205px;" id="AmazonBtn2"class="dropbtn">50$</button>
+                    <button style="width:250px;text-align:center;background-color:rgba(251, 183, 198, 1);border: 3px solid rgba(251, 183, 198, 1); margin-left:205px;" id="AmazonBtn3"class="dropbtn">100$</button>
+                    <button style="width:250px;text-align:center;background-color:rgba(251, 183, 198, 1);border: 3px solid rgba(251, 183, 198, 1); margin-left:205px;" id="AmazonBtn4"class="dropbtn">250$</button>
+                    <button style="width:250px;text-align:center;background-color:rgba(251, 183, 198, 1);border: 3px solid rgba(251, 183, 198, 1); margin-left:205px;" id="AmazonBtn5"class="dropbtn">500$</button>
+                    <button style="width:250px;text-align:center;background-color:rgba(251, 183, 198, 1);border: 3px solid rgba(251, 183, 198, 1); margin-left:205px;" id="AmazonBtn6"class="dropbtn">1000$</button>
+                    <button style="width:250px;text-align:center;background-color:rgba(251, 183, 198, 1);border: 3px solid rgba(251, 183, 198, 1); margin-left:205px;" id="AmazonBtn7"class="dropbtn">2500$</button>
+                    <br><br><br><Br><Br>
+                </div>
+              </div>
 
-        </div>
-        <div id="AmazonModal" class="modal">
-
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h1>Choose Gift Cards to redeem</h1>
-            <div>
-            <div>
-              <h2>10$ Amazon Gift Card</h2>
-              <h3 id="10AGC">Price: </h3>
-              <h3>Fee: 7.5%</h3>    
-              <button onclick="ClaimGiftCard('AmazonGiftCard', '10')">Redeem Gift Card!</button>
-            </div>
-            <div>
-                <h2>25$ Amazon Gift Card</h2>  
-                <h3 id="25AGC">Price: </h3>
-                <h3>Fee: 7.5%</h3>    
-                <button onclick="ClaimGiftCard('AmazonGiftCard', '25')">Redeem Gift Card!</button>
-            </div>
-            <div>
-                <h2>50$ Amazon Gift Card</h2> 
-                <h3 id="50AGC">Price: </h3>
-                <h3>Fee: 7.5%</h3>    
-                <button onclick="ClaimGiftCard('AmazonGiftCard', '50')">Redeem Gift Card!</button>
-            </div>
-            <div>
-                <h2>100$ Amazon Gift Card</h2> 
-                <h3 id="100AGC">Price: </h3>
-                <h3>Fee: 7.5%</h3>    
-                <button onclick="ClaimGiftCard('AmazonGiftCard', '100')">Redeem Gift Card!</button>
-            </div>
-            <div>
-                <h2>250$ Amazon Gift Card</h2>  
-                <h3 id="250AGC">Price: </h3>
-                <h3>Fee: 7.5%</h3>    
-                <button onclick="ClaimGiftCard('AmazonGiftCard', '250')">Redeem Gift Card!</button>
-            </div>
-            <div>
-                <h2>500$ Amazon Gift Card</h2>  
-                <h3 id="500AGC">Price: </h3>  
-                <h3>Fee: 7.5%</h3>    
-                <button onclick="ClaimGiftCard('AmazonGiftCard', '500')">Redeem Gift Card!</button>
-            </div>
-            <div>
-                <h2>1000$ Amazon Gift Card</h2>
-                <h3 id="1000AGC">Price: </h3>  
-                <h3>Fee: 7.5%</h3>    
-                <button onclick="ClaimGiftCard('AmazonGiftCard', '1000')">Redeem Gift Card!</button>
-            </div>
-            <div>
-                <h2>2500$ Amazon Gift Card</h2>  
-                <h3 id="2500AGC">Price: </h3>
-                <h3>Fee: 7.5%</h3>    
-                <button onclick="ClaimGiftCard('AmazonGiftCard', '2500')">Redeem Gift Card!</button>
-            </div>
-            </div>
+              <br><Br><Br>
+                <button style="width:250px;height:55px;text-align:center;background-color:rgba(251, 183, 198, 0);border: 3px solid rgba(251, 183, 198, 1); margin-left:205px;color:white;font-size:21px;cursor:pointer;" onclick="ClaimGiftCard('Amazon','10')">Buy</button>
+              <br><Br><Br><Br><br><Br>
         </div>
 
+        <div id = "itunes"class="itunes" style="display:none;">
+            <h1 style="text-align:center">Choose Gift Card Amount to redeem</h1>
+            <input style="width:60%; height:40%;margin-left: 18.5%;"type="image" src="https://i.ibb.co/VBff7xg/itunes-removebg-preview-1.png" disabled/>
+              <h2 style="text-align:center" id="itemDisplay1">10$ Itunes Gift Card</h2>
+              <input disabled="disabled" style="text-align:center; border-radius:2px;font-size:19;display:inline-block;font-family:Helvetica;width:55%; height:10%;margin-left:22%;background-color:inherit;border: 2px solid rgba(251, 183, 198, 1);color:rgba(251, 183, 198, 1)"type="text"id="10IGC" value = " Crypto"/>
+              <h3 style="text-align:center">Fee: 7.5%</h3>  
+              <br>  
+              <div class="dropdown">
+                  <h2 style="text-align:center;margin-left:180px;">Switch Gift Card Amounts</h2>
+                <button style="width:250px;text-align:center;background-color:rgba(251, 183, 198, 0);border: 3px solid rgba(251, 183, 198, 1); margin-left:205px;"onclick="myFunction1()" id="ItunesCost1"class="dropbtn">10$</button>
+                <div id="myDropdown1" class="dropdown-content">
+                    <button style="width:250px;text-align:center;background-color:rgba(251, 183, 198, 1);border: 3px solid rgba(251, 183, 198, 1); margin-left:205px;"id="ItunesBtn0"class="dropbtn">10$</button>
+                    <button style="width:250px;text-align:center;background-color:rgba(251, 183, 198, 1);border: 3px solid rgba(251, 183, 198, 1); margin-left:205px;" id="ItunesBtn1" class="dropbtn">25$</button>
+                    <button style="width:250px;text-align:center;background-color:rgba(251, 183, 198, 1);border: 3px solid rgba(251, 183, 198, 1); margin-left:205px;" id="ItunesBtn2"class="dropbtn">50$</button>
+                    <button style="width:250px;text-align:center;background-color:rgba(251, 183, 198, 1);border: 3px solid rgba(251, 183, 198, 1); margin-left:205px;" id="ItunesBtn3"class="dropbtn">100$</button>
+                    <button style="width:250px;text-align:center;background-color:rgba(251, 183, 198, 1);border: 3px solid rgba(251, 183, 198, 1); margin-left:205px;" id="ItunesBtn4"class="dropbtn">250$</button>
+                    <button style="width:250px;text-align:center;background-color:rgba(251, 183, 198, 1);border: 3px solid rgba(251, 183, 198, 1); margin-left:205px;" id="ItunesBtn5"class="dropbtn">500$</button>
+                    <button style="width:250px;text-align:center;background-color:rgba(251, 183, 198, 1);border: 3px solid rgba(251, 183, 198, 1); margin-left:205px;" id="ItunesBtn6"class="dropbtn">1000$</button>
+                    <button style="width:250px;text-align:center;background-color:rgba(251, 183, 198, 1);border: 3px solid rgba(251, 183, 198, 1); margin-left:205px;" id="ItunesBtn7"class="dropbtn">2500$</button>
+                    <br><br><br><Br><Br>
+                </div>
+              </div>
+
+              <br><Br><Br>
+                <button style="width:250px;height:55px;text-align:center;background-color:rgba(251, 183, 198, 0);border: 3px solid rgba(251, 183, 198, 1); margin-left:205px;color:white;font-size:21px;cursor:pointer;" onclick="ClaimGiftCard('Itunes','10')">Buy</button>
+              <br><Br><Br><Br><br><Br>
+        </div>
+        <div id = "microsoft"class="microsoft" style="display:none;">
+            <h1 style="text-align:center">Choose Gift Card Amount to redeem</h1>
+            <input style="width:60%; height:40%;margin-left: 18.5%;"type="image" src="https://i.ibb.co/P1M5VmW/RE2-Ya7-B-1.png" disabled/>
+              <h2 style="text-align:center" id="itemDisplay2">10$ Microsoft Gift Card</h2>
+              <input disabled="disabled" style="text-align:center; border-radius:2px;font-size:19;display:inline-block;font-family:Helvetica;width:55%; height:10%;margin-left:22%;background-color:inherit;border: 2px solid rgba(251, 183, 198, 1);color:rgba(251, 183, 198, 1)"type="text"id="10MGC" value = " Crypto"/>
+              <h3 style="text-align:center">Fee: 7.5%</h3>  
+              <br>  
+              <div class="dropdown">
+                  <h2 style="text-align:center;margin-left:180px;">Switch Gift Card Amounts</h2>
+                <button style="width:250px;text-align:center;background-color:rgba(251, 183, 198, 0);border: 3px solid rgba(251, 183, 198, 1); margin-left:205px;"onclick="myFunction2()" id="MicrosoftCost1"class="dropbtn">10$</button>
+                <div id="myDropdown2" class="dropdown-content">
+                    <button style="width:250px;text-align:center;background-color:rgba(251, 183, 198, 1);border: 3px solid rgba(251, 183, 198, 1); margin-left:205px;"id="MicrosoftBtn0"class="dropbtn">10$</button>
+                    <button style="width:250px;text-align:center;background-color:rgba(251, 183, 198, 1);border: 3px solid rgba(251, 183, 198, 1); margin-left:205px;" id="MicrosoftBtn1" class="dropbtn">25$</button>
+                    <button style="width:250px;text-align:center;background-color:rgba(251, 183, 198, 1);border: 3px solid rgba(251, 183, 198, 1); margin-left:205px;" id="MicrosoftBtn2"class="dropbtn">50$</button>
+                    <button style="width:250px;text-align:center;background-color:rgba(251, 183, 198, 1);border: 3px solid rgba(251, 183, 198, 1); margin-left:205px;" id="MicrosoftBtn3"class="dropbtn">100$</button>
+                    <button style="width:250px;text-align:center;background-color:rgba(251, 183, 198, 1);border: 3px solid rgba(251, 183, 198, 1); margin-left:205px;" id="MicrosoftBtn4"class="dropbtn">250$</button>
+                    <button style="width:250px;text-align:center;background-color:rgba(251, 183, 198, 1);border: 3px solid rgba(251, 183, 198, 1); margin-left:205px;" id="MicrosoftBtn5"class="dropbtn">500$</button>
+                    <button style="width:250px;text-align:center;background-color:rgba(251, 183, 198, 1);border: 3px solid rgba(251, 183, 198, 1); margin-left:205px;" id="MicrosoftBtn6"class="dropbtn">1000$</button>
+                    <button style="width:250px;text-align:center;background-color:rgba(251, 183, 198, 1);border: 3px solid rgba(251, 183, 198, 1); margin-left:205px;" id="MicrosoftBtn7"class="dropbtn">2500$</button>
+                    <br><br><br><Br><Br>
+                </div>
+              </div>
+
+              <br><Br><Br>
+                <button style="width:250px;height:55px;text-align:center;background-color:rgba(251, 183, 198, 0);border: 3px solid rgba(251, 183, 198, 1); margin-left:205px;color:white;font-size:21px;cursor:pointer;" onclick="ClaimGiftCard('Microsoft','10')">Buy</button>
+              <br><Br><Br><Br><br><Br>
+        </div>
+        <script>
+            /* When the user clicks on the button, 
+            toggle between hiding and showing the dropdown content */
+            function myFunction() {
+              document.getElementById("myDropdown").classList.toggle("show");
+            }
+            
+            // Close the dropdown if the user clicks outside of it
+            window.onclick = function(event) {
+              if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                  var openDropdown = dropdowns[i];
+                  if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                  }
+                }
+              }
+            }
+            function myFunction1() {
+              document.getElementById("myDropdown1").classList.toggle("show");
+            }
+            
+            // Close the dropdown if the user clicks outside of it
+            window.onclick = function(event) {
+              if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                  var openDropdown = dropdowns[i];
+                  if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                  }
+                }
+              }
+            }
+            function myFunction2() {
+              document.getElementById("myDropdown2").classList.toggle("show");
+            }
+            
+            // Close the dropdown if the user clicks outside of it
+            window.onclick = function(event) {
+              if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                  var openDropdown = dropdowns[i];
+                  if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                  }
+                }
+              }
+            }
+            </script>
+    
 </div>
-</div>
-
-        </div>
         </div>
 
     </body>

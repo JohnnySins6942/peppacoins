@@ -26,11 +26,62 @@
     background-repeat: no-repeat;
     background-position: center;
   }
-  .trade {
+  .selector {
     margin-left: 175px; /* Same as the width of the sidenav */
     padding: 0px 10px;
+    background-color:rgb(44, 38, 38);
+    width:38%;
+    z-index: 1;
+    position:fixed;
+    top:0;
+    left:0;
+    overflow-x:hidden;
+    padding-top:20px;
+    height:100%;
+  }
+  .dropbtn {
+    background-color: #3498DB;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .dropbtn:hover, .dropbtn:focus {
+    background-color: #2980B9;
+  }
+  
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    min-width: 100px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropdown a:hover {background-color: #ddd;}
+  
+  .show {display: block;}
+
+  .trade{
+    margin-left: 695px; /* Same as the width of the sidenav */
+    padding: 0px 10px;
     background-color:rgb(48, 45, 45);
-    width:87.3%;
+    width:49.4%;
     z-index: 1;
     position:fixed;
     top:0;
