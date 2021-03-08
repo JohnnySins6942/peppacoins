@@ -77,7 +77,7 @@
                 -webkit-appearance:normal;
                 font-size: 1em;
                 word-wrap: break-word;margin-left:2px"><p id="UserAddress2"></p></button>
-                <div style="margin-left: 600; background-color: rgba(255, 105, 180, 0); width: 78px;height:73px;position: absolute;margin-top: -70;">
+                <div style="margin-left: 600; background-color: rgba(255, 105, 180, 0); width: 15%;height:10%;position: absolute;margin-top: -70;">
                     <h4 style="margin-top:15px;margin-right:7px;text-align: right; word-wrap: break-word; font-size: 11px; height:15px;"id="Coins2">0.0000</h4>
                     <h4 style="margin-bottom:5px;margin-right:7px;text-align: right; word-wrap: break-word; font-size: 11px;"id="USDValue3">0.0000</h4>
                 </div>
@@ -127,27 +127,29 @@ function OpenReceive(){
 </script>
 
 <div id="sendModal" class="modal">
-    <div style="border-radius:12px;background-color:rgb(63, 59, 59)"class="modal-content">
+    <div style="border-radius:12px;background-color:rgb(63, 59, 59);height:60%;"class="modal-content">
         <h1 style="text-align:center">Send Transaction</h1>
-        <label style="font-size:25px;color:rgba(251, 183, 198, 1); text-align:center; margin-left:130px;"for="fname">Address</label>
+        <label style="font-size:25px;color:rgba(251, 183, 198, 1); text-align:center; margin-left:37%;"for="fname">Address</label>
 
         <input type="text" class="receiverAddress" placeholder="Address" id="receiverAddress"/>
-        <label style="font-size:25px;color:rgba(251, 183, 198, 1); text-align:center;margin-left:72px;"for="fname">Transaction Amount</label>
+        <label style="font-size:25px;color:rgba(251, 183, 198, 1); text-align:center;margin-left:19%;"for="fname">Transaction Amount</label>
     <input type="number" class="receiverAddress" placeholder="Transaction Amount" id="amount"/>
-<br><br><br><Br>
-    <button style="margin-left:65px; margin-top:-30px;" class = "button2" onclick="SendPeppa()" id="send">Send PeppaCoin</button>
-    </div>
+    <br><br><br><Br>
+        <button style="margin-left:19.5%;" class = "button2" onclick="SendPeppa()" id="send">Send PeppaCoin</button>
+    <br><br><br><Br>
+    
+</div>
 </div>
 <div id="ReceiveModal" class="modal">
     <div style="border-radius:12px;background-color:rgb(63, 59, 59)"class="modal-content1">
         <h1 style="text-align: center;">Receive Transactions</h1>
         <h2 style="text-align:center">Wallet QR Code:</h2>
-        <img style="margin-left:90px;"src= 
+        <img style="margin-left:28%;"src= 
         "https://chart.googleapis.com/chart?cht=qr&chl=Hello+World&chs=160x160&chld=L|0"
             class="qr-code img-thumbnail img-responsive" /> 
             <div style="background-color: rgb(39, 36, 36); width:95%; margin-left:8.7px; border-radius: 8px;" >
                 <button onclick="copyToClipboard('#UserAddress')"class="btnTransparent pink" style="z-index: 2;    display: block;
-                width: 20em;
+                width: 100%;
                 line-height: 2em;
                 padding: 0.2em;
                 margin:0.3em;	
@@ -156,13 +158,13 @@ function OpenReceive(){
                 -webkit-appearance:normal;
                 font-size: 1em;
                 word-wrap: break-word;margin-left:2.5px"><p id="UserAddress3"></p></button>
-                <div style="margin-left: 325; background-color: rgba(255, 105, 180, 0); width: 78px;height:73px;position: absolute;margin-top: -77;">
+                <div style="margin-left: 325; background-color: rgba(255, 105, 180, 0); width: 50%;height:73px;position: absolute;margin-top: -77;">
                 </div>
                 </div>
     </div>
 </div>
 
-<h1 style="margin-left:35px;font-size:35px;">Transactions:<button style="margin-left: 135px;"class="button1" id="receivebtn">Receive</button><button style="margin-left: 10px;"class="button1" id="sendbtn">Send</button></h1>
+<h1 style="margin-left:35px;font-size:35px;">Transactions:<button style="margin-left: 25%;"class="button1" id="receivebtn">Receive</button><button style="margin-left: 10px;"class="button1" id="sendbtn">Send</button></h1>
         <div>
             <ul id="transactionList">
             </ul>

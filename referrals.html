@@ -7,7 +7,7 @@
         <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-firestore.js"></script>
         <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-database.js"></script>
         <script src="main.js"></script>
-        <link rel="stylesheet" href="main.css">
+        <link rel="stylesheet" href="referrals.css">
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     </head>
     <div id="loading"></div>
@@ -15,15 +15,17 @@
 
     <body>
         <div class="page" style="display: none">
-        <div>
-        <button onclick = "Navigate('wallet')" id = "wallet">Wallet</button>
-        <button onclick = "Navigate('faucet')" id = "faucet">Faucet</button>
-        <button onclick = "Navigate('gambling')" id = "gambling">Gambling</button>
-        <button onclick = "Navigate('trade')" id = "trade">Trade</button>
-        <button onclick = "Navigate('referrals')" id = "referrals">Referrals</button>
-        <button onclick="signOut()" id="signOut">Sign Out</button>
-        <h1 id = "PeppaPrice">PeppaCoins Price: 0.000000006USD</h1>
+            <div class="sidenav">
+            <h4 id = "PeppaPrice" style="text-align: center;">PeppaCoins Price: 0.000000006USD</h4>
+            <button style="margin-left:18px;"class="btn pink"id="wallet"style="z-index: 3;"onclick = "Navigate('wallet')">Wallet</button>
+            <button style="margin-left:17px;"class="btn pink"id="faucet"style="z-index: 3;"onclick = "Navigate('faucet')">Faucet</button>
+            <button style="margin-left:16px;"class="btn pink"id="gambling"style="z-index: 3;"onclick = "Navigate('gambling')">Gambling</button>
+            <button style="margin-left:15px;"class="btn pink"id="trade"style="z-index: 3;"onclick = "Navigate('trade')">Trade</button>
+            <button style="margin-left:14px;"class="btn pink"id="referrals"style="z-index: 3;"onclick = "Navigate('referrals')">Referrals</button>
+            <br><Br><Br><Br><br><Br><Br><br><Br><br><Br><br><Br>
+            <button style="margin-left:14px;margin-bottom:5px;"class="btn pink"id="signOut"style="z-index: 3;"onclick = "signOut()">Sign Out</button>
         </div>
+        <div class="referrals">
         <h1>Each Referral you get you increase your multiplier by 0.05x. Your multiplier will affect your faucet rewards as well as your mining rewards.</h1>
         <h3 id="MultiplierValue">1.00x</h3>
         <h1>Your Referrals</h1>
@@ -33,6 +35,7 @@
             </ul>
 
         </div>
+    </div>
         </div>
 
     </body>

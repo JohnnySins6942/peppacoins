@@ -61,6 +61,7 @@ function onReady(callback) {
                     var div = document.getElementById("amazon");
                     var div2 = document.getElementById("itunes");
                     var div3 = document.getElementById("microsoft");
+                    var div4 = document.getElementById("starbucks");
                     btn.onclick = function() {
                         var docRef = db.collection("data").doc("data");
                         docRef.get().then((doc) => {
@@ -73,6 +74,7 @@ function onReady(callback) {
                                 div.style.display="block";
                                 div2.style.display="none";
                                 div3.style.display="none";
+                                div4.style.display="none";
                                 TenGc.value ="Cost After Fees: "  + ((10/Number(data.PeppaValue) + (10/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
                                 cost.innerHTML="10$"
                                 itemDisplay.innerHTML="10$ Amazon Gift Card"
@@ -238,6 +240,7 @@ function onReady(callback) {
                                 div2.style.display="block";
                                 div.style.display="none";
                                 div3.style.display="none";
+                                div4.style.display="none";
                                 TenGc.value ="Cost After Fees: "  + ((10/Number(data.PeppaValue) + (10/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
                                 cost.innerHTML="10$"
                                 itemDisplay1.innerHTML="10$ Itunes Gift Card"
@@ -401,6 +404,7 @@ function onReady(callback) {
                                 div2.style.display="none";
                                 div3.style.display="block";
                                 div.style.display="none";
+                                div4.style.display="none";
                                 TenGc.value ="Cost After Fees: "  + ((10/Number(data.PeppaValue) + (10/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
                                 cost.innerHTML="10$"
                                 itemDisplay2.innerHTML="10$ Microsoft Gift Card"
@@ -548,6 +552,170 @@ function onReady(callback) {
                             cost.innerHTML="2500$"
                             itemDisplay2.innerHTML="2500$ Microsoft Gift Card"
                             document.getElementById("myDropdown2").classList.toggle("show");
+                        }
+                        })
+                    }
+                    var Sbtn = document.getElementById("StarbucksBtn");
+                    Sbtn.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                                var data = doc.data();
+                                var TenGc= document.getElementById("10SGC");
+                                var cost = document.getElementById("StarbucksCost1");
+                    
+                                div2.style.display="none";
+                                div3.style.display="none";
+                                div.style.display="none";
+                                div4.style.display="block";
+                                TenGc.value ="Cost After Fees: "  + ((10/Number(data.PeppaValue) + (10/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                                cost.innerHTML="10$"
+                                itemDisplay3.innerHTML="10$ Starbucks Gift Card"
+                            }
+                        })
+                    }
+                    var Sbtn1 = document.getElementById("StarbucksBtn1");
+                    Sbtn1.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                            var data = doc.data();
+                            var TenGc= document.getElementById("10SGC");
+                            var cost = document.getElementById("StarbucksCost1");
+                
+                
+                            TenGc.value ="Cost After Fees: "  + ((25/Number(data.PeppaValue) + (25/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="25$"
+                            itemDisplay3.innerHTML="25$ Starbucks Gift Card"
+                            document.getElementById("myDropdown3").classList.toggle("show");
+                        }
+                        })
+                    }
+                    var Sbtn2 = document.getElementById("StarbucksBtn2");
+                    Sbtn2.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                            var data = doc.data();
+                            var TenGc= document.getElementById("10SGC");
+                            var cost = document.getElementById("StarbucksCost1");
+                
+                
+                            TenGc.value ="Cost After Fees: "  + ((50/Number(data.PeppaValue) + (50/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="50$"
+                            itemDisplay3.innerHTML="50$ Starbucks Gift Card"
+                            document.getElementById("myDropdown3").classList.toggle("show");
+                        }
+                        })
+                    }
+                    var Sbtn0 = document.getElementById("StarbucksBtn0");
+                    Sbtn0.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                            var data = doc.data();
+                            var TenGc= document.getElementById("10SGC");
+                            var cost = document.getElementById("StarbucksCost1");
+                
+                
+                            TenGc.value ="Cost After Fees: "  + ((10/Number(data.PeppaValue) + (10/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="10$"
+                            itemDisplay3.innerHTML="10$ Starbucks Gift Card"
+                            document.getElementById("myDropdown3").classList.toggle("show");
+                        }
+                        })
+                    }
+                    var Sbtn3 = document.getElementById("StarbucksBtn3");
+                    Sbtn3.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                            var data = doc.data();
+                            var TenGc= document.getElementById("10SGC");
+                            var cost = document.getElementById("StarbucksCost1");
+                
+                
+                            TenGc.value ="Cost After Fees: "  + ((100/Number(data.PeppaValue) + (100/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="100$"
+                            itemDisplay3.innerHTML="100$ Starbucks Gift Card"
+                            document.getElementById("myDropdown3").classList.toggle("show");
+                        }
+                        })
+                    }
+                    var Sbtn4 = document.getElementById("StarbucksBtn4");
+                    Sbtn4.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                            var data = doc.data();
+                            var TenGc= document.getElementById("10SGC");
+                            var cost = document.getElementById("StarbucksCost1");
+                
+                
+                            TenGc.value ="Cost After Fees: "  + ((250/Number(data.PeppaValue) + (250/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="250$"
+                            itemDisplay3.innerHTML="250$ Starbucks Gift Card"
+                            document.getElementById("myDropdown3").classList.toggle("show");
+                        }
+                        })
+                    }
+                    var Sbtn5 = document.getElementById("StarbucksBtn5");
+                    Sbtn5.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                            var data = doc.data();
+                            var TenGc= document.getElementById("10SGC");
+                            var cost = document.getElementById("StarbucksCost1");
+                
+                
+                            TenGc.value ="Cost After Fees: "  + ((500/Number(data.PeppaValue) + (500/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="500$"
+                            itemDisplay3.innerHTML="500$ Starbucks Gift Card"
+                            document.getElementById("myDropdown3").classList.toggle("show");
+                        }
+                        })
+                    }
+                    var Sbtn6 = document.getElementById("StarbucksBtn6");
+                    Sbtn6.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                            var data = doc.data();
+                            var TenGc= document.getElementById("10SGC");
+                            var cost = document.getElementById("StarbucksCost1");
+                
+                
+                            TenGc.value ="Cost After Fees: "  + ((1000/Number(data.PeppaValue) + (1000/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="1000$"
+                            itemDisplay3.innerHTML="1000$ Starbucks Gift Card"
+                            document.getElementById("myDropdown3").classList.toggle("show");
+                        }
+                        })
+                    }
+                    var Sbtn7 = document.getElementById("StarbucksBtn7");
+                    Sbtn7.onclick = function() {
+                        var docRef = db.collection("data").doc("data");
+                        docRef.get().then((doc) => {
+                            if(doc.exists)
+                            {
+                            var data = doc.data();
+                            var TenGc= document.getElementById("10SGC");
+                            var cost = document.getElementById("StarbucksCost1");
+                
+                
+                            TenGc.value ="Cost After Fees: "  + ((2500/Number(data.PeppaValue) + (2500/Number(data.PeppaValue) * 0.075)).toFixed(4)).toString() + " PEPPAS";
+                            cost.innerHTML="2500$"
+                            itemDisplay3.innerHTML="2500$ Starbucks Gift Card"
+                            document.getElementById("myDropdown3").classList.toggle("show");
                         }
                         })
                     }
@@ -1110,7 +1278,7 @@ function onReady(callback) {
                         border-radius: 8px;
                         -webkit-appearance:normal;
                         font-size: 1em;
-                        word-wrap: break-word;margin-left:70px"><h2 id="address${[i]}" style="text-align:center;">${transactions[i].ReceiverAddress}</h2></button>
+                        word-wrap: break-word;margin-left:14.5%"><h2 id="address${[i]}" style="text-align:center;">${transactions[i].ReceiverAddress}</h2></button>
                         <h5 style="text-align:center;">TransactionTime: ${transactions[i].TransactionDate.toDate()}</h5>
                         </div>
                         </li>
@@ -1133,7 +1301,7 @@ function onReady(callback) {
                         border-radius: 8px;
                         -webkit-appearance:normal;
                         font-size: 1em;
-                        word-wrap: break-word;margin-left:70px"><h2 id="address${[i]}" style="text-align:center;">${transactions[i].SenderAddress}</h2></button>
+                        word-wrap: break-word;margin-left:14.5%"><h2 id="address${[i]}" style="text-align:center;">${transactions[i].SenderAddress}</h2></button>
                         <h5 style="text-align:center;">TransactionTime: ${transactions[i].TransactionDate.toDate()}</h5>
                         </div>
                         </li>

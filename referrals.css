@@ -1,0 +1,112 @@
+.sidenav {
+    height: 100%;
+    width: 12.9%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 20px;
+  }
+    h1, h2, h3, h4, h5{
+      font-family: Helvetica;
+      color:rgb(243, 179, 193);
+    }
+    #loading {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(251, 183, 198, 1);
+      background-image: url("https://i.postimg.cc/d0J0T4NH/ezgif-2-6d0b072c3d3f-unscreen.gif");
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    .referrals {
+      margin-left: 175px; /* Same as the width of the sidenav */
+      padding: 0px 10px;
+      background-color:rgb(48, 45, 45);
+      width:87.3%;
+      z-index: 1;
+      position:fixed;
+      top:0;
+      left:0;
+      overflow-x:hidden;
+      padding-top:20px;
+      height:100%;
+    }
+    .receiverAddress{
+      width: 60%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      font-size:24px;
+      color:rgba(251, 183, 198, 1);
+      border-radius: 12px;
+      margin-left:224px;
+    }
+    .button1 {
+      background-color: #4c93af; /* Green */
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      border-radius: 35px;
+    }
+  .button1:hover {
+      background-color: #387086;
+    }
+    .receiverAddress[type=text]:focus {
+      border: 3px solid rgba(251, 183, 198, 1);
+      border-radius: 12px;
+    }
+    .btn {
+      border: none;
+      background-color: inherit;
+      padding: 14px 28px;
+      font-size: 21px;
+      cursor: pointer;
+      display: inline-block;
+      font-family: Helvetica;
+    } 
+  
+      /* On mouse-over */
+      .btn:hover {background:rgb(0, 0, 0);}
+    
+      .green {color: green;}
+      .blue {color: dodgerblue;}
+      .orange {color: #f4511e;}
+      .red {color: red;}
+      .pink {color: rgba(251, 183, 198, 1);}
+      .black {color: black;}
+      .white {color: rgb(255, 255, 255);}
+  
+      .btnTransparent {
+          border: none;
+          background-color: inherit;
+          padding: 14px 28px;
+          font-size: 21px;
+          cursor: pointer;
+          display: inline-block;
+          font-family: Helvetica;
+        }
+          /* On mouse-over */
+          .btnTransparent:hover {background:rgba(0, 0, 0, 0);}
+        
+          .green {color: green;}
+          .blue {color: dodgerblue;}
+          .orange {color: #f4511e;}
+          .red {color: red;}
+          .pink {color: rgba(251, 183, 198, 1);}
+          .black {color: black;}
+          .white {color: rgb(255, 255, 255);}
+  
+  
+          
