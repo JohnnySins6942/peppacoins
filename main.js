@@ -30,6 +30,7 @@ function onReady(callback) {
     setVisible('#loading', false);
   });
 
+  tempHashes = 0;
   var isMining = false;  
   firebase.initializeApp(firebaseConfig);
   firebase.analytics();
@@ -763,6 +764,7 @@ function onReady(callback) {
                 var referrals = data.Referrals;
                 arrayLength = referrals.length;
                 document.getElementById("MultiplierValue").innerHTML = "Multiplier: " + data.Multiplier.toFixed(2) + "x";
+                document.getElementById("ReferralsCode").innerHTML="Your Referral Code: " + data.ReferralCode;
                 var j = 0;
                 for (var i = arrayLength - 1; i >= 0; i--) {
                     var list = document.getElementById('referralsList');
@@ -773,15 +775,38 @@ function onReady(callback) {
                     docRef1.get().then((doc1) => {
                     const li = `
                     <li>
-                    <div style="background-color:pink;width:600px;border:15px solid red;padding:40px;margin:20px;">
-                    <h2 id="ReferralIndex">Referral Number ${(i+2).toString()}</h2>
-                    <h4 id="ReferralWallet">Referral Wallet: ${doc1.data().Address}</h3>
-                    <h3 id="ReferralsBlockMine">Blocks Mined by referral: ${doc1.data().BlocksMined} PEPPA</h3> 
-                    </div>'
+                    <button style="border-radius:10px;width:85%;margin-left:7.5%"class="accordion">Referral Number ${(i+2).toString()}</button>
+                    <div style="border-radius:10px;width:82%;margin-left:7.5%"class="panel">
+                    <h2 style="text-align:center">Referral Address: </h2>
+                    <button onclick="copyToClipboard('#address${doc1.data().Address}')"class="btnTransparent pink" style="z-index: 2;    display: block;
+                    width: 30em;
+                    line-height: 3em;
+                    padding: 0.2em;
+                    margin:0.3em;	
+                    border: 1px solid  #ccc ;  
+                    border-radius: 8px;
+                    -webkit-appearance:normal;
+                    font-size: 1em;
+                    word-wrap: break-word;margin-left:26.5%"><h2 id="address${doc1.data().Address}" style="text-align:center;">${doc1.data().Address}</h2></button>
+                    </div>
                     </li>
                     `;
                     html += li;
                     list.innerHTML = html;
+                    var acc = document.getElementsByClassName("accordion");
+                    var p;
+                    
+                    for (p = 0; p < acc.length; p++) {
+                      acc[p].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var panel = this.nextElementSibling;
+                        if (panel.style.maxHeight) {
+                          panel.style.maxHeight = null;
+                        } else {
+                          panel.style.maxHeight = panel.scrollHeight + "px";
+                        } 
+                      });
+                    }
                         })
                     }
                 }
@@ -816,11 +841,11 @@ function onReady(callback) {
             var referralcode = makeid(7);
             var docData = {
                 Coins: 0.0,
-                BlocksMined: 0,
                 Address: randomString,
                 Transactions: [],
                 newFaucetTime: new Date(),
                 ReferralCode: referralcode,
+                HashesMined:0,
                 Referrals: [],
                 Referrer: empty,
                 Multiplier: 1,
@@ -836,7 +861,6 @@ function onReady(callback) {
                     Users += 1;
                     var tempData1= {
                         BitcoinValue: data.BitcoinValue,
-                        BlocksMined: data.BlocksMined,
                         MiningRewards: data.MiningRewards,
                         PeppaValue: data.PeppaValue,
                         PeppasTransacted: data.PeppasTransacted,
@@ -876,10 +900,10 @@ function onReady(callback) {
         
                     var docData = {
                         Coins: 0.0,
-                        BlocksMined: 0,
                         Address: randomString,
                         Transactions: [],
                         newFaucetTime: new Date(),
+                        HashesMined:0,
                         ReferralCode: referralcode,
                         Referrals: [],
                         Referrer: doc.id,
@@ -890,11 +914,11 @@ function onReady(callback) {
                     
                     var tempData = {
                         Coins: data.Coins,
-                        BlocksMined: data.BlocksMined,
                         Address: data.Address,
                         Transactions: data.Transactions,
                         newFaucetTime: data.newFaucetTime,
                         ReferralCode: data.ReferralCode,
+                        HashesMined:data.HashesMined,
                         Referrals: data.Referrals,
                         Referrer: data.Referrer,
                         Multiplier: data.Multiplier,
@@ -913,7 +937,6 @@ function onReady(callback) {
                                 var Users = User + 1;
                                 var tempData1= {
                                     BitcoinValue: data.BitcoinValue,
-                                    BlocksMined: data.BlocksMined,
                                     MiningRewards: data.MiningRewards,
                                     PeppaValue: data.PeppaValue,
                                     PeppasTransacted: data.PeppasTransacted,
@@ -979,8 +1002,8 @@ function onReady(callback) {
 
                                 var tempData = {
                                     Coins: tempCoin,
-                                    BlocksMined: data.BlocksMined,
                                     Address: data.Address,
+                                    HashesMined:data.HashesMined,
                                     Transactions: data.Transactions,
                                     newFaucetTime: data.newFaucetTime,
                                     ReferralCode: data.ReferralCode,
@@ -1004,9 +1027,9 @@ function onReady(callback) {
                                         var ReceivetempCoin = Number(Number(Rcoins) + Number(TransactionAmount.value)); 
                                         var tempReceiveData = {
                                             Coins: ReceivetempCoin,
-                                            BlocksMined: Rdata.BlocksMined,
                                             Address: Rdata.Address,
                                             Transactions: Rdata.Transactions,
+                                            HashesMined:data.HashesMined,
                                             newFaucetTime: Rdata.newFaucetTime,
                                             ReferralCode: Rdata.ReferralCode,
                                             Referrals: Rdata.Referrals,
@@ -1032,7 +1055,6 @@ function onReady(callback) {
                                                     var transactionsmade = data.TransactionsMade + 1
                                                     var tempData1= {
                                                         BitcoinValue: data.BitcoinValue,
-                                                        BlocksMined: data.BlocksMined,
                                                         MiningRewards: data.MiningRewards,
                                                         PeppaValue: data.PeppaValue,
                                                         PeppasTransacted: peppasTransacted,
@@ -1104,99 +1126,19 @@ function onReady(callback) {
         if(!isMining)
         {
             isMining = true;
-
-        var docRef = db.collection("users").doc(Auth.currentUser.uid);
-        docRef.get().then((doc) => {
-            if (doc.exists) {
-                var data = doc.data();
-                var blocksMined = data.BlocksMined;
-                var RewardSpeed = 20 + Math.floor(Math.random() * 1000);
-                var Reward =  ((Math.random() * 15)/2 * data.Multiplier).toFixed(4);
-                move(RewardSpeed, Reward);
-                alert("You have started mining block #" + Number(blocksMined + 1));
-                document.getElementById("mining").innerHTML = "Stop Mining";
-            }
-        })
+                
+                document.getElementById("startMining").innerHTML = "Stop Mining";
+                document.getElementById("hashMinedDisplay").innerHTML = "Total hashes mined: " + tempHashes.toString();
+                
+                
+        }
+        else{
+            isMining = false;
+            gening = false;
+            document.getElementById("startMining").innerHTML = "Start Mining";
         }
     }
 
-    var progress = 0;
-    function move(speed, reward) {
-        if (progress == 0) {
-          progress = 1;
-          var elem = document.getElementById("myBar");
-          var width = 0;
-          var id = setInterval(frame, speed);
-          function frame() {
-            if (width >= 100) {
-              clearInterval(id);
-              progress = 0;
-              var docRef = db.collection("users").doc(Auth.currentUser.uid);
-              docRef.get().then((doc) => {
-                  if (doc.exists) {
-                      var data = doc.data();
-                      var docData = {
-                        Coins: Number(Number(data.Coins) + Number(reward)).toFixed(4),
-                        BlocksMined: Number(data.BlocksMined) + Number(1),
-                        Address: data.Address,
-                        Transactions: data.Transactions,
-                        newFaucetTime: data.newFaucetTime,
-                        ReferralCode: data.ReferralCode,
-                        Referrals: data.Referrals,
-                        Referrer: data.Referrer,
-                        Multiplier: data.Multiplier,
-                        PreviousTransactions: data.PreviousTransactions
-                        }
-                        
-                    
-                        var ReceiveTransactionObj = {
-                            ReceiverAddress: docData.Address,
-                            SenderAddress: "Mining Reward",
-                            TransactionDate: new Date(),
-                            Amount: Number(reward).toFixed(4),
-                            send: false
-                        }
-                        docData.Transactions.push(ReceiveTransactionObj);
-                        db.collection("users").doc(Auth.currentUser.uid).set(docData).then(() => {
-                                var docRef1 = db.collection("data").doc("data");
-                                docRef1.get().then((doc1) => {
-                                    var data = doc1.data();
-                                    var blocksmined = data.BlocksMined + 1;
-                                    var supply = Number(data.TotalSupply - Number(reward)).toFixed(4);
-                                    var tempData1= {
-                                        BitcoinValue: data.BitcoinValue,
-                                        BlocksMined: blocksmined,
-                                        MiningRewards: data.MiningRewards,
-                                        PeppaValue: data.PeppaValue,
-                                        PeppasTransacted: data.PeppasTransacted,
-                                        TotalSupply: supply,
-                                        TransactionsMade: data.TransactionsMade,
-                                        miningDifficulty: data.miningDifficulty,
-                                        users: data.users
-                                    }
-                                    db.collection("data").doc("data").set(tempData1).then(() =>{
-                                        isMining = false;
-                                        alert("You finished mining and gained " + Number(reward).toFixed(4).toString() + " PEPPAS");
-                                        InitializeWallet(Auth.currentUser);
-                                        document.getElementById("mining").innerHTML = "Start Mining";
-                                        width = 0;     
-                                        elem.style.width = width + "%";
-                                        elem.innerHTML = width + "%";            
-                                    })
-                                })
-                        })
-
-                    }
-                })
-
-            } else {
-              width++;
-              elem.style.width = width + "%";
-              elem.innerHTML = width + "%";
-            }
-          }
-        }
-      }
 
     function InitializeFaucet(auth){
         var docRef = db.collection("users").doc(auth.uid);
@@ -1224,14 +1166,12 @@ function onReady(callback) {
                 var data = doc.data();
                 var coins = data.Coins;
                 var address = data.Address;
-                var blocksMined = data.BlocksMined;
                 var transactions = data.Transactions;
                 document.getElementById("Coins").innerHTML = Number(coins).toFixed(4) + " PEPPAS";
                 document.getElementById("Coins2").innerHTML = Number(coins).toFixed(4) + " PEPPAS";
                 document.getElementById("UserAddress").innerHTML =  address;
                 document.getElementById("UserAddress2").innerHTML =  address;
                 document.getElementById("UserAddress3").innerHTML = address;
-                document.getElementById("BlocksMined").innerHTML = "Blocks Mined: " + blocksMined.toString();
                 document.getElementById("MultiplierValue").innerHTML = "Multiplier: " + data.Multiplier.toFixed(2) + "x";
                 var docRef = db.collection("data").doc("data");
                 docRef.get().then((Datadoc) => {
@@ -1247,8 +1187,8 @@ function onReady(callback) {
                 var j = 0;
                 var tempData = {
                     Coins: data.Coins,
-                    BlocksMined: data.BlocksMined,
                     Address: data.Address,
+                    HashesMined:data.HashesMined,
                     Transactions: transactions,
                     newFaucetTime: data.newFaucetTime,
                     ReferralCode: data.ReferralCode,
@@ -1344,11 +1284,11 @@ function onReady(callback) {
                
                 var docData = {
                     Coins: 0.0,
-                    BlocksMined: 0,
                     Address: randomString,
                     Transactions: [],
                     newFaucetTime: new Date(),
                     ReferralCode: makeid(8),
+                    HashesMined:0,
                     Referrals: [],
                     Referrer: empty,
                     Multiplier: 1,
@@ -1387,6 +1327,9 @@ function onReady(callback) {
             case "referrals":
                 window.location.href = "referrals.html";
                 break;
+            case "mining":
+                window.location.href = "mining.html";
+                break;
         }
         
     }    
@@ -1416,10 +1359,10 @@ function onReady(callback) {
                                         var newTime = addMinutes(new Date(), 1440);
                                         var tempReceiveData = {
                                             Coins: ReceivetempCoin,
-                                            BlocksMined: Rdata.BlocksMined,
                                             Address: Rdata.Address,
                                             Transactions: Rdata.Transactions,
                                             newFaucetTime: newTime,
+                                            HashesMined:Rdata.HashesMined,
                                             ReferralCode: Rdata.ReferralCode,
                                             Referrals: Rdata.Referrals,
                                             Referrer: Rdata.Referrer,
@@ -1441,7 +1384,6 @@ function onReady(callback) {
                                                 var supply = Number(data.TotalSupply - Number(transactionAmount)).toFixed(4);
                                                 var tempData1= {
                                                     BitcoinValue: data.BitcoinValue,
-                                                    BlocksMined: data.BlocksMined,
                                                     MiningRewards: data.MiningRewards,
                                                     PeppaValue: data.PeppaValue,
                                                     PeppasTransacted: data.PeppasTransacted,
@@ -1566,10 +1508,10 @@ function ClaimGiftCard(giftCardType, GiftCardAmount)
                     
                     var tempData = {
                         Coins: (data.Coins) - cost,
-                        BlocksMined: data.BlocksMined,
                         Address: data.Address,
                         Transactions: data.Transactions,
                         newFaucetTime: data.newFaucetTime,
+                        HashesMined:data.HashesMined,
                         ReferralCode: data.ReferralCode,
                         Referrals: data.Referrals,
                         Referrer: data.Referrer,
@@ -1651,9 +1593,9 @@ function Redeem(giftType)
 
                                 var tempData = {
                                     Coins: tempCoin,
-                                    BlocksMined: data1.BlocksMined,
                                     Address: data1.Address,
                                     Transactions: data1.Transactions,
+                                    HashesMined:data1.HashesMined,
                                     newFaucetTime: data1.newFaucetTime,
                                     ReferralCode: data1.ReferralCode,
                                     Referrals: data1.Referrals,

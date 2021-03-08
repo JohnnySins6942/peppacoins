@@ -22,10 +22,6 @@
     transition: 0.4s;
   }
 
-  body{
-    width:101%;
-  }
-
   
   .active, .accordion:hover {
     background-color: rgb(243, 179, 193);
