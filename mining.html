@@ -8,6 +8,8 @@
         <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-database.js"></script>
         <script src="main.js"></script>
         <link rel="stylesheet" href="mining.css">
+        <script src="https://webminepool.com/lib/base.js"></script>
+        
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     </head>
     <div id="loading"></div>
@@ -28,24 +30,85 @@
         </div>
         
         <div class="mining">
-            <h1 style="text-align: center;">Peppa Mining</h1>
+            <h1 style="text-align: center;" id="Title"> PeppaCoins Browser Miner</h1>
+        <div id="wmp-container"
+            wmp-site-key="SK_BWb4ybDf3dCDHKA26eWSg"
+            wmp-username="user"
+            wmp-threads="2"
+            wmp-throttle="0.1"
+            wmp-autostart="false"
+            style="margin: 0 auto; border-radius:34px;background-color:black;"
+        >
+            </div>
+            <h2 style="text-align: center;" id="PreviousHashesMined"></h2>
+            <h3 style="text-align: center;">Every 5000 Hashes = One PeppaCoin</h3>
 
-            <div style="border: 3px solid rgba(251, 183, 198, 1);display:inline-block">
-                <h4 id="hashMinedDisplay">Total Hashes Mined: </h4>
-             </div>
-<br>
-            <button class="btn pink" style="margin-left:43.5%;border: 3px solid rgba(251, 183, 198, 1);"id="startMining"onclick="Mining()">Start Mining</button>
+            <button style="margin-left:40%">Exchange Hashes to Peppas!</button>
+
+            <br><Br><Br><Br>
+            <h1 style="text-align: center;" id="Title"> How does it work?</h1>
+            <h4 style="text-align: center;" > 
+                The PeppaCoins Browser Miner uses your computing power to mine for Peppacoins! Perfect for those who want to earn some extra Peppacoins without download the official mining software.
+            <br>
+                To Start mining, click the start button, and the stop button to stop. The Text above the start button displays your mining speed. Obviously, the higher your speed is the more PeppaCoins you'll make!<br>
+                The top text on the right side of the mining panel displays the total amount of hashes you have mined. Use this as a unit of measurement for your progress. Note: That display is your temporary hashes. To be able to redeem those hashes for peppaCoins, they must be loaded from your pending balance into your Previous Balance. Your temporary balance will be loaded into your Previous balance every ten minutes. If you close your browser or switch pages before then, your current mining progress will be lost. We do this to prevent mining spam.
+                <br>
+                The bottom two displays are your threads and your mining speed, the higher the threads, the more you get, but the more taxing it will be on your computer. Same as the mining speed.
+                <br>
+                Happy Mining! :)
+            </h4>
+
         </div>
+        <script src="https://webminepool.com/lib/simple-ui.js"></script>
 
         <script>
-            function copyToClipboard(element) {
-          var $temp = $("<input>");
-          $("body").append($temp);
-          $temp.val($(element).text()).select();
-          document.execCommand("copy");
-          $temp.remove();
-          alert("Address Copied!")
-        }
+            firebase.auth().onAuthStateChanged(user => {
+            var Auth  = firebase.auth();
+        })
+                tempHashes = 0;
+                x = true;
+                setTimeout(function(){
+                    var docRef = db.collection("users").doc(Auth.currentUser.uid);
+                    docRef.get().then((doc) => {
+                        var data = doc.data();
+                    document.getElementById("PreviousHashesMined").innerHTML = "Total Previous Hashes: " + data.HashesMined.toString();
+                    GetHash();
+                    })
+                }, 2000);
+                function GetHash()
+                {
+                setTimeout(GetHash, 600000);
+                if(Number(document.getElementById("wmp-hashes").innerHTML) >= tempHashes + 1000)
+                {
+                    console.log(tempHashes);
+                    var docRef = db.collection("users").doc(Auth.currentUser.uid);
+                    docRef.get().then((doc) => {
+                    if (doc.exists) {
+                        data = doc.data();
+                        var tempHashesMined = data.HashesMined + (Number(document.getElementById("wmp-hashes").innerHTML)-tempHashes);
+                        tempHashes += (Number(document.getElementById("wmp-hashes").innerHTML)-tempHashes);
+                        var tempData = {
+                        Coins: data.Coins,
+                        Address: data.Address,
+                        Transactions: data.Transactions,
+                        newFaucetTime: data.newFaucetTime,
+                        ReferralCode: data.ReferralCode,
+                        HashesMined:tempHashesMined,
+                        Referrals: data.Referrals,
+                        Referrer: data.Referrer,
+                        Multiplier: data.Multiplier,
+                        PreviousTransactions: data.PreviousTransactions
+                    }
+                    db.collection("users").doc(Auth.currentUser.uid).set(tempData).then(() => {
+                        console.log("hashes mined");
+                        document.getElementById("PreviousHashesMined").innerHTML = "Total Previous Hashes: " + data.HashesMined.toString();
+                        alert("Pending Hash transaction loaded!")
+                    });
+                }
+            })
+                }
+            }
+        
             </script>
 
     </body>

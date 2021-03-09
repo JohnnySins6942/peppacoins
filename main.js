@@ -1122,22 +1122,7 @@ function onReady(callback) {
   });
 }
 
-    function Mining(){
-        if(!isMining)
-        {
-            isMining = true;
-                
-                document.getElementById("startMining").innerHTML = "Stop Mining";
-                document.getElementById("hashMinedDisplay").innerHTML = "Total hashes mined: " + tempHashes.toString();
-                
-                
-        }
-        else{
-            isMining = false;
-            gening = false;
-            document.getElementById("startMining").innerHTML = "Start Mining";
-        }
-    }
+
 
 
     function InitializeFaucet(auth){
