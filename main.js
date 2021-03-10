@@ -825,7 +825,10 @@ function onReady(callback) {
      }
         
     function signUp(){
-            
+        var checkBox = document.getElementById("TOSACCESS");
+        if (checkBox.checked == true){
+            text.style.display = "block";
+
         var email = document.getElementById("email");
         var password = document.getElementById("password");
         var referral = document.getElementById("referral");
@@ -965,6 +968,9 @@ function onReady(callback) {
         console.log("error");
     });
     }
+}else {
+    alert("Please read and agree to the Terms and Agreements before proceeding.")
+ }
     }
 
         
@@ -1047,7 +1053,6 @@ function onReady(callback) {
                                         }
                                         tempReceiveData.Transactions.push(ReceiveTransactionObj);
                                         db.collection("users").doc(doc.id).set(tempReceiveData).then(() => {
-                                            console.log("user received successfuly");
                                                 var docRef1 = db.collection("data").doc("data");
                                                 docRef1.get().then((doc1) => {
                                                     var data = doc1.data();
@@ -1064,7 +1069,6 @@ function onReady(callback) {
                                                         users: data.users
                                                     }
                                                     db.collection("data").doc("data").set(tempData1).then(() =>{
-                                                        console.log("success");
                                                     })
                                                 })
                                         })

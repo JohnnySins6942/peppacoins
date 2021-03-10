@@ -25,7 +25,7 @@
             <button style="margin-left:15px;"class="btn pink"id="trade"style="z-index: 3;"onclick = "Navigate('trade')">Trade</button>
             <button style="margin-left:14px;"class="btn pink"id="referrals"style="z-index: 3;"onclick = "Navigate('referrals')">Referrals</button>
             <button style="margin-left:14px;"class="btn pink"id="mining"style="z-index: 3;"onclick = "Navigate('mining')">Mining</button>
-            <br><Br><Br><Br><br><Br><Br><br><Br><br><Br><br><Br>
+            <br><Br><Br><Br><br><Br><Br><br><Br><br>
             <button style="margin-left:14px;margin-bottom:5px;"class="btn pink"id="signOut"style="z-index: 3;"onclick = "signOut()">Sign Out</button>
         </div>
         
@@ -41,11 +41,15 @@
         >
             </div>
             <h2 style="text-align: center;" id="PreviousHashesMined"></h2>
-            <h3 style="text-align: center;">Every 5000 Hashes = One PeppaCoin</h3>
+            <h2 style="text-align: center;" id="InPeppaValue"></h2>
+            <h3 style="text-align: center;" id="Multiplier"></h3>
+            <h3 style="text-align: center;" id="ValueAfterMultiplier"></h3>
+            <h3 style="text-align: center;">Every 1350 Hashes = One PeppaCoin</h3>
 
-            <button style="margin-left:40%">Exchange Hashes to Peppas!</button>
+            <button style="margin-left:38.8%;" class = "button1" id="ExchangeOpen">Exchange Hashes to PeppaCois!</button>
 
             <br><Br><Br><Br>
+                
             <h1 style="text-align: center;" id="Title"> How does it work?</h1>
             <h4 style="text-align: center;" > 
                 The PeppaCoins Browser Miner uses your computing power to mine for Peppacoins! Perfect for those who want to earn some extra Peppacoins without download the official mining software.
@@ -55,9 +59,142 @@
                 <br>
                 The bottom two displays are your threads and your mining speed, the higher the threads, the more you get, but the more taxing it will be on your computer. Same as the mining speed.
                 <br>
+                You can maximize your hashes by referring some of your friends and family to use PEPPACOINS! The more people you refer, the higher your multiplier, and the more your mined hashes are worth!
+            </h4>
+            <h1 style="text-align: center;" id="Title"> How do I mine faster?</h1>
+            <h4 style="text-align: center;" >Mining speed can be increased by increasing the mining speed value, as well as the threads value.<br>
+                You can also improve mining performance by closing unnecessary applications running in the background.<br>
+                The better your computer components, the faster you will be able to mine. Heres an excellent resource on how to improve mining speed<br>
+                <br><a href="https://www.digibyteguide.com/mining/improving-your-hashrate/">Improve your mining Hashrate!</a> <br><br>
                 Happy Mining! :)
             </h4>
 
+
+            <div id="exchangeModal" class="modal" style="display:none">
+                <div class="modal-content"style="margin-left:29.5%;border-radius:34px;">
+                    <h1 style="text-align: center;">Exchange hashes to PeppaCoins</h1>
+                    <label style="font-size:25px;color:rgb(139, 93, 103); text-align:center; margin-left:35.5%;"for="fname">Withdrawal Address</label>
+
+                    <input type="text" style="margin-left:21%;color:rgb(139, 93, 103);"class="receiverAddress" placeholder="Address" id="receiverAddress"/>            
+                    
+                    <label style="font-size:25px;color:rgb(139, 93, 103); text-align:center; margin-left:38%;"for="fname">Hashes to convert</label>
+
+                    <input type="number" style="margin-left:21%; color:rgb(139, 93, 103);"class="receiverAddress" placeholder="Hashes to convert" id="ConvertHashes"/>   
+                    
+                    <h3 style="text-align: center;">Min Hash withdrawal amount: 180,000 (1350 Hashes = 1 PEPPA)</h3>
+                    <h3 style="text-align: center;" id="DisplayTotalHashes">14000 hashes</h3>
+                    <h3 style="text-align: center;" id="DisplayTotalWithdrawPeppas">140 PEPPAS</h3>
+                    <h3 style="text-align: center;" id="AfterMultiplier">140 PEPPAS</h3>
+
+                    <button class = "button1" style="margin-left:40.5%;width:20%;border-radius:18px;" id="finishExchange">Redeem</button>
+                </div>
+            </div>
+            <br><br><Br><br>
+
+                <script>$(document).ready(function(){
+                    var btn = document.getElementById("ExchangeOpen");
+                    btn.onclick = function() {
+                        var docRef = db.collection("users").doc(Auth.currentUser.uid);
+                    docRef.get().then((doc) => {
+                        var data = doc.data();
+                        document.getElementById("DisplayTotalHashes").innerHTML = "Total Redeemable Hashes: " + data.HashesMined.toFixed(4).toString();
+                        document.getElementById("DisplayTotalWithdrawPeppas").innerHTML = "Hashes in PEPPAS value: " + (data.HashesMined/1350).toFixed(4).toString();
+                        document.getElementById("AfterMultiplier").innerHTML = "Hashes in PEPPAS value after referral multiplier: " + (data.HashesMined/1350).toFixed(4).toString();
+                        var modal = document.getElementById("exchangeModal");
+                modal.style.display = "block";
+                var btn2=document.getElementById("finishExchange");
+                window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+                btn2.onclick= function(event){
+                    var docRef1 = db.collection("users").doc(Auth.currentUser.uid);
+                    docRef1.get().then((doc) => {
+                        var withdrawalAddress = document.getElementById("receiverAddress").value;
+                        var HashesToConvert = document.getElementById("ConvertHashes").value;
+                        var data1 = doc.data();
+                        db.collection("users").where("Address", "==", withdrawalAddress)
+                    .get()
+                    .then((querySnapshot) => {
+                    if(!querySnapshot.empty)
+                    {
+                    querySnapshot.forEach((doc) => {   
+                        var userRef = db.collection("users").doc(doc.id);
+                        userRef.get().then((userdoc) => {
+                            var userData = userdoc.data();
+                            var coins = userData.Coins;
+                            if (HashesToConvert > 180000){
+                                if(HashesToConvert >= userData.HashesMined)
+                                {
+                                    var TransactionAmount = Number((HashesToConvert/1350) * userData.Multiplier).toFixed(4);
+                                    var tempHashAmount = userData.HashesMined - Number(HashesToConvert);
+                                    var tempCoin = coins + (TransactionAmount * userData.Multiplier);
+                                
+                                var TransactionObj = {
+                                    ReceiverAddress: userData.Address,
+                                    SenderAddress: "Mining Reward",
+                                    TransactionDate: new Date(),
+                                    Amount: Number(TransactionAmount).toFixed(4),
+                                    send: false
+                                }
+
+
+                                var tempData = {
+                                    Coins: tempCoin,
+                                    Address: userData.Address,
+                                    HashesMined:tempHashAmount,
+                                    Transactions: userData.Transactions,
+                                    newFaucetTime: userData.newFaucetTime,
+                                    ReferralCode: userData.ReferralCode,
+                                    Referrals: userData.Referrals,
+                                    Referrer: userData.Referrer,
+                                    Multiplier: userData.Multiplier,
+                                    PreviousTransactions: userData.PreviousTransactions
+                                }
+                                tempData.Transactions.push(TransactionObj);
+
+                                db.collection("users").doc(doc.id).set(tempData).then(() => {
+                                    var docRef2 = db.collection("data").doc("data");
+                                    docRef2.get().then((doc1) => {
+                                                    var data2 = doc1.data();
+                                                    var tempTotalSupply = data2.TotalSupply - TransactionAmount;
+                                                    var tempData1= {
+                                                        BitcoinValue: data2.BitcoinValue,
+                                                        MiningRewards: data2.MiningRewards,
+                                                        PeppaValue: data2.PeppaValue,
+                                                        PeppasTransacted: data2.PeppasTransacted,
+                                                        TotalSupply: tempTotalSupply,
+                                                        TransactionsMade: data2.TransactionsMade,
+                                                        miningDifficulty: data2.miningDifficulty,
+                                                        users: data2.users
+                                                    }
+                                                    db.collection("data").doc("data").set(tempData1).then(() =>{
+                                                        alert("You withdrew "+ TransactionAmount.toString() + " Peppas successfully with a " + userData.Multiplier + " Referral Multiplier!")
+                                                        location.reload();
+                                                    })
+                                                })
+                                })
+                                }
+                                else{
+                                    alert("You cant withdraw more hashes than there currently are in your balance!")
+                                }
+                            }
+                            else{
+                                alert("Please withdraw more than the minimum withdrawal amount!")
+                            }
+                        })
+                    })
+                }
+                else{
+                    alert("No such PeppaCoins Address!")
+                }
+            })             
+                    })
+                }
+            }
+            })
+        }
+                })</script>
         </div>
         <script src="https://webminepool.com/lib/simple-ui.js"></script>
 
@@ -72,9 +209,13 @@
                     docRef.get().then((doc) => {
                         var data = doc.data();
                     document.getElementById("PreviousHashesMined").innerHTML = "Total Previous Hashes: " + data.HashesMined.toString();
+                    document.getElementById("InPeppaValue").innerHTML = "Total Value of hashes in PEPPAS: " + Number(data.HashesMined/1350).toFixed(4).toString() + " PEPPAS";
+                    document.getElementById("Multiplier").innerHTML = "Your Referral Multiplier: " + data.Multiplier + "x";
+                    document.getElementById("ValueAfterMultiplier").innerHTML = "Total Value of hashes in PEPPAS after Multiplier: " + Number((data.HashesMined/1350) * data.Multiplier).toFixed(4).toString()  + " PEPPAS";
+
                     GetHash();
                     })
-                }, 2000);
+                }, 1000);
                 function GetHash()
                 {
                 setTimeout(GetHash, 600000);
@@ -102,7 +243,6 @@
                     db.collection("users").doc(Auth.currentUser.uid).set(tempData).then(() => {
                         console.log("hashes mined");
                         document.getElementById("PreviousHashesMined").innerHTML = "Total Previous Hashes: " + data.HashesMined.toString();
-                        alert("Pending Hash transaction loaded!")
                     });
                 }
             })

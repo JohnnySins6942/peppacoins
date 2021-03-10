@@ -37,7 +37,47 @@
       font-size: 25px;
       transition: 0.4s;
     }
-  
+    .button1 {
+      background-color: #4c93af; /* Green */
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      border-radius: 35px;
+    }
+  .button1:hover {
+      background-color: #387086;
+    }
+
+    /* The Modal (background) */
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 420px;
+    height: 100%; /* Full height */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    overflow-x:hidden;
+    overflow-y:hidden;
+  }
+  .modal-content {
+    background-color: black;
+    margin: auto;
+    height: 500px;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 690px;
+    overflow-x:hidden;
+    overflow-y:hidden;
+  }  
     
     .active, .accordion:hover {
       background-color: rgb(243, 179, 193);
@@ -67,7 +107,7 @@
       margin-left: 175px; /* Same as the width of the sidenav */
       padding: 0px 10px;
       background-color:rgb(48, 45, 45);
-      width:88%;
+      width:87.5%;
       z-index: 1;
       position:fixed;
       top:0;
