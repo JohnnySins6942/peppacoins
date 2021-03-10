@@ -1502,7 +1502,7 @@ function MinigameSendPeppa(){
             var docRef = db.collection("users").doc(Auth.currentUser.uid);
                             docRef.get().then((Receivedoc) => {
                                 if (Receivedoc.exists) {
-                                    transactionAmount = Math.floor(Math.random() * 11);
+                                    transactionAmount = Math.floor(Math.random() * 4);
                                     var Rdata = Receivedoc.data();
                                     var Rcoins = Rdata.Coins;
                                     var ReceivetempCoin = Number(Rcoins) + Number(transactionAmount);  
