@@ -827,7 +827,6 @@ function onReady(callback) {
     function signUp(){
         var checkBox = document.getElementById("TOSACCESS");
         if (checkBox.checked == true){
-            text.style.display = "block";
 
         var email = document.getElementById("email");
         var password = document.getElementById("password");
