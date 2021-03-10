@@ -1,3 +1,26 @@
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  height: 450px;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 25%;
+  overflow: hidden;
+}
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 420px;
+  height: 100%; /* Full height */
+  overflow: hidden;
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.938); /* Black w/ opacity */
+}
 .sidenav {
   height: 100%;
   width: 12.9%;
@@ -8,6 +31,20 @@
   background-color: #111;
   overflow-x: hidden;
   padding-top: 20px;
+}
+.button2 {
+  background-color: #4c93af; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 35px;
+  font-size:21;
+}
+.button2:hover {
+  background-color: #387086;
 }
   h1, h2, h3, h4, h5{
     font-family: Helvetica;
@@ -45,9 +82,19 @@
     margin: 8px 0;
     box-sizing: border-box;
     font-size:24px;
-    color:rgba(251, 183, 198, 1);
+    color:rgb(15, 15, 15);
     border-radius: 12px;
-    margin-left:224px;
+    margin-left:30%;
+  }
+  .receiverAddress1{
+    width: 80%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    font-size:24px;
+    color:rgb(15, 15, 15);
+    border-radius: 12px;
+    margin-left:10%;
   }
   .button1 {
     background-color: #4c93af; /* Green */

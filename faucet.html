@@ -33,8 +33,43 @@
         <input class="receiverAddress"style="margin-left:21%"type="text" placeholder="Your Address" id="FaucetreceiverAddress"/>
         <br>
         <br><br><br><br>
-        <button style="margin-left:43%;" class = "button1" onclick="FaucetSendPeppa()" id="faucetSend">Receive PeppaCoin</button>
-        </div></div>
+        <button style="margin-left:42%;" class = "button1" onclick="FaucetSendPeppa()" id="faucetSend">Receive PeppaCoin</button>
+        <br>        
+        <br>
+        <br>
+
+        <h2 style="text-align: center;">Need more PeppaCoins?</h2>
+        <h2 style="text-align: center;">Receive more PeppaCoins by playing the Minigame!</h2>
+        <button style="margin-left:43%;" class = "button1" onclick="Navigate('minigame')" id="faucetSend">Go to minigame!</button>    
+    
+    
+        <div id="LoginModal" class="modal">
+            <div style="border-radius:12px;background-color:rgb(63, 59, 59);height:60%;"class="modal-content">
+                <h1 style="text-align:center">Login To use faucet</h1>
+                <label style="font-size:25px;color:rgba(251, 183, 198, 1); text-align:center; margin-left:40%;"for="fname">Email</label>
+        
+                <input type="text" class="receiverAddress1" placeholder="Email" id="email1"/>
+                <label style="font-size:25px;color:rgba(251, 183, 198, 1); text-align:center;margin-left:34%;"for="fname">Word List</label>
+            <textarea class="receiverAddress1" placeholder="Word List" id="password1"></textarea>
+            <br><br>
+                <button style="margin-left:29%;" class = "button2" onclick="signIn('faucet')" id="send">Sign In!</button>
+            <br><br><br><Br>
+            
+        </div>
+        </div>
+
+    </div></div>
     </div>
+    <script>$(document).ready(function(){
+        firebase.auth().onAuthStateChanged((user) =>{
+        if(user){
+            var modal = document.getElementById("LoginModal");
+            modal.style.display = "none";
+        }else{
+            var modal = document.getElementById("LoginModal");
+            modal.style.display = "block";
+        }
+    });
+    })</script>
     </body>
 </html>

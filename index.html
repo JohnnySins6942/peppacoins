@@ -101,20 +101,20 @@
                 <h3 style="text-align:center">Mine Peppacoins efficiently and anonymously on your browser!</h3>
                 <button class="btn orange" style="background-color:#ffffff;border-radius: 5px; margin: 0;
                 position: absolute;
-                margin-left:185px;">Web Miner</button>
+                margin-left:185px;"onClick="window.location.href ='mining.html'">Web Miner</button>
                 </li>
             <li  style="margin-left:130px">
                 <h2 style="text-align:center">PeppaCoins Faucet</h2>
                 <h3 style="text-align:center">Get your daily dose of PEPPAS today!</h3>
                 <button class="btn orange" style="background-color:#ffffff;border-radius: 5px; margin: 0;
                 position: absolute;
-                margin-left:210px;">Faucet</button>
+                margin-left:210px;"onClick="window.location.href ='faucet.html'">Faucet</button>
             </li>
         </ul>
         <br><br><br>
         <ul id="parent1">
             <li style="margin-left:50px">
-                <h2 style="text-align:center">PeppaCoins Miner</h2>
+                <h2 style="text-align:center">PeppaCoins Miner (coming soon!)</h2>
             <h3 style="text-align:center">Earn PeppaCoins by mining on your desktop!</h3>
             <button class="btn orange" style="background-color:#ffffff;border-radius: 5px; margin: 0;
             position: absolute;
@@ -125,7 +125,7 @@
                 <h3 style="text-align:center">Gamble your Peppacoins for more PeppaCoins!</h3>
                 <button class="btn orange" style="background-color:#ffffff;border-radius: 5px; margin: 0;
                 position: absolute;
-                margin-left:175px;">Peppa Casino</button>
+                margin-left:175px;"onClick="window.location.href ='gambling.html'">Peppa Casino</button>
             </li>
             </ul>
         <br><br><br>
@@ -217,13 +217,12 @@
                 <form method="post" onsubmit="return false">
                     <h2 class="text-center"><strong>Create</strong> an account.</h2>
                     <div class="form-group"><input class="form-control" type="email" id="email" placeholder="Email"></div>
-                    <div class="form-group"><input class="form-control" type="password" id="password" placeholder="Password"></div>
                     <div class="form-group"><input class="form-control" type="text" id="referral" placeholder="ReferralCode"></div>
                     <Br>
                         <label for="vehicle1"> I have read and agreed to the Terms and conditions</label><br>
                         <input type="checkbox" name="vehicle2" value="false" id="TOSACCESS">
                         <br>
-                    <div class="form-group"><button onclick ="signUp()"class="btn1 orange" style="border-radius: 8px;">Sign Up</button></div>
+                    <div class="form-group"><button class="btn1 orange" style="border-radius: 8px;" id="signup">Set Profile!</button></div>
                     <br>
                     
                     <div class="form-group">
@@ -258,6 +257,24 @@ for (i = 0; i < acc.length; i++) {
 }
 
 $(document).ready(function(){
+    $(document).ready(function(){
+        var btn = document.getElementById("TOSACCESS");
+        var checkBox = document.getElementById("TOSACCESS");
+        if (checkBox.checked == false){
+        btn.onclick = function() {
+    var modal = document.getElementById("TOSModal");
+    if (checkBox.checked == true){
+    modal.style.display = "block";
+    }
+    var btn2=document.getElementById("AgreeTOS");
+    window.onclick = function(event) {
+    btn2.onclick= function(event){
+        modal.style.display = "none";
+    }
+}
+}
+        }
+    })
                 var btn = document.getElementById("Loginbtn");
                 var btn2 = document.getElementById("Loginbtn2");
                 btn2.onclick = function(){
@@ -300,25 +317,39 @@ $(document).ready(function(){
         }
     }
             })
-
             $(document).ready(function(){
-        var btn = document.getElementById("TOSACCESS");
-        var checkBox = document.getElementById("TOSACCESS");
-        if (checkBox.checked == false){
-        btn.onclick = function() {
-    var modal = document.getElementById("TOSModal");
-    if (checkBox.checked == true){
-    modal.style.display = "block";
-    }
-    var btn2=document.getElementById("AgreeTOS");
-    window.onclick = function(event) {
-    btn2.onclick= function(event){
-        modal.style.display = "none";
-    }
-}
-}
+                var btn = document.getElementById("signup");
+                btn.onclick = function() {
+            var modal = document.getElementById("profileModal");
+            var wordList = document.getElementById("Password1234");
+            wordList.innerHTML = makeid2(25);
+            modal.style.display = "block";
+            window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
         }
-    })
+    }
+            })
+
+    function copyToClipboard(element) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val($(element).text()).select();
+  document.execCommand("copy");
+  $temp.remove();
+  alert("WordList Copied!")
+}
+        
+function makeid2(length) {
+        var result           = '';
+        var characters   = ['Peppa ', 'sunlight ', 'walking ', 'helper ', 'sheep ', 'pig ', 'april ', 'school ', 'function ', 'grass ', 'play ', 'cards ', 'grab ', 'maybe ', 'books ', 'looking ', 'monster ', 'scary ', 'crackers ', 'baking ', 'cookies ', 'grandma ', 'jumping ', 'puddles ', 'cooking ', 'water ', 'countries ', 'maths ', 'driver ', 'vacation ', 'brother ', 'keyboard ', 'computer ', 'sister ', 'mommy ', 'daddy ', 'grandpa ', 'cousin ', 'perfect ', 'win ', 'afraid ', 'hurts ', 'mean ', 'machine ', 'candy ', 'old ', 'friends '];
+        var charactersLength = characters.length;
+        for ( var i = 0; i < length; i++ ) {
+           result += characters[(Math.floor(Math.random() * charactersLength))];
+        }
+        return result;
+     }
         </script>
         <div id="loginModal" class="modal">
 
@@ -328,9 +359,9 @@ $(document).ready(function(){
                     <form method="post" onsubmit="return false">
                         <h2 class="text-center"><strong>Login</strong> to your account.</h2>
                         <div class="form-group"><input class="form-control" type="email" id="email1" placeholder="Email"></div>
-                        <div class="form-group"><input class="form-control" type="password" id="password1" placeholder="Password"></div>
+                        <div class="form-group"><input class="form-control" type="text" id="password1" placeholder="word list"></div>
                         <Br>
-                        <div class="form-group"><button onclick ="signIn()"class="btn1 orange" style="border-radius: 8px;">Sign In</button></div>
+                        <div class="form-group"><button onclick ="signIn('wallet')"class="btn1 orange" style="border-radius: 8px;">Sign In</button></div>
                         <br>
                         <h2><button class="already" id="Loginbtn2">You don't have an account? Sign up here.</button></h2>
                     </form>
@@ -338,6 +369,33 @@ $(document).ready(function(){
             </div>			
             </div>	         
             
+
+            <div id="profileModal" class="modal">
+                <div class="modal-content1" style="background-color:black;border-radius: 34px;overflow-y:hidden;height:75%;width:60%">
+                    <h1 style="text-align:center">Set Profile</h1>
+                    <input style="width:30%; height:10%;margin-left:25.5%;"type="text" id="userName" name="firstname" placeholder="Enter Your Username!" value=""/>
+                    
+                    <input disabled="disabled" style="border-radius:2px;font-size:19;display:inline-block;font-family:Helvetica;width:20%; height:10%;margin-left:-0.7%;background-color:inherit;border: 2px solid rgb(75, 71, 71);color:rgb(126, 115, 115)"type="text" value = "UserName"/>
+                    <Br>
+                        <h2 style="text-align: center;">This word list will act as your password. NEVER reveal your wordlist to anyone. Make sure you store this list in a secure location. There is no forgot password button. </h2>
+                        <div style="background-color: rgb(0, 0, 0); width:95%; margin-left:8.7px; border-radius: 8px;height:31%;" >
+                            <button onclick="copyToClipboard('#Password1234')"class="btnTransparent pink" style="z-index: 2;    display: block;
+                            width: 100%;
+                            line-height: 2em;
+                            padding: 0.2em;
+                            margin:0.3em;	
+                            border: 1px solid  #ccc ;  
+                            border-radius: 8px;
+                            -webkit-appearance:normal;
+                            font-size: 1em;
+                            word-wrap: break-word;margin-left:2.5px"><p id="Password1234"></p></button>
+                            <div style="margin-left: 325; background-color: rgba(255, 105, 180, 0); width: 100%;height:73px;position: absolute;margin-top: -77;">
+                            </div>
+                        <br><br><br>
+                    <button style="margin-left:41.5%;border-radius: 34px;" class = "btn pink" onclick="signUp()" id="send">Sign Up!</button>
+                <br><br><br><Br>
+                </div>
+            </div>
     <div id="TOSModal" class="modal">
         <div class="modal-content1" style="background-color:black;border-radius: 34px;">
         <h1 style="text-align: center;">Fairneses Verification</h1><br style="display: block;

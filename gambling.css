@@ -133,6 +133,16 @@ text-decoration: none;
     font-family: Helvetica;
     font-size:19px;
   }
+  .receiverAddress1{
+    width: 80%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    font-size:24px;
+    color:rgb(15, 15, 15);
+    border-radius: 12px;
+    margin-left:10%;
+  }
   .button1 {
     background-color: #488ca700; /* Green */
     border: none;
@@ -169,19 +179,41 @@ text-decoration: none;
     height: 420px;
     height: 100%; /* Full height */
     background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    background-color: rgba(0, 0, 0, 0.952); /* Black w/ opacity */
     overflow-x:hidden;
   }
+  .modal-content1 {
+    background-color: black;
+    margin: auto;
+    height: 420px;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 25%;
+    overflow-y:hidden;
+  }  
   .modal-content {
     background-color: black;
     margin: auto;
     height: 420px;
     padding: 20px;
     border: 1px solid #888;
-    width: 690px;
-    overflow-x:hidden;
+    width: 50%;
+    overflow-y: auto;
   }  
-  
+  .button2 {
+    background-color: #4c93af; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 35px;
+    font-size:21;
+  }
+  .button2:hover {
+    background-color: #387086;
+  }
 
     /* On mouse-over */
     .btn:hover {background:rgb(0, 0, 0);}

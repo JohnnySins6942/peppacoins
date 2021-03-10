@@ -18,7 +18,7 @@
     <body>
 <div class="page">
         <div class="sidenav">
-            <h4 id = "PeppaPrice" style="text-align: center;">PeppaCoins Price: 0.000000006USD</h4>
+            <h4 id = "PeppaPrice" style="text-align: center;"></h4>
             <button style="margin-left:18px;"class="btn pink"id="wallet"style="z-index: 3;"onclick = "Navigate('wallet')">Wallet</button>
             <button style="margin-left:17px;"class="btn pink"id="faucet"style="z-index: 3;"onclick = "Navigate('faucet')">Faucet</button>
             <button style="margin-left:16px;"class="btn pink"id="gambling"style="z-index: 3;"onclick = "Navigate('gambling')">Gambling</button>
@@ -31,9 +31,10 @@
 
 
         <div class="balance">
+        <h1 style="text-align: center;" id="username"></h1>
             <Br>
         <h3 style="text-align: center;">Total Balance:</h3>
-        <h1 style="text-align: center;" id="USDValue">0USD</h1>
+        <h1 style="text-align: center;" id="USDValue"></h1>
 
         <div style="background-color: rgb(39, 36, 36); width:95%; margin-left:20px; border-radius: 8px;" >
         <button onclick="copyToClipboard('#UserAddress')"class="btnTransparent pink" style="z-index: 2;    display: block;
@@ -47,8 +48,8 @@
         font-size: 1em;
         word-wrap: break-word;margin-left:2px"><p id="UserAddress"></p></button>
         <div style="margin-left: 325; background-color: rgba(255, 105, 180, 0); width: 78px;height:73px;position: absolute;margin-top: -77;">
-            <h4 style="margin-top:15px;margin-right:7px;text-align: right; word-wrap: break-word; font-size: 11px; height:15px;"id="Coins">0.0000</h4>
-            <h4 style="margin-bottom:5px;margin-right:7px;text-align: right; word-wrap: break-word; font-size: 11px;"id="USDValue2">0.0000</h4>
+            <h4 style="margin-top:15px;margin-right:7px;text-align: right; word-wrap: break-word; font-size: 11px; height:15px;"id="Coins"></h4>
+            <h4 style="margin-bottom:5px;margin-right:7px;text-align: right; word-wrap: break-word; font-size: 11px;"id="USDValue2"></h4>
         </div>
             
 <script>
@@ -63,7 +64,7 @@
     </script>
     </div>
         <br><br><br><br><br>
-        <h3 style="text-align: center;" id="MultiplierValue">1.00x</h3>
+        <h3 style="text-align: center;" id="MultiplierValue"></h3>
         <div class="transactions">
         <div>
             <div style="background-color: rgb(39, 36, 36); width:95%; margin-left:14px; border-radius: 8px;" >
@@ -78,11 +79,26 @@
                 font-size: 1em;
                 word-wrap: break-word;margin-left:2px"><p id="UserAddress2"></p></button>
                 <div style="margin-left: 600; background-color: rgba(255, 105, 180, 0); width: 15%;height:10%;position: absolute;margin-top: -70;">
-                    <h4 style="margin-top:15px;margin-right:7px;text-align: right; word-wrap: break-word; font-size: 11px; height:15px;"id="Coins2">0.0000</h4>
-                    <h4 style="margin-bottom:5px;margin-right:7px;text-align: right; word-wrap: break-word; font-size: 11px;"id="USDValue3">0.0000</h4>
+                    <h4 style="margin-top:15px;margin-right:7px;text-align: right; word-wrap: break-word; font-size: 11px; height:15px;"id="Coins2"></h4>
+                    <h4 style="margin-bottom:5px;margin-right:7px;text-align: right; word-wrap: break-word; font-size: 11px;"id="USDValue3"></h4>
                 </div>
             </div>
             <Br><br><br>
+        </div>
+
+        <div id="LoginModal" class="modal">
+            <div style="border-radius:12px;background-color:rgb(63, 59, 59);height:60%;"class="modal-content">
+                <h1 style="text-align:center">Login To use Wallet</h1>
+                <label style="font-size:25px;color:rgba(251, 183, 198, 1); text-align:center; margin-left:40%;"for="fname">Email</label>
+        
+                <input type="text" class="receiverAddress" placeholder="Email" id="email1"/>
+                <label style="font-size:25px;color:rgba(251, 183, 198, 1); text-align:center;margin-left:34%;"for="fname">Word List</label>
+            <textarea class="receiverAddress" placeholder="Word List" id="password1"></textarea>
+            <br><br>
+                <button style="margin-left:29%;" class = "button2" onclick="signIn('wallet')" id="send">Sign In!</button>
+            <br><br><br><Br>
+            
+        </div>
         </div>
 <script>            $(document).ready(function(){
     var btn = document.getElementById("sendbtn");
@@ -95,6 +111,18 @@ if (event.target == modal) {
 }
 }
 }
+})
+
+$(document).ready(function(){
+    firebase.auth().onAuthStateChanged((user) =>{
+    if(user){
+        var modal = document.getElementById("LoginModal");
+        modal.style.display = "none";
+    }else{
+        var modal = document.getElementById("LoginModal");
+        modal.style.display = "block";
+    }
+});
 })
 
 function htmlEncode(value) { 

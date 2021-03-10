@@ -722,7 +722,7 @@ function onReady(callback) {
                     }
                 })
             }
-            if(!window.location.href.indexOf("index") > -1)
+            if(!window.location.href.indexOf("index") > -1 && !window.location.href.indexOf("minigame") > -1)
             {
                 var price = document.getElementById("PeppaPrice");
                 var docRef = db.collection("data").doc("data");
@@ -829,13 +829,31 @@ function onReady(callback) {
         if (checkBox.checked == true){
 
         var email = document.getElementById("email");
-        var password = document.getElementById("password");
+        var userName = document.getElementById("userName");
+        var password = document.getElementById("Password1234");
         var referral = document.getElementById("referral");
+        
+        var newUser = userName.value
+        if(email == "")
+        {
+            alert("You need an email to sign up!")
+        }
+        if(userName == "")
+        {
+            alert("You need a unique username to sign up!")
+        }
+        db.collection("users").where("Username", "==", newUser)        .get()
+        .then((querySnapshot) => {
+        if(!querySnapshot.empty)
+            {
+                alert("Your username isn't unique enough! Another pig already took it")
+            }
+            else{
+                
 
         if(referral.value == "" || referral.value == null)
         {
-            
-        Auth.createUserWithEmailAndPassword(email.value, password.value).then(function (){
+        Auth.createUserWithEmailAndPassword(email.value, password.innerHTML).then(function (){
 
             var user = Auth.currentUser;
 
@@ -849,13 +867,13 @@ function onReady(callback) {
                 ReferralCode: referralcode,
                 HashesMined:0,
                 Referrals: [],
+                Username: newUser,
                 Referrer: empty,
                 Multiplier: 1,
                 PreviousTransactions: 0
             }
 
             db.collection("users").doc(user.uid).set(docData).then(() => {
-                console.log("Document written with ID: ", user.uid);
                 var docRef1 = db.collection("data").doc("data");
                 docRef1.get().then((doc1) => {
                     var data = doc1.data();
@@ -877,7 +895,7 @@ function onReady(callback) {
                 })
             })
             .catch((error) => {
-                console.log(error);
+                alert(error);
             });    
         }).catch((error) => {
             alert(error);
@@ -908,6 +926,7 @@ function onReady(callback) {
                         HashesMined:0,
                         ReferralCode: referralcode,
                         Referrals: [],
+                        Username: newUser,
                         Referrer: doc.id,
                         Multiplier: 1,
                         PreviousTransactions: 0
@@ -918,6 +937,7 @@ function onReady(callback) {
                         Coins: data.Coins,
                         Address: data.Address,
                         Transactions: data.Transactions,
+                        Username: data.Username,
                         newFaucetTime: data.newFaucetTime,
                         ReferralCode: data.ReferralCode,
                         HashesMined:data.HashesMined,
@@ -958,15 +978,22 @@ function onReady(callback) {
                 })
             }
         });
+        
     }
+    
     else{
         alert("The referral code you entered is invalid");
     }
+    
     })
+    
     .catch((error) => {
-        console.log("error");
+        alert(error);
     });
+    
     }
+}
+})
 }else {
     alert("Please read and agree to the Terms and Agreements before proceeding.")
  }
@@ -1010,6 +1037,7 @@ function onReady(callback) {
                                     Address: data.Address,
                                     HashesMined:data.HashesMined,
                                     Transactions: data.Transactions,
+                                    Username: data.Username,
                                     newFaucetTime: data.newFaucetTime,
                                     ReferralCode: data.ReferralCode,
                                     Referrals: data.Referrals,
@@ -1034,6 +1062,7 @@ function onReady(callback) {
                                             Coins: ReceivetempCoin,
                                             Address: Rdata.Address,
                                             Transactions: Rdata.Transactions,
+                                            Username: Rdata.Username,
                                             HashesMined:data.HashesMined,
                                             newFaucetTime: Rdata.newFaucetTime,
                                             ReferralCode: Rdata.ReferralCode,
@@ -1100,7 +1129,7 @@ function onReady(callback) {
     }
       
 
-    function signIn(){
+    function signIn(location){
             
         var email = document.getElementById("email1");
         var password = document.getElementById("password1");
@@ -1108,12 +1137,12 @@ function onReady(callback) {
         const promise = Auth.signInWithEmailAndPassword(email.value, password.value);
         promise.catch(e => alert(e.message)); 
 
-        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
         .then(() => {
             firebase.auth().onAuthStateChanged(user => {
                 if(user)
                 {
-                    window.location.href = "wallet.html";
+                    window.location.href = location + ".html";
                 }
         })
             return firebase.auth().signInWithEmailAndPassword(email, password);
@@ -1160,6 +1189,7 @@ function onReady(callback) {
                 document.getElementById("UserAddress").innerHTML =  address;
                 document.getElementById("UserAddress2").innerHTML =  address;
                 document.getElementById("UserAddress3").innerHTML = address;
+                document.getElementById("username").innerHTML =  data.Username + "'s wallet";
                 document.getElementById("MultiplierValue").innerHTML = "Multiplier: " + data.Multiplier.toFixed(2) + "x";
                 var docRef = db.collection("data").doc("data");
                 docRef.get().then((Datadoc) => {
@@ -1178,6 +1208,7 @@ function onReady(callback) {
                     Address: data.Address,
                     HashesMined:data.HashesMined,
                     Transactions: transactions,
+                    Username: data.Username,
                     newFaucetTime: data.newFaucetTime,
                     ReferralCode: data.ReferralCode,
                     Referrals: data.Referrals,
@@ -1185,11 +1216,50 @@ function onReady(callback) {
                     Multiplier: data.Multiplier,
                     PreviousTransactions: Number(data.PreviousTransactions)
                 }
+                var list = document.getElementById('transactionList');
+                if(arrayLength == 0)
+                {
+                    const li = `
+                    <li>
+                    
+                    <button style="border-radius:10px;" class="accordion">Example Transaction <br> +A lot of PEPPAS</button>
+                    <div style="border-radius:10px;"class="panel">
+                    <h2 style="text-align:center">Sender Address: </h2>
+                    <button onclick="copyToClipboard('#addressexample')"class="btnTransparent pink" style="z-index: 2;    display: block;
+                    width: 30em;
+                    line-height: 3em;
+                    padding: 0.2em;
+                    margin:0.3em;	
+                    border: 1px solid  #ccc ;  
+                    border-radius: 8px;
+                    -webkit-appearance:normal;
+                    font-size: 1em;
+                    word-wrap: break-word;margin-left:14.5%"><h2 id="addressexample" style="text-align:center;">Some random Pig</h2></button>
+                    <h5 style="text-align:center;">TransactionTime: A certain time</h5>
+                    </div>
+                    </li>
+                    `;
+                    html += li;
+                    list.innerHTML = html;
+                    var acc = document.getElementsByClassName("accordion");
+                    var p;
+                    
+                    for (p = 0; p < acc.length; p++) {
+                      acc[p].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var panel = this.nextElementSibling;
+                        if (panel.style.maxHeight) {
+                          panel.style.maxHeight = null;
+                        } else {
+                          panel.style.maxHeight = panel.scrollHeight + "px";
+                        } 
+                      });
+                    }
+                }
                 for (var i = arrayLength - 1; i >= 0; i--) {
                     j++;
-                    if (j <= 20)
+                    if (j <= 25)
                     {
-                    var list = document.getElementById('transactionList');
                     if(transactions[i].send == true)
                     {
                         const li = `
@@ -1258,7 +1328,6 @@ function onReady(callback) {
                 else{
                     transactions.splice(transactions[i], 1);   
                     tempData.PreviousTransactions = tempData.PreviousTransactions+1;
-                    console.log(tempData.PreviousTransactions);
                 } 
                 db.collection("users").doc(Auth.currentUser.uid).set(tempData)
 
@@ -1267,13 +1336,13 @@ function onReady(callback) {
         })
 
                 } else {
-                console.log("No such document!");
                 var randomString = "Peppa_" + makeid(44);
                
                 var docData = {
                     Coins: 0.0,
                     Address: randomString,
                     Transactions: [],
+                    Username: "",
                     newFaucetTime: new Date(),
                     ReferralCode: makeid(8),
                     HashesMined:0,
@@ -1284,7 +1353,6 @@ function onReady(callback) {
                 }
     
                 db.collection("users").doc(Auth.currentUser.uid).set(docData).then(() => {
-                    console.log("Document written with ID: ", user.uid);
                     InitializeWallet(Auth.currentUser);
                 })
             }
@@ -1318,6 +1386,8 @@ function onReady(callback) {
             case "mining":
                 window.location.href = "mining.html";
                 break;
+            case "minigame":
+                window.location.href= "minigame.html"
         }
         
     }    
@@ -1350,6 +1420,7 @@ function onReady(callback) {
                                             Address: Rdata.Address,
                                             Transactions: Rdata.Transactions,
                                             newFaucetTime: newTime,
+                                            Username: Rdata.Username,
                                             HashesMined:Rdata.HashesMined,
                                             ReferralCode: Rdata.ReferralCode,
                                             Referrals: Rdata.Referrals,
@@ -1411,6 +1482,65 @@ function onReady(callback) {
     
 }
 
+function MinigameSendPeppa(){
+            var docRef = db.collection("users").doc(Auth.currentUser.uid);
+                            docRef.get().then((Receivedoc) => {
+                                if (Receivedoc.exists) {
+                                    transactionAmount = Math.floor(Math.random() * 11);
+                                    var Rdata = Receivedoc.data();
+                                    var Rcoins = Rdata.Coins;
+                                    var ReceivetempCoin = Number(Rcoins) + Number(transactionAmount);  
+                                    var tempReceiveData = {
+                                        Coins: ReceivetempCoin,
+                                        Address: Rdata.Address,
+                                        Transactions: Rdata.Transactions,
+                                        newFaucetTime: Rdata.newFaucetTime,
+                                        Username: Rdata.Username,
+                                        HashesMined:Rdata.HashesMined,
+                                        ReferralCode: Rdata.ReferralCode,
+                                        Referrals: Rdata.Referrals,
+                                        Referrer: Rdata.Referrer,
+                                        Multiplier: Rdata.Multiplier,
+                                        PreviousTransactions: Rdata.PreviousTransactions
+                                    }
+                                    var ReceiveTransactionObj = {
+                                        ReceiverAddress: Rdata.Address,
+                                        SenderAddress: "Minigame Reward",
+                                        TransactionDate: new Date(),
+                                        Amount: Number(transactionAmount).toFixed(4),
+                                        send: false
+                                    }
+                                    tempReceiveData.Transactions.push(ReceiveTransactionObj);
+                                    db.collection("users").doc(Auth.currentUser.uid).set(tempReceiveData).then(() => {
+                                        var docRef1 = db.collection("data").doc("data");
+                                        docRef1.get().then((doc1) => {
+                                            var data = doc1.data();
+                                            var supply = Number(data.TotalSupply - Number(transactionAmount)).toFixed(4);
+                                            var tempData1= {
+                                                BitcoinValue: data.BitcoinValue,
+                                                MiningRewards: data.MiningRewards,
+                                                PeppaValue: data.PeppaValue,
+                                                PeppasTransacted: data.PeppasTransacted,
+                                                TotalSupply: supply,
+                                                TransactionsMade: data.TransactionsMade,
+                                                miningDifficulty: data.miningDifficulty,
+                                                users: data.users
+                                            }
+                                            db.collection("data").doc("data").set(tempData1).then(() =>{
+                                                alert("You have received " + transactionAmount.toString() + " PEPPAS for free!");
+                                                InitializeFaucet(Auth.currentUser);
+                                                })
+                                        })
+                                    })
+                                }
+                                else
+                                {
+                                   alert("Cannot claim Daily faucet yet! Your next claim time is at: " + date2);
+                                }
+                                
+                          })
+                        }
+
 
 firebase.auth().onAuthStateChanged((user) =>{
     if(user){
@@ -1467,8 +1597,6 @@ function ClaimGiftCard(giftCardType, GiftCardAmount)
                     var data1 = doc2.data();
                     var data2 = doc.data();
                     cost = (Number(Number(Number(GiftCardAmount)/Number(data1.PeppaValue))+ Number((GiftCardAmount/Number(data1.PeppaValue) * 0.075))).toFixed(4));
-                    console.log(cost);
-                    console.log(coins);
                     if (coins >= Number(cost)){
                         
                         var tempArrayOBJ= {
@@ -1500,6 +1628,7 @@ function ClaimGiftCard(giftCardType, GiftCardAmount)
                         Transactions: data.Transactions,
                         newFaucetTime: data.newFaucetTime,
                         HashesMined:data.HashesMined,
+                        Username: data.Username,
                         ReferralCode: data.ReferralCode,
                         Referrals: data.Referrals,
                         Referrer: data.Referrer,
@@ -1583,6 +1712,7 @@ function Redeem(giftType)
                                     Coins: tempCoin,
                                     Address: data1.Address,
                                     Transactions: data1.Transactions,
+                                    Username: data1.Username,
                                     HashesMined:data1.HashesMined,
                                     newFaucetTime: data1.newFaucetTime,
                                     ReferralCode: data1.ReferralCode,
@@ -1591,7 +1721,6 @@ function Redeem(giftType)
                                     Multiplier: data1.Multiplier,
                                     PreviousTransactions: data1.PreviousTransactions
                                 }
-                                console.log(tempData);
                                 tempData.Transactions.push(TransactionObj);
 
                                 db.collection("users").doc(Auth.currentUser.uid).set(tempData).then(() => {

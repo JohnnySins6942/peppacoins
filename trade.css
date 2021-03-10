@@ -90,7 +90,20 @@
     padding-top:20px;
     height:100%;
   }
-
+  .button2 {
+    background-color: #4c93af; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 35px;
+    font-size:21;
+  }
+  .button2:hover {
+    background-color: #387086;
+  }
   .button1 {
     background-color: #4c93af; /* Green */
     border: none;
@@ -118,7 +131,39 @@
     display: inline-block;
     font-family: Helvetica;
   } 
-
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 420px;
+    height: 100%; /* Full height */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.952); /* Black w/ opacity */
+    overflow-x:hidden;
+  }
+  .receiverAddress1{
+    width: 80%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    font-size:24px;
+    color:rgb(15, 15, 15);
+    border-radius: 12px;
+    margin-left:10%;
+  }
+  .modal-content1 {
+    background-color: black;
+    margin: auto;
+    height: 100%;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 25%;
+    overflow-y:hidden;
+  }  
     /* On mouse-over */
     .btn:hover {background:rgb(0, 0, 0);}
   

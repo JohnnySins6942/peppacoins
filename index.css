@@ -20,6 +20,27 @@
     background-repeat: no-repeat;
     background-position: center;
   }
+  
+  .btnTransparent {
+    border: none;
+    background-color: inherit;
+    padding: 14px 28px;
+    font-size: 21px;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Helvetica;
+  }
+    /* On mouse-over */
+    .btnTransparent:hover {background:rgba(0, 0, 0, 0);}
+  
+    .green {color: green;}
+    .blue {color: dodgerblue;}
+    .orange {color: #f4511e;}
+    .red {color: red;}
+    .pink {color: rgba(251, 183, 198, 1);}
+    .black {color: black;}
+    .white {color: rgb(255, 255, 255);}
+
 
   .body{
     overflow-y: scroll;
@@ -181,6 +202,19 @@
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
     overflow-x:hidden;
   }
+  input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color:rgb(48, 45, 45);
+    color:rgba(251, 183, 198, 1);
+    font-family: Helvetica;
+    font-size:19px;
+  }
   .modal-content1 {
     background-color: #fefefe00;
     margin: auto;
@@ -190,6 +224,21 @@
     width: 690px;
     overflow-x:hidden;
   }  
+  .button1 {
+    background-color: #488ca700; /* Green */
+    border: none;
+    color: rgb(126, 115, 115);
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 1px;
+    border: 2px solid rgb(75, 71, 71);
+    margin-left:-5;
+  }
+.button1:hover {
+    background-color: rgb(94, 85, 85);
+  }
   
 
   .register-photo {

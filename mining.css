@@ -104,10 +104,10 @@
       width:89.9%;
     }
     .mining {
-      margin-left: 175px; /* Same as the width of the sidenav */
+      margin-left: 0; /* Same as the width of the sidenav */
       padding: 0px 10px;
       background-color:rgb(48, 45, 45);
-      width:87.5%;
+      width:100%;
       z-index: 1;
       position:fixed;
       top:0;
