@@ -31,7 +31,13 @@
             </div>
             <h1 id = "introText">PeppaCoins is the new instant, safe, and anonymous Cryptocurrency. Powered by dreams, fueled by memes.</h1>
         </div>
-
+        <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+        <script>
+          /* particlesJS.load(@dom-id, @path-json, @callback (optional)); */
+          particlesJS.load('particles-js', 'particles.json',function(){
+            console.log('particles.json loaded...')
+          });
+    </script>  
 
 
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
@@ -241,8 +247,6 @@
     </div>
 
 
-    <script src="particles.js"></script>
-    <script src="app.js"></script>
     <script>
         
 var acc = document.getElementsByClassName("accordion");
@@ -661,7 +665,8 @@ function makeid2(length) {
 
         </div>
         <button class = "btn1 orange" style="margin-left:40%;width:20%;font-size:18;border-radius:18px;" id="AgreeTOS">I have verified that I have read and agree to the terms and conditions.</button>
-    </div>        
+    </div> 
+   
     </body>
 
 
