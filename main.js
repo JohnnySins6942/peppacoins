@@ -732,7 +732,23 @@ function onReady(callback) {
                         price.innerHTML = "1 PEPPA = " + data.PeppaValue + "USD";
                     }
                 })
-            
+                firebase.auth().onAuthStateChanged((user) =>{
+                    if(user){
+                        var modal = document.getElementById("GoToWallet");
+                        var modal2 = document.getElementById("Loginbtn");
+                        modal.style.display = "block";
+                        modal2.style.display = "none";
+                    }else{
+                        var modal = document.getElementById("GoToWallet");
+                        var modal2 = document.getElementById("Loginbtn");
+                        modal2.style.display = "block";
+                        modal.style.display = "none";
+                    }
+                })
+                var towalletbtn = document.getElementById("GoToWallet");
+                towalletbtn.onclick = function(){
+                    window.location.href = "wallet.html";
+                }
             }
         }else{
             

@@ -47,11 +47,42 @@
       text-decoration: none;
       display: inline-block;
       border-radius: 35px;
+    }.receiverAddress1{
+      width: 80%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      font-size:24px;
+      color:rgb(15, 15, 15);
+      border-radius: 12px;
+      margin-left:10%;
+    }
+    .button2 {
+      background-color: #4c93af; /* Green */
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      border-radius: 35px;
+      font-size:21;
+    }
+  .button2:hover {
+      background-color: #387086;
     }
   .button1:hover {
       background-color: #387086;
     }
-
+    .modal-content1 {
+      background-color: black;
+      margin: auto;
+      height: 100%;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 25%;
+      overflow-y:hidden;
+    }  
     /* The Modal (background) */
   .modal {
     display: none; /* Hidden by default */
@@ -64,7 +95,7 @@
     height: 420px;
     height: 100%; /* Full height */
     background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    background-color: rgba(0, 0, 0, 0.932); /* Black w/ opacity */
     overflow-x:hidden;
     overflow-y:hidden;
   }
@@ -104,10 +135,10 @@
       width:89.9%;
     }
     .mining {
-      margin-left: 0; /* Same as the width of the sidenav */
+      margin-left: 175px; /* Same as the width of the sidenav */
       padding: 0px 10px;
       background-color:rgb(48, 45, 45);
-      width:100%;
+      width:87.5%;
       z-index: 1;
       position:fixed;
       top:0;

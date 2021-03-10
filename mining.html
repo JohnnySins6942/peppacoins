@@ -17,7 +17,17 @@
 
     <body>
         <div class="page" style="display: none">
-           
+            <div class="sidenav">
+            <h4 id = "PeppaPrice" style="text-align: center;">PeppaCoins Price: 0.000000006USD</h4>
+            <button style="margin-left:18px;"class="btn pink"id="wallet"style="z-index: 3;"onclick = "Navigate('wallet')">Wallet</button>
+            <button style="margin-left:17px;"class="btn pink"id="faucet"style="z-index: 3;"onclick = "Navigate('faucet')">Faucet</button>
+            <button style="margin-left:16px;"class="btn pink"id="gambling"style="z-index: 3;"onclick = "Navigate('gambling')">Gambling</button>
+            <button style="margin-left:15px;"class="btn pink"id="trade"style="z-index: 3;"onclick = "Navigate('trade')">Trade</button>
+            <button style="margin-left:14px;"class="btn pink"id="referrals"style="z-index: 3;"onclick = "Navigate('referrals')">Referrals</button>
+            <button style="margin-left:14px;"class="btn pink"id="mining"style="z-index: 3;"onclick = "Navigate('mining')">Mining</button>
+            <br><Br><Br><Br><br><Br><Br><br><Br><br>
+            <button style="margin-left:14px;margin-bottom:5px;"class="btn pink"id="signOut"style="z-index: 3;"onclick = "signOut()">Sign Out</button>
+        </div>
         
         <div class="mining">
             <h1 style="text-align: center;" id="Title"> PeppaCoins Browser Miner</h1>
@@ -36,7 +46,7 @@
             <h3 style="text-align: center;" id="ValueAfterMultiplier"></h3>
             <h3 style="text-align: center;">Every 1350 Hashes = One PeppaCoin</h3>
 
-            <button style="margin-left:39.8%;" class = "button1" id="ExchangeOpen">Exchange Hashes to PeppaCois!</button>
+            <button style="margin-left:38.8%;" class = "button1" id="ExchangeOpen">Exchange Hashes to PeppaCois!</button>
 
             <br><Br><Br><Br>
                 
@@ -80,7 +90,31 @@
                 </div>
             </div>
             <br><br><Br><br>
-
+            <div id="LoginModal" class="modal">
+                <div style="border-radius:12px;background-color:rgb(63, 59, 59);height:64%;"class="modal-content1">
+                    <h1 style="text-align:center">Login To use Web miner</h1>
+                    <label style="font-size:25px;color:rgba(251, 183, 198, 1); text-align:center; margin-left:40%;"for="fname">Email</label>
+            
+                    <input type="text" class="receiverAddress1" placeholder="Email" id="email1"/>
+                    <label style="font-size:25px;color:rgba(251, 183, 198, 1); text-align:center;margin-left:34%;"for="fname">Word List</label>
+                <textarea class="receiverAddress1" placeholder="Word List" id="password1"></textarea>
+                <br><br>
+                    <button style="margin-left:29%;" class = "button2" onclick="signIn('mining')" id="send">Sign In!</button>
+                <br><br><br><Br>
+                
+            </div>
+            </div>
+                <script>$(document).ready(function(){
+                    firebase.auth().onAuthStateChanged((user) =>{
+                    if(user){
+                        var modal = document.getElementById("LoginModal");
+                        modal.style.display = "none";
+                    }else{
+                        var modal = document.getElementById("LoginModal");
+                        modal.style.display = "block";
+                    }
+                });
+                })</script>
                 <script>$(document).ready(function(){
                     var btn = document.getElementById("ExchangeOpen");
                     btn.onclick = function() {
