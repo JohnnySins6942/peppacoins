@@ -188,6 +188,7 @@ var pJS = function(tag_id, params){
     pJS.canvas.ctx = pJS.canvas.el.getContext('2d');
   };
 
+
   pJS.fn.canvasSize = function(){
 
     pJS.canvas.el.width = pJS.canvas.w;
@@ -1410,6 +1411,8 @@ var pJS = function(tag_id, params){
 
 
 };
+
+
 
 /* ---------- global functions - vendors ------------ */
 

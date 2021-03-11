@@ -1,5 +1,6 @@
 <html>
     <head>
+        <meta http-equiv= content-type content= text/html charset=utf-8>
         <title> Form </title>
         <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-auth.js"></script>
@@ -13,7 +14,7 @@
     <div id="loading"></div>
 
     <body>
-        <div class="page" style="display: none">
+        <div class="page"id="page" style="display: none">
         <div id="particles-js">
             <div class="header" id="myHeader">
                 <ul id="parent">
@@ -30,16 +31,11 @@
             </ul>
             </div>
             <h1 id = "introText">PeppaCoins is the new instant, safe, and anonymous Cryptocurrency. Powered by dreams, fueled by memes.</h1>
+            <button class="btn orange" style="background-color:#ffffff;border-radius: 5px; margin: 0;
+            position: absolute;
+            margin-left:42.5%;" id="getPeppas">Get Peppas Now!</button>
         </div>
-        <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-        <script>
-                    $(document).ready(function(){
-          /* particlesJS.load(@dom-id, @path-json, @callback (optional)); */
-          particlesJS.load('particles-js', 'particles.json',function(){
-            console.log('particles.json loaded...')
-          });
-                    })
-    </script>  
+
 
 
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
@@ -287,7 +283,20 @@ $(document).ready(function(){
     })
                 var btn = document.getElementById("Loginbtn");
                 var btn2 = document.getElementById("Loginbtn2");
+                var btn3 = document.getElementById("getPeppas");
                 btn2.onclick = function(){
+                    var modal = document.getElementById("signupModal");
+                    var lmodal = document.getElementById("loginModal");
+                    lmodal.style.display="none";
+                    modal.style.display = "block";
+                    window.onclick = function(event) {
+                        if (event.target == modal) {
+                            modal.style.display = "none";
+                        }
+                }
+                
+            }
+            btn3.onclick = function(){
                     var modal = document.getElementById("signupModal");
                     var lmodal = document.getElementById("loginModal");
                     lmodal.style.display="none";
@@ -668,7 +677,13 @@ function makeid2(length) {
         </div>
         <button class = "btn1 orange" style="margin-left:40%;width:20%;font-size:18;border-radius:18px;" id="AgreeTOS">I have verified that I have read and agree to the terms and conditions.</button>
     </div> 
-   
+    <script src="particles.js"></script>
+    <script src="app.js"></script> 
+    <script>
+        setTimeout(function(){
+            window.dispatchEvent(new Event('resize'));
+            }, 1000);
+    </script>
     </body>
 
 
