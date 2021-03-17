@@ -18,14 +18,16 @@
     <body>
         <div class="page" style="display: none">
             <div class="sidenav">
-            <h4 id = "PeppaPrice" style="text-align: center;">PeppaCoins Price: 0.000000006USD</h4>
+                <button style="margin-left:8px;"class="btn pink"id="wallet"style="z-index: 3;"onclick = "Navigate('index')">PeppaCoins</button>
+                <h4 id = "PeppaPrice" style="text-align: center;">PeppaCoins Price: 0.000000006USD</h4>
             <button style="margin-left:18px;"class="btn pink"id="wallet"style="z-index: 3;"onclick = "Navigate('wallet')">Wallet</button>
             <button style="margin-left:17px;"class="btn pink"id="faucet"style="z-index: 3;"onclick = "Navigate('faucet')">Faucet</button>
             <button style="margin-left:16px;"class="btn pink"id="gambling"style="z-index: 3;"onclick = "Navigate('gambling')">Gambling</button>
             <button style="margin-left:15px;"class="btn pink"id="trade"style="z-index: 3;"onclick = "Navigate('trade')">Trade</button>
             <button style="margin-left:14px;"class="btn pink"id="referrals"style="z-index: 3;"onclick = "Navigate('referrals')">Referrals</button>
             <button style="margin-left:14px;"class="btn pink"id="mining"style="z-index: 3;"onclick = "Navigate('mining')">Mining</button>
-            <br><Br><Br><Br><br><Br><Br><br><Br><br>
+            <button style="margin-left:14px;"class="btn pink"id="mining"style="z-index: 3;"onclick = "Navigate('marketplace')">Marketplace</button>
+            <br><Br><Br><Br><br><Br>
             <button style="margin-left:14px;margin-bottom:5px;"class="btn pink"id="signOut"style="z-index: 3;"onclick = "signOut()">Sign Out</button>
         </div>
         
@@ -144,13 +146,15 @@
                     .then((querySnapshot) => {
                     if(!querySnapshot.empty)
                     {
-                    querySnapshot.forEach((doc) => {   
+                        console.log(HashesToConvert);
+                            querySnapshot.forEach((doc) => {   
                         var userRef = db.collection("users").doc(doc.id);
                         userRef.get().then((userdoc) => {
                             var userData = userdoc.data();
                             var coins = userData.Coins;
-                            if (HashesToConvert > 180000){
-                                if(HashesToConvert >= userData.HashesMined)
+                            console.log(userData.HashesMined);
+                            if (HashesToConvert >= 180000){
+                                if(HashesToConvert <= userData.HashesMined)
                                 {
                                     var TransactionAmount = Number((HashesToConvert/1350) * userData.Multiplier).toFixed(4);
                                     var tempHashAmount = userData.HashesMined - Number(HashesToConvert);
@@ -169,8 +173,10 @@
                                     Coins: tempCoin,
                                     Address: userData.Address,
                                     HashesMined:tempHashAmount,
+                                    Notifications:data.Notifications,
                                     Transactions: userData.Transactions,
                                     newFaucetTime: userData.newFaucetTime,
+                                    Username:data.Username,
                                     ReferralCode: userData.ReferralCode,
                                     Referrals: userData.Referrals,
                                     Referrer: userData.Referrer,
@@ -195,24 +201,24 @@
                                                         users: data2.users
                                                     }
                                                     db.collection("data").doc("data").set(tempData1).then(() =>{
-                                                        alert("You withdrew "+ TransactionAmount.toString() + " Peppas successfully with a " + userData.Multiplier + " Referral Multiplier!")
+                                                        Alert("You withdrew "+ TransactionAmount.toString() + " Peppas successfully with a " + userData.Multiplier + " Referral Multiplier!", "Mining Information","green")
                                                         location.reload();
                                                     })
                                                 })
                                 })
                                 }
                                 else{
-                                    alert("You cant withdraw more hashes than there currently are in your balance!")
+                                    Alert("You cant withdraw more hashes than there currently are in your balance!", "Mining Information", "yellow")
                                 }
                             }
                             else{
-                                alert("Please withdraw more than the minimum withdrawal amount!")
+                                Alert("Please withdraw more than the minimum withdrawal amount!", "Mining Information", "yellow")
                             }
                         })
                     })
                 }
                 else{
-                    alert("No such PeppaCoins Address!")
+                    Alert("No such PeppaCoins Address!", "Mining Information", "red")
                 }
             })             
                     })
@@ -257,8 +263,10 @@
                         var tempData = {
                         Coins: data.Coins,
                         Address: data.Address,
+                        Notifications:data.Notifications,
                         Transactions: data.Transactions,
                         newFaucetTime: data.newFaucetTime,
+                        Username:data.Username,
                         ReferralCode: data.ReferralCode,
                         HashesMined:tempHashesMined,
                         Referrals: data.Referrals,
@@ -267,7 +275,7 @@
                         PreviousTransactions: data.PreviousTransactions
                     }
                     db.collection("users").doc(Auth.currentUser.uid).set(tempData).then(() => {
-                        console.log("hashes mined");
+                        Alert("Pending Hashes Matured!", "Mining Information", "blue");
                         document.getElementById("PreviousHashesMined").innerHTML = "Total Previous Hashes: " + data.HashesMined.toString();
                     });
                 }
@@ -276,6 +284,8 @@
             }
         
             </script>
+   <div style="z-index:34;" class="notifications"id="notifications">
+</div>
 
     </body>
 </html>
