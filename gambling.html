@@ -16,7 +16,7 @@
     <script>
 
         bettingReturn = 2;
-        betAmount = 1;
+        betAmount = 25;
         tempGamble = "";
         returnRate = 49.5;
         LessThanGamble = 50500;
@@ -92,18 +92,18 @@
 
                     betAmount = Number(5000000/bettingReturn).toFixed(4);
 
-                if(Number(betAmount) < 1 && Rdata.Coins > 0){
-                    betAmount = 1;
-                    $("#gamblingAmount").val(betAmount.toString());
+                if(Number(betAmount) < 25 && Rdata.Coins > 24){
+                    betAmount = 25;
+                    $("#gamblingAmount").val(betAmount.toFixed(4).toString());
                 }
                 else if(Rdata.Coins < 0){
                     betAmount = 0;
-                    $("#gamblingAmount").val(betAmount.toString());
+                    $("#gamblingAmount").val(betAmount.toFixed(4).toString());
                 }
                 else if(Number(betAmount) > 5000000)
                 {
                     betAmount = 5000000;
-                    $("#gamblingAmount").val(betAmount.toString());
+                    $("#gamblingAmount").val(betAmount.toFixed(4).toString());
                 }
                 if(Number(betAmount) > Number(coins))
                 {
@@ -119,26 +119,26 @@
                 $("#result").val(Number(betAmount * (bettingReturn)).toFixed(4).toString() + " PEPPAS");     
         }else{
 
-                if(Number(betAmount) < 1 && Rdata.Coins > 0){
-                    betAmount = 1;
-                    $("#gamblingAmount").val(betAmount.toString());
+                if(Number(betAmount) < 25 && Rdata.Coins > 24){
+                    betAmount = 25;
+                    $("#gamblingAmount").val(betAmount.toFixed(4).toString());
                 }
                 else if(Rdata.Coins < 0){
                     betAmount = 0;
-                    $("#gamblingAmount").val(betAmount.toString());
+                    $("#gamblingAmount").val(betAmount.toFixed(4).toString());
                 }
                 else if(Number(betAmount) > 5000000)
                 {
                     betAmount = 5000000;
-                    $("#gamblingAmount").val(betAmount.toString());
+                    $("#gamblingAmount").val(betAmount.toFixed(4).toString());
                 }
                 if(Number(betAmount) > Number(coins))
                 {
                     betAmount = Number(coins);
-                    $("#gamblingAmount").val(betAmount.toString());
+                    $("#gamblingAmount").val(betAmount.toFixed(4).toString());
                     $("#result").val(Number(betAmount * (bettingReturn)).toFixed(4).toString() + " PEPPAS");     
                 }else{
-                    $("#gamblingAmount").val(betAmount.toString());
+                    $("#gamblingAmount").val(betAmount.toFixed(4).toString());
                 }
                 returnRate = 100 - (Math.sqrt(bettingReturn/99000) * 100)
                 // Print entered value in a div box
@@ -169,13 +169,17 @@
                                             HashesMined: Rdata.HashesMined,
                                             Address: Rdata.Address,
                                             Transactions: Rdata.Transactions,
+                                            Notifications:Rdata.Notifications,
                                             newFaucetTime: Rdata.newFaucetTime,
                                             Username: Rdata.Username,
                                             ReferralCode: Rdata.ReferralCode,
                                             Referrals: Rdata.Referrals,
                                             Referrer: Rdata.Referrer,
                                             Multiplier: Rdata.Multiplier,
-                                            PreviousTransactions: Rdata.PreviousTransactions
+                                            PreviousTransactions: Rdata.PreviousTransactions,
+                                            MarketplaceTransactions: Rdata.MarketplaceTransactions,
+                                            FinishedMarketplaceTransactions: Rdata.FinishedMarketplaceTransactions,
+                                            IncomingMarketplaceTransactions: Rdata.IncomingMarketplaceTransactions
                                         }
 
                                         var ReceiveTransactionObj = {
@@ -187,7 +191,7 @@
                                         tempReceiveData.Transactions.push(ReceiveTransactionObj);
                                         db.collection("users").doc(Auth.currentUser.uid).set(tempReceiveData).then(() => {
                                             $("#finalRoll").val(rolledNumber.toString());
-                                            alert("You won " + (betAmount * bettingReturn).toFixed(4).toString() + " PEPPAS with a " + (bettingReturn) + "x return rate. You rolled a " + rolledNumber.toString());
+                                            Alert("You won " + (betAmount * bettingReturn).toFixed(4).toString() + " PEPPAS with a " + (bettingReturn) + "x return rate. You rolled a " + rolledNumber.toString(), "PeppaBet Win!", "green");
                                             doubleReload();
                                             $(document).ready(function(){
                                             firebase.auth().onAuthStateChanged(user => {
@@ -195,7 +199,7 @@
                                                 docRef.get().then((doc) => {
                                                 if (doc.exists) {
                                                     data = doc.data();
-                                                    $("#peppaAmount").text("Your Wallet: " + data.Coins.toFixed(4).toString() + " PEPPAS");
+                                                    $("#peppaAmount").text("Balance: " + data.Coins.toFixed(4).toString() + " PEPPAS");
                                                     $("#peppaAmount2").text("Balance: " + Number(data.Coins).toFixed(4).toString() + " PEPPAS");
                                                     $("#result").val(Number(betAmount * (bettingReturn)).toFixed(4).toString() + " PEPPAS");     
                                                 }
@@ -204,14 +208,13 @@
                                     })
                                         })
                                     }else{
-                                    alert("You cant bet with no PeppaCoins in your wallet!")
+                                    Alert("You cant bet with no PeppaCoins in your wallet!", "PeppaBet Information", "yellow")
                                 }
                                     }
                                 })
                                 
                                 .catch((error) => {
-                                    alert("there was unfortunately a transaction error...")
-                                    console.error("Error adding document: ", error);
+                                    Alert("there was unfortunately a transaction error...", "Internal Error", "red")
                                 }); 
             }
             else if(rolledNumber < LessThanGamble){
@@ -228,13 +231,17 @@
                                             HashesMined: Rdata2.HashesMined,
                                             Address: Rdata2.Address,
                                             Transactions: Rdata2.Transactions,
+                                            Notifications:Rdata2.Notifications,
                                             newFaucetTime: Rdata2.newFaucetTime,
                                             Username: Rdata2.Username,
                                             ReferralCode: Rdata2.ReferralCode,
                                             Referrals: Rdata2.Referrals,
                                             Referrer: Rdata2.Referrer,
                                             Multiplier: Rdata2.Multiplier,
-                                            PreviousTransactions: Rdata2.PreviousTransactions
+                                            PreviousTransactions: Rdata2.PreviousTransactions,
+                                            MarketplaceTransactions: Rdata2.MarketplaceTransactions,
+                                            FinishedMarketplaceTransactions: Rdata2.FinishedMarketplaceTransactions,
+                                            IncomingMarketplaceTransactions: Rdata2.IncomingMarketplaceTransactions
                                         }
 
                                         var ReceiveTransactionObj2 = {
@@ -247,7 +254,7 @@
                                         tempReceiveData2.Transactions.push(ReceiveTransactionObj2);
                                         db.collection("users").doc(Auth.currentUser.uid).set(tempReceiveData2).then(() => {
                                             $("#finalRoll").val(rolledNumber.toString());
-                                            alert("You lost " + Number(betAmount).toFixed(4).toString() + " PEPPAS with a " + (bettingReturn) + "x return rate. You rolled a " + rolledNumber.toString());
+                                            Alert("You lost " + Number(betAmount).toFixed(4).toString() + " PEPPAS with a " + (bettingReturn) + "x return rate. You rolled a " + rolledNumber.toString(),"PeppaBet Loss!", "red");
                                             doubleReload();
                                             $(document).ready(function(){
                                             firebase.auth().onAuthStateChanged(user => {
@@ -255,10 +262,10 @@
                                                 docRef.get().then((doc) => {
                                                 if (doc.exists) {
                                                     data = doc.data();
-                                                    $("#peppaAmount").text("Your Wallet: " + data.Coins.toFixed(4).toString() + " PEPPAS");
+                                                    $("#peppaAmount").text("Balance: " + data.Coins.toFixed(4).toString() + " PEPPAS");
                                                     $("#peppaAmount2").text("Balance: " + Number(data.Coins).toFixed(4).toString() + " PEPPAS");
-                                                    betAmount = 1;
-                                                    $("#gamblingAmount").val("1.0000");
+                                                    betAmount = 25;
+                                                    $("#gamblingAmount").val("25.0000");
                                                     $("#result").val(Number(betAmount * (bettingReturn)).toFixed(4).toString() + " PEPPAS");     
                                                 }
                                             })
@@ -266,14 +273,13 @@
                                     })
                                         })
                                     }else{
-                                    alert("You cant bet with no PeppaCoins in your wallet!")
+                                    Alert("You cant bet with no PeppaCoins in your wallet!", "PeppaBet Information", "yellow")
                                 }
                                     }
                                 })
                                 
                                 .catch((error) => {
-                                    alert("there was unfortunately a transaction error...")
-                                    console.error("Error adding document: ", error);
+                                    Alert("there was unfortunately a transaction error...", "Internal Error", "red")
                                 }); 
             }
         }
@@ -284,14 +290,15 @@
     <body>
     <div class="page">
             <div class="sidenav">
-            <h4 id = "PeppaPrice" style="text-align: center;">PeppaCoins Price: 0.000000006USD</h4>
+                <button style="margin-left:8px;"class="btn pink"id="wallet"style="z-index: 3;"onclick = "Navigate('index')">PeppaCoins</button>
+                <h4 id = "PeppaPrice" style="text-align: center;">PeppaCoins Price: 0.000000006USD</h4>
             <button style="margin-left:18px;"class="btn pink"id="wallet"style="z-index: 3;"onclick = "Navigate('wallet')">Wallet</button>
             <button style="margin-left:17px;"class="btn pink"id="faucet"style="z-index: 3;"onclick = "Navigate('faucet')">Faucet</button>
             <button style="margin-left:16px;"class="btn pink"id="gambling"style="z-index: 3;"onclick = "Navigate('gambling')">Gambling</button>
             <button style="margin-left:15px;"class="btn pink"id="trade"style="z-index: 3;"onclick = "Navigate('trade')">Trade</button>
             <button style="margin-left:14px;"class="btn pink"id="referrals"style="z-index: 3;"onclick = "Navigate('referrals')">Referrals</button>
             <button style="margin-left:14px;"class="btn pink"id="mining"style="z-index: 3;"onclick = "Navigate('mining')">Mining</button>
-            <br><Br><Br><Br><br><Br><Br><br><Br><br>
+            <br><Br><Br><Br><br><Br><Br><br>
                 <button style="margin-left:14px;margin-bottom:5px;"class="btn pink"id="signOut"style="z-index: 3;"onclick = "signOut()">Sign Out</button>
             </div>
         <div class="gambling">
@@ -309,8 +316,8 @@
         line-height:0px;">
         <div class="topnav1">
         <a><h5 style="margin-left:8%;"id="peppaAmount2"></h5></a>
-        <a><h5 style="margin-left:150%;font-size:13px;width:250px;"id="PeppaMaxBet">Max Bet: 5,000,000 PEPPAS</h5></div></a>
-        <input style="width:30%; height:10%;margin-left:1.5%;"type="number" id="gamblingAmount" name="firstname" placeholder="Bet Amount" value="1.0000"/>
+        <a><h5 style="margin-left:150%;font-size:13px;width:250px;"id="PeppaMaxBet">Max Profit: 5,000,000 PEPPAS</h5></div></a>
+        <input style="width:30%; height:10%;margin-left:1.5%;"type="number" id="gamblingAmount" name="firstname" placeholder="Bet Amount" value="25.0000"/>
         <input disabled="disabled" style="border-radius:2px;font-size:19;display:inline-block;font-family:Helvetica;width:15%; height:10%;margin-left:-0.7%;background-color:inherit;border: 2px solid rgb(75, 71, 71);color:rgb(126, 115, 115)"type="text" value = "Bet Amount"/>
         <input style="display: inline-block;width:30%; height:10%;margin-left:5%"type="number" placeholder="Gambling Return" id="gamblingReturn" value = "2.0000"/>
         <input disabled="disabled" style="border-radius:2px;font-size:19;display:inline-block;font-family:Helvetica;width:15%; height:10%;margin-left:-0.7%;background-color:inherit;border: 2px solid rgb(75, 71, 71);color:rgb(126, 115, 115)"type="text" value = "Bet Return"/>
@@ -327,7 +334,7 @@
         <button style="border-radius: 2px;" class = "button1" id="betReturnMAX">MAX</button>
 
         <br><br><br>
-        <input disabled="disabled"style="display: inline-block;width:30%; height:10%;margin-left:4%"type="text" placeholder="Gambling Return" id="result" value = "2 PEPPAS"/>
+        <input disabled="disabled"style="display: inline-block;width:30%; height:10%;margin-left:4%"type="text" placeholder="Gambling Return" id="result" value = "50.0000 PEPPAS"/>
         <input disabled="disabled" style="border-radius:2px;font-size:19;display:inline-block;font-family:Helvetica;width:10%; height:10%;margin-left:-0.7%;background-color:inherit;border: 2px solid rgb(75, 71, 71);color:rgb(126, 115, 115)"type="text" value = " Profit"/>
         <input disabled="disabled"style="display: inline-block;width:30%; height:10%;margin-left:6.8%"type="text" placeholder="Gambling Return" id="ChangePercent" value = "49.5000%"/>
         <input disabled="disabled" style="border-radius:2px;font-size:19;display:inline-block;font-family:Helvetica;width:16%; height:10%;margin-left:-0.7%;background-color:inherit;border: 2px solid rgb(75, 71, 71);color:rgb(126, 115, 115)"type="text" value = "Win Chance"/>
@@ -667,5 +674,8 @@
                             })
                         }
     </script>
+       <div style="z-index:34;" class="notifications"id="notifications">
+    </div>
+
     </body>
 </html>

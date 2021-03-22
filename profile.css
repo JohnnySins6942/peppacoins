@@ -244,7 +244,7 @@ ul {
       background-position: center;
     }
     .sellList {
-        width:87%;
+        width:100%;
         padding: 0px 10px;
       background-color:rgb(48, 45, 45);
       z-index: 1;
@@ -254,7 +254,7 @@ ul {
       overflow-x:none;
       padding-top:20px;
       height:100%;
-      margin-left:12.9%;
+      margin-left:0%;
       overflow-y: scroll;
     }
     .sidenav {

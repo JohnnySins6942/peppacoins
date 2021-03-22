@@ -54,6 +54,25 @@ function onReady(callback) {
             {
                 InitializeReferrals();
             }
+            else if(window.location.href.indexOf("index") >-1)
+            {
+                var price = document.getElementById("PeppaPrice");
+                var docRef = db.collection("data").doc("data");
+                docRef.get().then((doc) => {
+                    if (doc.exists) {
+                        var data = doc.data();
+                        price.innerHTML = "1 PEPPA = " + data.PeppaValue + "USD";
+                    }
+                })
+                        var modal = document.getElementById("GoToWallet");
+                        var modal2 = document.getElementById("Loginbtn");
+                        modal.style.display = "block";
+                        modal2.style.display = "none";
+                var towalletbtn = document.getElementById("GoToWallet");
+                towalletbtn.onclick = function(){
+                    window.location.href = "wallet.html";
+            }
+            }
             else if(window.location.href.indexOf("trade") > -1)
             {
                 InitializeTrade();
@@ -722,7 +741,7 @@ function onReady(callback) {
                     }
                 })
             }
-            if(!window.location.href.indexOf("index") > -1 && !window.location.href.indexOf("minigame") > -1)
+            if(!window.location.href.indexOf("index") > -1 && !window.location.href.indexOf("minigame") > -1 && !window.location.href.indexOf("createListing"))
             {
                 var price = document.getElementById("PeppaPrice");
                 var docRef = db.collection("data").doc("data");
@@ -732,27 +751,12 @@ function onReady(callback) {
                         price.innerHTML = "1 PEPPA = " + data.PeppaValue + "USD";
                     }
                 })
-                firebase.auth().onAuthStateChanged((user) =>{
-                    if(user){
-                        var modal = document.getElementById("GoToWallet");
-                        var modal2 = document.getElementById("Loginbtn");
-                        modal.style.display = "block";
-                        modal2.style.display = "none";
-                    }else{
-                        var modal = document.getElementById("GoToWallet");
-                        var modal2 = document.getElementById("Loginbtn");
-                        modal2.style.display = "block";
-                        modal.style.display = "none";
-                    }
-                })
-                var towalletbtn = document.getElementById("GoToWallet");
-                towalletbtn.onclick = function(){
-                    window.location.href = "wallet.html";
-                }
+
             }
-        }else{
-            
-            if(window.location.href.indexOf("index") > -1){
+        }
+        else{
+            if(window.location.href.indexOf("index") > -1)
+            {
             var price = document.getElementById("PeppaPrice");
             var docRef = db.collection("data").doc("data");
             docRef.get().then((doc) => {
@@ -761,8 +765,17 @@ function onReady(callback) {
                     price.innerHTML = "1 PEPPA = " + data.PeppaValue + "USD";
                 }
             })
+
+                    var modal = document.getElementById("GoToWallet");
+                    var modal2 = document.getElementById("Loginbtn");
+                    modal2.style.display = "block";
+                    modal.style.display = "none";
+            var towalletbtn = document.getElementById("GoToWallet");
+            towalletbtn.onclick = function(){
+                window.location.href = "wallet.html";
         }
     }
+        }
         })
     }
 
@@ -852,17 +865,18 @@ function onReady(callback) {
         var newUser = userName.value
         if(email == "")
         {
-            alert("You need an email to sign up!")
+            Alert("You need an email to sign up!", "Sign Up Error!", "yellow")
         }
-        if(userName == "")
+        if(newUser == ""|| newUser == " ")
         {
-            alert("You need a unique username to sign up!")
+            Alert("You need a unique username to sign up!", "Sign Up Error!", "yellow")
         }
+        else{
         db.collection("users").where("Username", "==", newUser)        .get()
         .then((querySnapshot) => {
         if(!querySnapshot.empty)
             {
-                alert("Your username isn't unique enough! Another pig already took it")
+                Alert("Your username isn't unique enough! Another pig already took it", "Sign Up Error!", "yellow")
             }
             else{
                 
@@ -877,6 +891,7 @@ function onReady(callback) {
             var referralcode = makeid(7);
             var docData = {
                 Coins: 0.0,
+                Notifications:[],
                 Address: randomString,
                 Transactions: [],
                 newFaucetTime: new Date(),
@@ -886,7 +901,10 @@ function onReady(callback) {
                 Username: newUser,
                 Referrer: empty,
                 Multiplier: 1,
-                PreviousTransactions: 0
+                PreviousTransactions: 0,
+                MarketplaceTransactions: [],
+                FinishedMarketplaceTransactions: 0,
+                IncomingMarketplaceTransactions: []
             }
 
             db.collection("users").doc(user.uid).set(docData).then(() => {
@@ -911,10 +929,10 @@ function onReady(callback) {
                 })
             })
             .catch((error) => {
-                alert(error);
+                Alert(error, "Internal Error", "red");
             });    
         }).catch((error) => {
-            alert(error);
+            Alert(error, "Internal Error", "red");
         })
     }
     else{
@@ -938,6 +956,7 @@ function onReady(callback) {
                         Coins: 0.0,
                         Address: randomString,
                         Transactions: [],
+                        Notifications:[],
                         newFaucetTime: new Date(),
                         HashesMined:0,
                         ReferralCode: referralcode,
@@ -945,7 +964,10 @@ function onReady(callback) {
                         Username: newUser,
                         Referrer: doc.id,
                         Multiplier: 1,
-                        PreviousTransactions: 0
+                        PreviousTransactions: 0,
+                        MarketplaceTransactions: [],
+                        FinishedMarketplaceTransactions: 0,
+                        IncomingMarketplaceTransactions: []
                     }
                     var data = doc.data();
                     
@@ -959,8 +981,12 @@ function onReady(callback) {
                         HashesMined:data.HashesMined,
                         Referrals: data.Referrals,
                         Referrer: data.Referrer,
+                        Notifications:data.Notifications,
                         Multiplier: data.Multiplier,
-                        PreviousTransactions: data.PreviousTransactions
+                        PreviousTransactions: data.PreviousTransactions,
+                        MarketplaceTransactions: data.MarketplaceTransactions,
+                        FinishedMarketplaceTransactions: data.FinishedMarketplaceTransactions,
+                        IncomingMarketplaceTransactions: data.IncomingMarketplaceTransactions
                     }
                     
         
@@ -990,7 +1016,7 @@ function onReady(callback) {
                         })
                     })    
                 }).catch((error) => {
-                    alert(error);
+                    Alert(error, "Internal Error", "red");
                 })
             }
         });
@@ -998,20 +1024,21 @@ function onReady(callback) {
     }
     
     else{
-        alert("The referral code you entered is invalid");
+        Alert("The referral code you entered is invalid", "Sign Up Error!", "yellow");
     }
     
     })
     
     .catch((error) => {
-        alert(error);
+        Alert(error, "Internal Error", "red");
     });
     
     }
 }
 })
+        }
 }else {
-    alert("Please read and agree to the Terms and Agreements before proceeding.")
+    Alert("Please read and agree to the Terms and Agreements before proceeding.", "Sign Up Error", "yellow")
  }
     }
 
@@ -1019,8 +1046,9 @@ function onReady(callback) {
     function SendPeppa(){
         var receiverAddress = document.getElementById("receiverAddress");
         var TransactionAmount = document.getElementById("amount");
+        if(TransactionAmount.value >= 250)
+        {
         var modal = document.getElementById("sendModal");
-        modal.style.display = "none";
         var NetworkFee = (Number(TransactionAmount.value) * 0.01).toFixed(4);
         db.collection("users").where("Address", "==", receiverAddress.value)
         .get()
@@ -1037,8 +1065,9 @@ function onReady(callback) {
                             var coins = data.Coins;
                             if (coins >= Number(TransactionAmount.value) + Number(NetworkFee)){
                                 var tempCoin = Number((coins - (Number(TransactionAmount.value) + Number(NetworkFee))).toFixed(4));  
-                                
+                                modal.style.display = "none";
                                 var TransactionObj = {
+                                    userName: doc.data().Username,
                                     ReceiverAddress: receiverAddress.value,
                                     SenderAddress: data.Address,
                                     TransactionDate: new Date(),
@@ -1052,6 +1081,7 @@ function onReady(callback) {
                                     Coins: tempCoin,
                                     Address: data.Address,
                                     HashesMined:data.HashesMined,
+                                    Notifications:data.Notifications,
                                     Transactions: data.Transactions,
                                     Username: data.Username,
                                     newFaucetTime: data.newFaucetTime,
@@ -1059,12 +1089,15 @@ function onReady(callback) {
                                     Referrals: data.Referrals,
                                     Referrer: data.Referrer,
                                     Multiplier: data.Multiplier,
-                                    PreviousTransactions: data.PreviousTransactions
+                                    PreviousTransactions: data.PreviousTransactions,
+                                    MarketplaceTransactions: data.MarketplaceTransactions,
+                                    FinishedMarketplaceTransactions: data.FinishedMarketplaceTransactions,
+                                    IncomingMarketplaceTransactions: data.IncomingMarketplaceTransactions
                                 }
                                 tempData.Transactions.push(TransactionObj);
-
+                                console.log(tempData);
                                 db.collection("users").doc(Auth.currentUser.uid).set(tempData).then(() => {
-                                    alert("You sent " + Number(TransactionAmount.value).toFixed(4) + " PeppaCoins with a Network fee cost of " + Number(NetworkFee).toFixed(4).toString() +  " PEPPAS to the address " + receiverAddress.value + " successfully!")
+                                    Alert("You sent " + Number(TransactionAmount.value).toFixed(4) + " PeppaCoins with a Network fee cost of " + Number(NetworkFee).toFixed(4).toString() +  " PEPPAS to the user " + doc.data().Username + " successfully!","Sent Transaction", "blue")
                                     InitializeWallet(Auth.currentUser);
                                 })
 
@@ -1077,6 +1110,7 @@ function onReady(callback) {
                                         var tempReceiveData = {
                                             Coins: ReceivetempCoin,
                                             Address: Rdata.Address,
+                                            Notifications:Rdata.Notifications,
                                             Transactions: Rdata.Transactions,
                                             Username: Rdata.Username,
                                             HashesMined:data.HashesMined,
@@ -1085,17 +1119,27 @@ function onReady(callback) {
                                             Referrals: Rdata.Referrals,
                                             Referrer: Rdata.Referrer,
                                             Multiplier: Rdata.Multiplier,
-                                            PreviousTransactions: Rdata.PreviousTransactions
+                                            PreviousTransactions: Rdata.PreviousTransactions,
+                                            MarketplaceTransactions: Rdata.MarketplaceTransactions,
+                                            FinishedMarketplaceTransactions: Rdata.FinishedMarketplaceTransactions,
+                                            IncomingMarketplaceTransactions: Rdata.IncomingMarketplaceTransactions
                                         }
 
                                         var ReceiveTransactionObj = {
+                                            userName: data.Username,
                                             ReceiverAddress: receiverAddress.value,
                                             SenderAddress: data.Address,
                                             TransactionDate: new Date(),
                                             Amount: Number(TransactionAmount.value).toFixed(4),
                                             send: false
                                         }
+                                        var NotificationsObj = {
+                                            NotifType: "green",
+                                            NotifContent: data.Username + " Has Sent you " + Number(TransactionAmount.value).toFixed(4).toString() + " PEPPAS!",
+                                            NotifTitle: "Incoming Transaction!"
+                                        }
                                         tempReceiveData.Transactions.push(ReceiveTransactionObj);
+                                        tempReceiveData.Notifications.push(NotificationsObj);
                                         db.collection("users").doc(doc.id).set(tempReceiveData).then(() => {
                                                 var docRef1 = db.collection("data").doc("data");
                                                 docRef1.get().then((doc1) => {
@@ -1120,28 +1164,31 @@ function onReady(callback) {
                                 })
                                 
                                 .catch((error) => {
-                                    alert("there was unfortunately a transaction error...")
-                                    console.error("Error adding document: ", error);
+                                    Alert("there was unfortunately a transaction error...", "Internal Error", "red")
                                 }); 
                             }
                             else{
-                                alert("Your balance cannot cover the transaction amount!")
+                                Alert("Your balance cannot cover the transaction amount!", "Transaction Error", "yellow")
                             }                            
                         }
                     })
                 }
                 else{
-                    alert("You cant send peppacoins to yourself...");
+                    Alert("You cant send peppacoins to yourself...", "Transaction Error", "yellow");
                 }
             });
         }
         else{
-            alert("Please input a valid PeppaCoin Address");
+            Alert("Please input a valid PeppaCoin Address", "Transaction Error", "yellow");
         }
         })
         .catch(() => {
-            alert("The address you inputed is not tied to an account!");
+            Alert("The address you inputed is not tied to an account!", "Transaction Error", "yellow");
         });
+    }
+    else{
+        Alert("You need to send at least 250 PEPPAS!", "Transaction Error", "yellow")
+    }
     }
       
 
@@ -1193,6 +1240,7 @@ function onReady(callback) {
 
     function InitializeWallet(auth){
         let html = '';
+        let html1='';
         var docRef = db.collection("users").doc(auth.uid);
         docRef.get().then((doc) => {
             if (doc.exists) {
@@ -1200,6 +1248,7 @@ function onReady(callback) {
                 var coins = data.Coins;
                 var address = data.Address;
                 var transactions = data.Transactions;
+                var notifications=  data.Notifications;
                 document.getElementById("Coins").innerHTML = Number(coins).toFixed(4) + " PEPPAS";
                 document.getElementById("Coins2").innerHTML = Number(coins).toFixed(4) + " PEPPAS";
                 document.getElementById("UserAddress").innerHTML =  address;
@@ -1218,10 +1267,87 @@ function onReady(callback) {
                 
 
                 arrayLength = transactions.length;
+                arrayLength1 = notifications.length;
+                if(arrayLength1 > 0)
+                {
+                    var list1 = document.getElementById('notifications');
+                    for (var i = arrayLength1 - 1; i >= 0; i--) {
+
+                        if(notifications[i].NotifType == "green")
+                        {
+                            const li = `
+                            <div class="alert success" style="pointer-events: auto;">
+                            <span class="closebtn">&times;</span>  
+                            <strong>${notifications[i].NotifTitle}</strong><br>${notifications[i].NotifContent}
+                            </div>
+                            `;
+                            html1 += li;
+                        }
+                        else if(notifications[i].NotifType == "yellow"){
+                            const li = `
+                            <div class="alert" style="pointer-events: auto;">
+                            <span class="closebtn">&times;</span>  
+                            <strong>${notifications[i].NotifTitle}</strong><Br>${notifications[i].NotifContent}
+                            </div>
+                            `;
+                            html1 += li;
+                        }
+                        else if(notifications[i].NotifType == "red"){
+                            const li = `
+                            <div class="alert warning" style="pointer-events: auto;">
+                            <span class="closebtn">&times;</span>  
+                            <strong>${notifications[i].NotifTitle}</strong><br>${notifications[i].NotifContent}
+                            </div>
+                            `;
+                            html1 += li;
+                        }
+                        else if(notifications[i].NotifType == "blue"){
+                            const li = `
+                            <div class="alert info" style="pointer-events: auto;">
+                            <span class="closebtn">&times;</span>  
+                            <strong>${notifications[i].NotifTitle}</strong><Br>${notifications[i].NotifContent}
+                            </div>
+                            `;
+                            html1 += li;
+                        }
+
+                        notifications.splice(i, 1);
+                        list1.innerHTML = html1;
+                        var close = document.getElementsByClassName("closebtn");
+                        var z;
+
+                        for (z = 0; z < close.length; z++) {
+                        close[z].onclick = function(){
+                            var div = this.parentElement;
+                            div.style.opacity = "0";
+                            setTimeout(function(){ div.style.display = "none"; }, 600);
+                        }
+                        }
+                    }
+                    var tempData3 = {
+                        Coins: data.Coins,
+                        Address: data.Address,
+                        Notifications:notifications,
+                        HashesMined:data.HashesMined,
+                        Transactions: transactions,
+                        Username: data.Username,
+                        newFaucetTime: data.newFaucetTime,
+                        ReferralCode: data.ReferralCode,
+                        Referrals: data.Referrals,
+                        Referrer: data.Referrer,
+                        Multiplier: data.Multiplier,
+                        PreviousTransactions: Number(data.PreviousTransactions),
+                        MarketplaceTransactions: data.MarketplaceTransactions,
+                        FinishedMarketplaceTransactions: data.FinishedMarketplaceTransactions,
+                        IncomingMarketplaceTransactions: data.IncomingMarketplaceTransactions
+                    }
+                    db.collection("users").doc(auth.uid).set(tempData3)
+                }
                 var j = 0;
                 var tempData = {
                     Coins: data.Coins,
                     Address: data.Address,
+                    Notifications:data.Notifications,
                     HashesMined:data.HashesMined,
                     Transactions: transactions,
                     Username: data.Username,
@@ -1230,7 +1356,10 @@ function onReady(callback) {
                     Referrals: data.Referrals,
                     Referrer: data.Referrer,
                     Multiplier: data.Multiplier,
-                    PreviousTransactions: Number(data.PreviousTransactions)
+                    PreviousTransactions: Number(data.PreviousTransactions),
+                    MarketplaceTransactions: data.MarketplaceTransactions,
+                    FinishedMarketplaceTransactions: data.FinishedMarketplaceTransactions,
+                    IncomingMarketplaceTransactions: data.IncomingMarketplaceTransactions
                 }
                 var list = document.getElementById('transactionList');
                 if(arrayLength == 0)
@@ -1357,6 +1486,7 @@ function onReady(callback) {
                 var docData = {
                     Coins: 0.0,
                     Address: randomString,
+                    Notifications: [],
                     Transactions: [],
                     Username: "",
                     newFaucetTime: new Date(),
@@ -1365,7 +1495,10 @@ function onReady(callback) {
                     Referrals: [],
                     Referrer: empty,
                     Multiplier: 1,
-                    PreviousTransactions: 0
+                    PreviousTransactions: 0,
+                    MarketplaceTransactions: [],
+                    FinishedMarketplaceTransactions: 0,
+                    IncomingMarketplaceTransactions: []
                 }
     
                 db.collection("users").doc(Auth.currentUser.uid).set(docData).then(() => {
@@ -1384,6 +1517,9 @@ function onReady(callback) {
         
     function Navigate(navigation){
         switch(navigation){
+            case "index":
+                window.location.href = "index.html";
+                break;
             case "wallet":
                 window.location.href = "wallet.html";
                 break;
@@ -1403,10 +1539,74 @@ function onReady(callback) {
                 window.location.href = "mining.html";
                 break;
             case "minigame":
-                window.location.href= "minigame.html"
+                window.location.href = "minigame.html";
+            case "marketplace":
+                window.location.href = "marketplace.html";
+                break;
+            case "marketplaceProfile":
+                window.location.href = "profile.html"
+                breakl
         }
         
     }    
+    function Alert(Message, title, color)
+    {
+        rando = makeid(15);
+        let html1='';
+        var list1 = document.getElementById('notifications');
+        if(color == "green")
+        {
+            const li = `
+            <div id=${rando} class="alert success" style="pointer-events: auto;z-index:99;">
+            <span class="closebtn">&times;</span>  
+            <strong>${title}</strong><br>${Message}
+            </div>
+            `;
+            html1 += li;
+        }
+        else if(color == "yellow"){
+            const li = `
+            <div id=${rando} class="alert" style="pointer-events: auto;z-index:99;">
+            <span class="closebtn">&times;</span>  
+            <strong>${title}</strong><Br>${Message}
+            </div>
+            `;
+            html1 += li;
+        }
+        else if(color == "red"){
+            const li = `
+            <div id=${rando} class="alert warning" style="pointer-events: auto;z-index:99;">
+            <span class="closebtn">&times;</span>  
+            <strong>${title}</strong><br>${Message}
+            </div>
+            `;
+            html1 += li;
+        }
+        else if(color == "blue"){
+            const li = `
+            <div id=${rando} class="alert info" style="pointer-events: auto;z-index:99;">
+            <span class="closebtn">&times;</span>  
+            <strong>${title}</strong><Br>${Message}
+            </div>
+            `;
+            html1 += li;
+        }
+        list1.innerHTML += html1;
+        list1.style.display = "none";
+        list1.style.display = "block";
+        list1.style.zIndex = "99";
+        var close = document.getElementsByClassName("closebtn");
+        var InDOMAlert = document.getElementById(rando)
+        var z;
+
+        for (z = 0; z < close.length; z++) {
+        close[z].onclick = function(){
+            var div = this.parentElement;
+            div.style.opacity = "0";
+            setTimeout(function(){ div.style.display = "none"; div.remove();}, 10);
+        }
+        }
+    }
 
     function addMinutes(date, minutes) {
         return new Date(date.getTime() + minutes*60000);
@@ -1427,13 +1627,14 @@ function onReady(callback) {
                                         var Rcoins = Rdata.Coins;
                                         var date1 = new Date();
                                         var date2 = Rdata.newFaucetTime.toDate();
-                                        var transactionAmount = ((Math.random() * 5)/2 * Rdata.Multiplier).toFixed(4);
+                                        var transactionAmount = ((Math.random() * 50)/2 * Rdata.Multiplier).toFixed(4);
                                         if(Date.parse(date1) > Date.parse(date2)){
                                         var ReceivetempCoin = Number(Rcoins) + Number(transactionAmount);  
                                         var newTime = addMinutes(new Date(), 1440);
                                         var tempReceiveData = {
                                             Coins: ReceivetempCoin,
                                             Address: Rdata.Address,
+                                            Notifications:Rdata.Notifications,
                                             Transactions: Rdata.Transactions,
                                             newFaucetTime: newTime,
                                             Username: Rdata.Username,
@@ -1442,9 +1643,13 @@ function onReady(callback) {
                                             Referrals: Rdata.Referrals,
                                             Referrer: Rdata.Referrer,
                                             Multiplier: Rdata.Multiplier,
-                                            PreviousTransactions: Rdata.PreviousTransactions
+                                            PreviousTransactions: Rdata.PreviousTransactions,
+                                            MarketplaceTransactions: Rdata.MarketplaceTransactions,
+                                            FinishedMarketplaceTransactions: Rdata.FinishedMarketplaceTransactions,
+                                            IncomingMarketplaceTransactions: Rdata.IncomingMarketplaceTransactions
                                         }
                                         var ReceiveTransactionObj = {
+                                            userName: "Faucet Reward",
                                             ReceiverAddress: receiverAddress.value,
                                             SenderAddress: "Faucet Reward",
                                             TransactionDate: new Date(),
@@ -1468,7 +1673,7 @@ function onReady(callback) {
                                                     users: data.users
                                                 }
                                                 db.collection("data").doc("data").set(tempData1).then(() =>{
-                                                    alert("You have received " + transactionAmount.toString() + " PEPPAS for free!");
+                                                    Alert("You have received " + transactionAmount.toString() + " PEPPAS for free!", "Faucet Information", "green");
                                                     InitializeFaucet(Auth.currentUser);
                                                     })
                                             })
@@ -1476,21 +1681,21 @@ function onReady(callback) {
                                     }
                                     else
                                     {
-                                       alert("Cannot claim Daily faucet yet! Your next claim time is at: " + date2);
+                                        Alert("Cannot claim Daily faucet yet! Your next claim time is at: " + date2, "Faucet Information", "yellow");
                                     }
                                     }
                                     else{
-                                        alert("Please input a valid peppacoin address to receive the faucet");
+                                        Alert("Please input a valid peppacoin address to receive the faucet", "Faucet Information", "yellow");
                                     }
                                 })
             })
         }
         else{
-            alert("Please input a valid PeppaCoin Address");
+            Alert("Please input a valid PeppaCoin Address", "Faucet Information", "yellow");
         }
 
     }).catch(() => {
-        alert("The address you inputed is not tied to an account!");
+        Alert("The address you inputed is not tied to an account!", "Faucet Information", "yellow");
     });
 
 
@@ -1502,12 +1707,13 @@ function MinigameSendPeppa(){
             var docRef = db.collection("users").doc(Auth.currentUser.uid);
                             docRef.get().then((Receivedoc) => {
                                 if (Receivedoc.exists) {
-                                    transactionAmount = Math.floor(Math.random() * 4);
+                                    transactionAmount = Number((Math.random() * 2) + 0.01).toFixed(4);
                                     var Rdata = Receivedoc.data();
                                     var Rcoins = Rdata.Coins;
                                     var ReceivetempCoin = Number(Rcoins) + Number(transactionAmount);  
                                     var tempReceiveData = {
                                         Coins: ReceivetempCoin,
+                                        Notifications:Rdata.Notifications,
                                         Address: Rdata.Address,
                                         Transactions: Rdata.Transactions,
                                         newFaucetTime: Rdata.newFaucetTime,
@@ -1517,9 +1723,13 @@ function MinigameSendPeppa(){
                                         Referrals: Rdata.Referrals,
                                         Referrer: Rdata.Referrer,
                                         Multiplier: Rdata.Multiplier,
-                                        PreviousTransactions: Rdata.PreviousTransactions
+                                        PreviousTransactions: Rdata.PreviousTransactions,
+                                        MarketplaceTransactions: Rdata.MarketplaceTransactions,
+                                        FinishedMarketplaceTransactions: Rdata.FinishedMarketplaceTransactions,
+                                        IncomingMarketplaceTransactions: Rdata.IncomingMarketplaceTransactions
                                     }
                                     var ReceiveTransactionObj = {
+                                        userName: "Minigame Reward",
                                         ReceiverAddress: Rdata.Address,
                                         SenderAddress: "Minigame Reward",
                                         TransactionDate: new Date(),
@@ -1543,7 +1753,7 @@ function MinigameSendPeppa(){
                                                 users: data.users
                                             }
                                             db.collection("data").doc("data").set(tempData1).then(() =>{
-                                                alert("You have received " + transactionAmount.toString() + " PEPPAS for free!");
+                                                Alert("You have received " + transactionAmount.toString() + " PEPPAS for free!", "Minigame Information", "green");
                                                 InitializeFaucet(Auth.currentUser);
                                                 })
                                         })
@@ -1642,6 +1852,7 @@ function ClaimGiftCard(giftCardType, GiftCardAmount)
                         Coins: (data.Coins) - cost,
                         Address: data.Address,
                         Transactions: data.Transactions,
+                        Notifications:data.Notifications,
                         newFaucetTime: data.newFaucetTime,
                         HashesMined:data.HashesMined,
                         Username: data.Username,
@@ -1649,18 +1860,21 @@ function ClaimGiftCard(giftCardType, GiftCardAmount)
                         Referrals: data.Referrals,
                         Referrer: data.Referrer,
                         Multiplier: data.Multiplier,
-                        PreviousTransactions: data.PreviousTransactions
+                        PreviousTransactions: data.PreviousTransactions,
+                        MarketplaceTransactions: data.MarketplaceTransactions,
+                        FinishedMarketplaceTransactions: data.FinishedMarketplaceTransactions,
+                        IncomingMarketplaceTransactions: data.IncomingMarketplaceTransactions
                     }
                     tempData.Transactions.push(TransactionObj);
                     db.collection("users").doc(Auth.currentUser.uid).set(tempData).then(() => {
                         db.collection("data").doc("redeemdata").set(tempOBJ).then(() => {
-                            alert("You have redeemed a " + GiftCardAmount + " dollar " + giftCardType + " Gift Card for " + cost + " PEPPAS! The gift code will be sent to your registered email address. You will be notified when your transaction has been approved or denied. Thank you for your purchase!");
+                            Alert("You have redeemed a " + GiftCardAmount + " dollar " + giftCardType + " Gift Card for " + cost + " PEPPAS! The gift code will be sent to your registered email address. You will be notified when your transaction has been approved or denied. Thank you for your purchase!", "PeppaTrade Information", "green");
                             InitializeTrade();
                         })    
                     }) 
 
                 }else{
-                    alert("Your balance cannot cover the transaction costs!")
+                    Alert("Your balance cannot cover the transaction costs!", "PeppaTrade Information", "yellow")
                 }
             }
         })
@@ -1728,6 +1942,7 @@ function Redeem(giftType)
                                     Coins: tempCoin,
                                     Address: data1.Address,
                                     Transactions: data1.Transactions,
+                                    Notifications:data1.Notifications,
                                     Username: data1.Username,
                                     HashesMined:data1.HashesMined,
                                     newFaucetTime: data1.newFaucetTime,
@@ -1735,13 +1950,16 @@ function Redeem(giftType)
                                     Referrals: data1.Referrals,
                                     Referrer: data1.Referrer,
                                     Multiplier: data1.Multiplier,
-                                    PreviousTransactions: data1.PreviousTransactions
+                                    PreviousTransactions: data1.PreviousTransactions,
+                                    MarketplaceTransactions: data1.MarketplaceTransactions,
+                                    FinishedMarketplaceTransactions: data1.FinishedMarketplaceTransactions,
+                                    IncomingMarketplaceTransactions: data1.IncomingMarketplaceTransactions
                                 }
                                 tempData.Transactions.push(TransactionObj);
 
                                 db.collection("users").doc(Auth.currentUser.uid).set(tempData).then(() => {
                                     db.collection("data").doc("redeemdata").set(tempOBJ).then(() => {
-                                        alert("You have redeemed " + matches1 + " BTC for " + amountbtc.value + " PEPPAS with the transaction fee of 0.0004 BTC to the BTC address: " +BitcoinAddress.value + ". Your BTC transaction is being processed. You will be notified once the transaction has been completed or denied. Thank you for your purchase!");
+                                        Alert("You have redeemed " + matches1 + " BTC for " + amountbtc.value + " PEPPAS with the transaction fee of 0.0004 BTC to the BTC address: " +BitcoinAddress.value + ". Your BTC transaction is being processed. You will be notified once the transaction has been completed or denied. Thank you for your purchase!");
                                         InitializeTrade();
                                     })    
                                 }) 
@@ -1759,4 +1977,2666 @@ function Redeem(giftType)
             })
         break;
     }
+}
+
+function createListing()
+{
+    var method = null;
+    var sellOrBuy = null;
+    var amount = null;
+    var price = null;
+    var description = null;
+    
+    var paymentMethods = document.getElementsByName('method');
+
+    for (var i = 0, length = paymentMethods.length; i < length; i++) {
+    if (paymentMethods[i].checked) {
+        method = paymentMethods[i].value;
+        break;
+    }
+    }
+    var sellorbuy = document.getElementsByName('sellorbuy');
+
+    for (var i = 0, length = sellorbuy.length; i < length; i++) {
+    if (sellorbuy[i].checked) {
+        sellOrBuy = sellorbuy[i].value;
+        break;
+    }
+    }
+    var amountInput = document.getElementById('amount');
+    amount = amountInput.value;
+    var priceInput = document.getElementById('price');
+    price = priceInput.value;
+    var instructions = document.getElementById('instructions');
+    description = instructions.value;
+    var docRef2 = db.collection("users").doc(Auth.currentUser.uid);
+    docRef2.get().then((Senddoc) => {
+        var data5 = Senddoc.data();
+        var userName = data5.Username;
+        var marketplacelistings = data5.MarketplaceTransactions;
+        var completedTransactions = data5.FinishedMarketplaceTransactions;
+        if(marketplacelistings.length >= 3)
+        {
+            Alert("You can't have more than 3 active marketplace listings! Delete some to List more", "Create Listing Information", "red");
+        }
+        else{
+    if(method == null || amount == null || sellOrBuy == null || price == null || description == null)
+    {
+        Alert("You need to fill out everything in the form!", "Create Listing Information", "yellow");
+    }
+    else{
+    if(Number(amount) < 100000)
+    {
+        Alert("You need to transact at least 100k PEPPAS to create a listing!", "Create Listing Information", "yellow");
+    }
+    else{
+    if(sellOrBuy == "sell")
+    {
+    switch(method){
+        case "Paypal":
+            var listingRef = db.collection("marketplace").doc("Sell listings");
+            var userRef = db.collection("users").doc(Auth.currentUser.uid);
+            listingRef.get().then((doc) => {
+                data = doc.data();
+            
+
+            var newSellListingObjPaypal = {
+                amount: amount,
+                price: price,
+                description:description,
+                user: Auth.currentUser.uid,
+                userName: userName, 
+                completedTransactions: completedTransactions,
+                listingID: makeid(15)
+            }
+            var newMarketplaceListingObj = {
+                document: "Sell listings",
+                array: "paypalListings",
+                amount: amount,
+                price: price,
+                description: description,
+                listingId:newSellListingObjPaypal.listingID
+            }
+
+            var tempPaypalListObj = data.paypalListings;
+
+            tempPaypalListObj.push(newSellListingObjPaypal);
+            marketplacelistings.push(newMarketplaceListingObj);
+
+
+           return listingRef.update({
+                paypalListings: tempPaypalListObj
+            })
+            .then(() => {
+                Alert("listing sucessfully created!", "Create Listing Information", "green");
+                userRef.update({
+                    MarketplaceTransactions: marketplacelistings
+                })
+                
+            })
+            .catch((error) => {
+                console.error("Error updating document: ", error);
+            });
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
+        break;
+
+        case "GiftCard":
+            var listingRef = db.collection("marketplace").doc("Sell listings");
+            var userRef = db.collection("users").doc(Auth.currentUser.uid);
+            listingRef.get().then((doc) => {
+                data = doc.data();
+            
+
+            var newSellListingObjPaypal = {
+                amount: amount,
+                price: price,
+                description:description,
+                user: Auth.currentUser.uid,
+                userName: userName, 
+                completedTransactions: completedTransactions,
+                listingID: makeid(15)
+            }
+            var newMarketplaceListingObj = {
+                document: "Sell listings",
+                array: "giftCardListings",
+                amount: amount,
+                price: price,
+                description: description,
+                listingId:newSellListingObjPaypal.listingID
+            }
+
+            var tempPaypalListObj = data.giftCardListings;
+
+            tempPaypalListObj.push(newSellListingObjPaypal);
+            marketplacelistings.push(newMarketplaceListingObj);
+
+            
+           return listingRef.update({
+            giftCardListings: tempPaypalListObj
+            })
+            .then(() => {
+                Alert("listing sucessfully created!", "Create Listing Information", "green");
+                userRef.update({
+                    MarketplaceTransactions: marketplacelistings
+                })
+                
+            })
+            .catch((error) => {
+                console.error("Error updating document: ", error);
+            });
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
+        break;
+        case "Bitcoin":
+            var listingRef = db.collection("marketplace").doc("Sell listings");
+            var userRef = db.collection("users").doc(Auth.currentUser.uid);
+            listingRef.get().then((doc) => {
+                data = doc.data();
+            
+
+            var newSellListingObjPaypal = {
+                amount: amount,
+                price: price,
+                description:description,
+                user: Auth.currentUser.uid,
+                userName: userName, 
+                completedTransactions: completedTransactions,
+                listingID: makeid(15)
+            }
+            var newMarketplaceListingObj = {
+                document: "Sell listings",
+                array: "bitcoinListings",
+                amount: amount,
+                price: price,
+                description: description,
+                listingId:newSellListingObjPaypal.listingID
+            }
+
+            var tempPaypalListObj = data.bitcoinListings;
+
+            tempPaypalListObj.push(newSellListingObjPaypal);
+            marketplacelistings.push(newMarketplaceListingObj);
+
+           return listingRef.update({
+            bitcoinListings: tempPaypalListObj
+            })
+            .then(() => {
+                Alert("listing sucessfully created!", "Create Listing Information", "green");
+                userRef.update({
+                    MarketplaceTransactions: marketplacelistings
+                })
+                
+            })
+            .catch((error) => {
+                console.error("Error updating document: ", error);
+            });
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
+        case "Ethereum":
+            var listingRef = db.collection("marketplace").doc("Sell listings");
+            var userRef = db.collection("users").doc(Auth.currentUser.uid);
+            listingRef.get().then((doc) => {
+                data = doc.data();
+            
+
+            var newSellListingObjPaypal = {
+                amount: amount,
+                price: price,
+                description:description,
+                user: Auth.currentUser.uid,
+                userName: userName, 
+                completedTransactions: completedTransactions,
+                listingID: makeid(15)
+            }
+            var newMarketplaceListingObj = {
+                document: "Sell listings",
+                array: "ethereumListings",
+                amount: amount,
+                price: price,
+                description: description,
+                listingId:newSellListingObjPaypal.listingID
+            }
+
+            var tempPaypalListObj = data.ethereumListings;
+
+            tempPaypalListObj.push(newSellListingObjPaypal);
+            marketplacelistings.push(newMarketplaceListingObj);
+
+           return listingRef.update({
+            ethereumListings: tempPaypalListObj
+            })
+            .then(() => {
+                Alert("listing sucessfully created!", "Create Listing Information", "green");
+                userRef.update({
+                    MarketplaceTransactions: marketplacelistings
+                })
+                
+            })
+            .catch((error) => {
+                console.error("Error updating document: ", error);
+            });
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
+        break;
+        case "Dogecoin":
+            var listingRef = db.collection("marketplace").doc("Sell listings");
+            var userRef = db.collection("users").doc(Auth.currentUser.uid);
+            listingRef.get().then((doc) => {
+                data = doc.data();
+            
+
+            var newSellListingObjPaypal = {
+                amount: amount,
+                price: price,
+                description:description,
+                user: Auth.currentUser.uid,
+                userName: userName, 
+                completedTransactions: completedTransactions,
+                listingID: makeid(15)
+            }
+            var newMarketplaceListingObj = {
+                document: "Sell listings",
+                array: "dogecoinListings",
+                amount: amount,
+                price: price,
+                description: description,
+                listingId:newSellListingObjPaypal.listingID
+            }
+
+            var tempPaypalListObj = data.dogecoinListings;
+
+            tempPaypalListObj.push(newSellListingObjPaypal);
+            marketplacelistings.push(newMarketplaceListingObj);
+
+           return listingRef.update({
+            dogecoinListings: tempPaypalListObj
+            })
+            .then(() => {
+                Alert("listing sucessfully created!", "Create Listing Information", "green");
+                userRef.update({
+                    MarketplaceTransactions: marketplacelistings
+                })
+                
+            })
+            .catch((error) => {
+                console.error("Error updating document: ", error);
+            });
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
+        break;
+        case "Tether":
+            var listingRef = db.collection("marketplace").doc("Sell listings");
+            var userRef = db.collection("users").doc(Auth.currentUser.uid);
+            listingRef.get().then((doc) => {
+                data = doc.data();
+            
+
+            var newSellListingObjPaypal = {
+                amount: amount,
+                price: price,
+                description:description,
+                user: Auth.currentUser.uid,
+                userName: userName, 
+                completedTransactions: completedTransactions,
+                listingID: makeid(15)
+            }
+            var newMarketplaceListingObj = {
+                document: "Sell listings",
+                array: "tetherListings",
+                amount: amount,
+                price: price,
+                description: description,
+                listingId:newSellListingObjPaypal.listingID
+            }
+
+            var tempPaypalListObj = data.tetherListings;
+
+            tempPaypalListObj.push(newSellListingObjPaypal);
+            marketplacelistings.push(newMarketplaceListingObj);
+
+           return listingRef.update({
+            tetherListings: tempPaypalListObj
+            })
+            .then(() => {
+                Alert("listing sucessfully created!", "Create Listing Information", "green");
+                userRef.update({
+                    MarketplaceTransactions: marketplacelistings
+                })
+                
+            })
+            .catch((error) => {
+                console.error("Error updating document: ", error);
+            });
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
+        break;
+        case "ApplePay":
+            var listingRef = db.collection("marketplace").doc("Sell listings");
+            var userRef = db.collection("users").doc(Auth.currentUser.uid);
+            listingRef.get().then((doc) => {
+                data = doc.data();
+            
+
+            var newSellListingObjPaypal = {
+                amount: amount,
+                price: price,
+                description:description,
+                user: Auth.currentUser.uid,
+                userName: userName, 
+                completedTransactions: completedTransactions,
+                listingID: makeid(15)
+            }
+            var newMarketplaceListingObj = {
+                document: "Sell listings",
+                array: "applePayListings",
+                amount: amount,
+                price: price,
+                description: description,
+                listingId:newSellListingObjPaypal.listingID
+            }
+
+            var tempPaypalListObj = data.applePayListings;
+
+            tempPaypalListObj.push(newSellListingObjPaypal);
+            marketplacelistings.push(newMarketplaceListingObj);
+
+           return listingRef.update({
+            applePayListings: tempPaypalListObj
+            })
+            .then(() => {
+                Alert("listing sucessfully created!", "Create Listing Information", "green");
+                userRef.update({
+                    MarketplaceTransactions: marketplacelistings
+                })
+                
+            })
+            .catch((error) => {
+                console.error("Error updating document: ", error);
+            });
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
+        break;
+        case "GooglePay":
+            var listingRef = db.collection("marketplace").doc("Sell listings");
+            var userRef = db.collection("users").doc(Auth.currentUser.uid);
+            listingRef.get().then((doc) => {
+                data = doc.data();
+            
+
+            var newSellListingObjPaypal = {
+                amount: amount,
+                price: price,
+                description:description,
+                user: Auth.currentUser.uid,
+                userName: userName, 
+                completedTransactions: completedTransactions,
+                listingID: makeid(15)
+            }
+            var newMarketplaceListingObj = {
+                document: "Sell listings",
+                array: "googlePayListings",
+                amount: amount,
+                price: price,
+                description: description,
+                listingId:newSellListingObjPaypal.listingID
+            }
+
+            var tempPaypalListObj = data.googlePayListings;
+
+            tempPaypalListObj.push(newSellListingObjPaypal);
+            marketplacelistings.push(newMarketplaceListingObj);
+
+           return listingRef.update({
+            googlePayListings: tempPaypalListObj
+            })
+            .then(() => {
+                Alert("listing sucessfully created!", "Create Listing Information", "green");
+                userRef.update({
+                    MarketplaceTransactions: marketplacelistings
+                })
+                
+            })
+            .catch((error) => {
+                console.error("Error updating document: ", error);
+            });
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
+        break;
+        case "ETransfer":
+            var listingRef = db.collection("marketplace").doc("Sell listings");
+            var userRef = db.collection("users").doc(Auth.currentUser.uid);
+            listingRef.get().then((doc) => {
+                data = doc.data();
+            
+
+            var newSellListingObjPaypal = {
+                amount: amount,
+                price: price,
+                description:description,
+                user: Auth.currentUser.uid,
+                userName: userName, 
+                completedTransactions: completedTransactions,
+                listingID: makeid(15)
+            }
+            var newMarketplaceListingObj = {
+                document: "Sell listings",
+                array: "eTransferListings",
+                amount: amount,
+                price: price,
+                description: description,
+                listingId:newSellListingObjPaypal.listingID
+            }
+
+            var tempPaypalListObj = data.eTransferListings;
+
+            tempPaypalListObj.push(newSellListingObjPaypal);
+            marketplacelistings.push(newMarketplaceListingObj);
+
+           return listingRef.update({
+            eTransferListings: tempPaypalListObj
+            })
+            .then(() => {
+                Alert("listing sucessfully created!", "Create Listing Information", "green");
+                userRef.update({
+                    MarketplaceTransactions: marketplacelistings
+                })
+                
+            })
+            .catch((error) => {
+                console.error("Error updating document: ", error);
+            });
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
+        break;
+        case "PrepaidVisas":
+            var listingRef = db.collection("marketplace").doc("Sell listings");
+            var userRef = db.collection("users").doc(Auth.currentUser.uid);
+            listingRef.get().then((doc) => {
+                data = doc.data();
+            
+
+            var newSellListingObjPaypal = {
+                amount: amount,
+                price: price,
+                description:description,
+                user: Auth.currentUser.uid,
+                userName: userName, 
+                completedTransactions: completedTransactions,
+                listingID: makeid(15)
+            }
+            var newMarketplaceListingObj = {
+                document: "Sell listings",
+                array: "prepaidListings",
+                amount: amount,
+                price: price,
+                description: description,
+                listingId:newSellListingObjPaypal.listingID
+            }
+
+            var tempPaypalListObj = data.prepaidListings;
+
+            tempPaypalListObj.push(newSellListingObjPaypal);
+            marketplacelistings.push(newMarketplaceListingObj);
+
+           return listingRef.update({
+            prepaidListings: tempPaypalListObj
+            })
+            .then(() => {
+                Alert("listing sucessfully created!", "Create Listing Information", "green");
+                userRef.update({
+                    MarketplaceTransactions: marketplacelistings
+                })
+                
+            })
+            .catch((error) => {
+                console.error("Error updating document: ", error);
+            });
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
+        break;
+    }
+}
+else{
+    switch (method){
+            case "Paypal":
+                var listingRef = db.collection("marketplace").doc("Buy Listings");
+            var userRef = db.collection("users").doc(Auth.currentUser.uid);
+            listingRef.get().then((doc) => {
+                data = doc.data();
+            
+
+            var newSellListingObjPaypal = {
+                amount: amount,
+                price: price,
+                description:description,
+                user: Auth.currentUser.uid,
+                userName: userName, 
+                completedTransactions: completedTransactions,
+                listingID: makeid(15)
+            }
+            var newMarketplaceListingObj = {
+                document: "Buy listings",
+                array: "paypalListings",
+                amount: amount,
+                price: price,
+                description: description,
+                listingId:newSellListingObjPaypal.listingID
+            }
+
+            var tempPaypalListObj = data.paypalListings;
+
+            tempPaypalListObj.push(newSellListingObjPaypal);
+            marketplacelistings.push(newMarketplaceListingObj);
+
+           return listingRef.update({
+            paypalListings: tempPaypalListObj
+            })
+            .then(() => {
+                Alert("listing sucessfully created!", "Create Listing Information", "green");
+                userRef.update({
+                    MarketplaceTransactions: marketplacelistings
+                })
+                
+            })
+            .catch((error) => {
+                console.error("Error updating document: ", error);
+            });
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
+            break;
+    
+            case "GiftCard":
+                var listingRef = db.collection("marketplace").doc("Buy Listings");
+            var userRef = db.collection("users").doc(Auth.currentUser.uid);
+            listingRef.get().then((doc) => {
+                data = doc.data();
+            
+
+            var newSellListingObjPaypal = {
+                amount: amount,
+                price: price,
+                description:description,
+                user: Auth.currentUser.uid,
+                userName: userName, 
+                completedTransactions: completedTransactions,
+                listingID: makeid(15)
+            }
+            var newMarketplaceListingObj = {
+                document: "Buy listings",
+                array: "giftCardListings",
+                amount: amount,
+                price: price,
+                description: description,
+                listingId:newSellListingObjPaypal.listingID
+            }
+
+            var tempPaypalListObj = data.giftCardListings;
+
+            tempPaypalListObj.push(newSellListingObjPaypal);
+            marketplacelistings.push(newMarketplaceListingObj);
+
+           return listingRef.update({
+            giftCardListings: tempPaypalListObj
+            })
+            .then(() => {
+                Alert("listing sucessfully created!", "Create Listing Information", "green");
+                userRef.update({
+                    MarketplaceTransactions: marketplacelistings
+                })
+                
+            })
+            .catch((error) => {
+                console.error("Error updating document: ", error);
+            });
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
+            break;
+            case "Bitcoin":
+                var listingRef = db.collection("marketplace").doc("Buy Listings");
+            var userRef = db.collection("users").doc(Auth.currentUser.uid);
+            listingRef.get().then((doc) => {
+                data = doc.data();
+            
+
+            var newSellListingObjPaypal = {
+                amount: amount,
+                price: price,
+                description:description,
+                user: Auth.currentUser.uid,
+                userName: userName, 
+                completedTransactions: completedTransactions,
+                listingID: makeid(15)
+            }
+            var newMarketplaceListingObj = {
+                document: "Buy listings",
+                array: "bitcoinListings",
+                amount: amount,
+                price: price,
+                description: description,
+                listingId:newSellListingObjPaypal.listingID
+            }
+
+            var tempPaypalListObj = data.bitcoinListings;
+
+            tempPaypalListObj.push(newSellListingObjPaypal);
+            marketplacelistings.push(newMarketplaceListingObj);
+
+           return listingRef.update({
+            bitcoinListings: tempPaypalListObj
+            })
+            .then(() => {
+                Alert("listing sucessfully created!", "Create Listing Information", "green");
+                userRef.update({
+                    MarketplaceTransactions: marketplacelistings
+                })
+                
+            })
+            .catch((error) => {
+                console.error("Error updating document: ", error);
+            });
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
+            break;
+            case "Ethereum":
+                var listingRef = db.collection("marketplace").doc("Buy Listings");
+                var userRef = db.collection("users").doc(Auth.currentUser.uid);
+                listingRef.get().then((doc) => {
+                    data = doc.data();
+                
+    
+                var newSellListingObjPaypal = {
+                    amount: amount,
+                    price: price,
+                    description:description,
+                    user: Auth.currentUser.uid,
+                    userName: userName, 
+                    completedTransactions: completedTransactions,
+                    listingID: makeid(15)
+                }
+                var newMarketplaceListingObj = {
+                    document: "Buy listings",
+                    array: "ethereumListings",
+                    amount: amount,
+                    price: price,
+                    description: description,
+                    listingId:newSellListingObjPaypal.listingID
+                }
+    
+                var tempPaypalListObj = data.ethereumListings;
+    
+                tempPaypalListObj.push(newSellListingObjPaypal);
+                marketplacelistings.push(newMarketplaceListingObj);
+    
+               return listingRef.update({
+                ethereumListings: tempPaypalListObj
+                })
+                .then(() => {
+                    Alert("listing sucessfully created!", "Create Listing Information", "green");
+                    userRef.update({
+                        MarketplaceTransactions: marketplacelistings
+                    })
+                    
+                })
+                .catch((error) => {
+                    console.error("Error updating document: ", error);
+                });
+            }).catch((error) => {
+                console.log("Error getting document:", error);
+            });
+            break;
+            case "Dogecoin":
+                var listingRef = db.collection("marketplace").doc("Buy Listings");
+                var userRef = db.collection("users").doc(Auth.currentUser.uid);
+                listingRef.get().then((doc) => {
+                    data = doc.data();
+                
+    
+                var newSellListingObjPaypal = {
+                    amount: amount,
+                    price: price,
+                    description:description,
+                    user: Auth.currentUser.uid,
+                    userName: userName, 
+                    completedTransactions: completedTransactions,
+                    listingID: makeid(15)
+                }
+                var newMarketplaceListingObj = {
+                    document: "Buy listings",
+                    array: "dogecoinListings",
+                    amount: amount,
+                    price: price,
+                    description: description,
+                    listingId:newSellListingObjPaypal.listingID
+                }
+    
+                var tempPaypalListObj = data.dogecoinListings;
+    
+                tempPaypalListObj.push(newSellListingObjPaypal);
+                marketplacelistings.push(newMarketplaceListingObj);
+    
+               return listingRef.update({
+                dogecoinListings: tempPaypalListObj
+                })
+                .then(() => {
+                    Alert("listing sucessfully created!", "Create Listing Information", "green");
+                    userRef.update({
+                        MarketplaceTransactions: marketplacelistings
+                    })
+                    
+                })
+                .catch((error) => {
+                    console.error("Error updating document: ", error);
+                });
+            }).catch((error) => {
+                console.log("Error getting document:", error);
+            });
+            break;
+            case "Tether":
+                var listingRef = db.collection("marketplace").doc("Buy Listings");
+                var userRef = db.collection("users").doc(Auth.currentUser.uid);
+                listingRef.get().then((doc) => {
+                    data = doc.data();
+                
+    
+                var newSellListingObjPaypal = {
+                    amount: amount,
+                    price: price,
+                    description:description,
+                    user: Auth.currentUser.uid,
+                    userName: userName, 
+                    completedTransactions: completedTransactions,
+                    listingID: makeid(15)
+                }
+                var newMarketplaceListingObj = {
+                    document: "Buy listings",
+                    array: "tetherListings",
+                    amount: amount,
+                    price: price,
+                    description: description,
+                    listingId:newSellListingObjPaypal.listingID
+                }
+    
+                var tempPaypalListObj = data.tetherListings;
+    
+                tempPaypalListObj.push(newSellListingObjPaypal);
+                marketplacelistings.push(newMarketplaceListingObj);
+    
+               return listingRef.update({
+                tetherListings: tempPaypalListObj
+                })
+                .then(() => {
+                    Alert("listing sucessfully created!", "Create Listing Information", "green");
+                    userRef.update({
+                        MarketplaceTransactions: marketplacelistings
+                    })
+                    
+                })
+                .catch((error) => {
+                    console.error("Error updating document: ", error);
+                });
+            }).catch((error) => {
+                console.log("Error getting document:", error);
+            });
+            break;
+            case "ApplePay":
+                var listingRef = db.collection("marketplace").doc("Buy Listings");
+                var userRef = db.collection("users").doc(Auth.currentUser.uid);
+                listingRef.get().then((doc) => {
+                    data = doc.data();
+                
+    
+                var newSellListingObjPaypal = {
+                    amount: amount,
+                    price: price,
+                    description:description,
+                    user: Auth.currentUser.uid,
+                    userName: userName, 
+                    completedTransactions: completedTransactions,
+                    listingID: makeid(15)
+                }
+                var newMarketplaceListingObj = {
+                    document: "Buy listings",
+                    array: "applePayListings",
+                    amount: amount,
+                    price: price,
+                    description: description,
+                    listingId:newSellListingObjPaypal.listingID
+                }
+    
+                var tempPaypalListObj = data.applePayListings;
+    
+                tempPaypalListObj.push(newSellListingObjPaypal);
+                marketplacelistings.push(newMarketplaceListingObj);
+    
+               return listingRef.update({
+                applePayListings: tempPaypalListObj
+                })
+                .then(() => {
+                    Alert("listing sucessfully created!", "Create Listing Information", "green");
+                    userRef.update({
+                        MarketplaceTransactions: marketplacelistings
+                    })
+                    
+                })
+                .catch((error) => {
+                    console.error("Error updating document: ", error);
+                });
+            }).catch((error) => {
+                console.log("Error getting document:", error);
+            });
+            break;
+            case "GooglePay":
+                var listingRef = db.collection("marketplace").doc("Buy Listings");
+                var userRef = db.collection("users").doc(Auth.currentUser.uid);
+                listingRef.get().then((doc) => {
+                    data = doc.data();
+                
+    
+                var newSellListingObjPaypal = {
+                    amount: amount,
+                    price: price,
+                    description:description,
+                    user: Auth.currentUser.uid,
+                    userName: userName, 
+                    completedTransactions: completedTransactions,
+                    listingID: makeid(15)
+                }
+                var newMarketplaceListingObj = {
+                    document: "Buy listings",
+                    array: "googlePayListings",
+                    amount: amount,
+                    price: price,
+                    description: description,
+                    listingId:newSellListingObjPaypal.listingID
+                }
+    
+                var tempPaypalListObj = data.googlePayListings;
+    
+                tempPaypalListObj.push(newSellListingObjPaypal);
+                marketplacelistings.push(newMarketplaceListingObj);
+    
+               return listingRef.update({
+                googlePayListings: tempPaypalListObj
+                })
+                .then(() => {
+                    Alert("listing sucessfully created!", "Create Listing Information", "green");
+                    userRef.update({
+                        MarketplaceTransactions: marketplacelistings
+                    })
+                    
+                })
+                .catch((error) => {
+                    console.error("Error updating document: ", error);
+                });
+            }).catch((error) => {
+                console.log("Error getting document:", error);
+            });
+            break;
+            case "ETransfer":
+                var listingRef = db.collection("marketplace").doc("Buy Listings");
+                var userRef = db.collection("users").doc(Auth.currentUser.uid);
+                listingRef.get().then((doc) => {
+                    data = doc.data();
+                
+    
+                var newSellListingObjPaypal = {
+                    amount: amount,
+                    price: price,
+                    description:description,
+                    user: Auth.currentUser.uid,
+                    userName: userName, 
+                    completedTransactions: completedTransactions,
+                    listingID: makeid(15)
+                }
+                var newMarketplaceListingObj = {
+                    document: "Buy listings",
+                    array: "eTransferListings",
+                    amount: amount,
+                    price: price,
+                    description: description,
+                    listingId:newSellListingObjPaypal.listingID
+                }
+    
+                var tempPaypalListObj = data.eTransferListings;
+    
+                tempPaypalListObj.push(newSellListingObjPaypal);
+                marketplacelistings.push(newMarketplaceListingObj);
+    
+               return listingRef.update({
+                eTransferListings: tempPaypalListObj
+                })
+                .then(() => {
+                    Alert("listing sucessfully created!", "Create Listing Information", "green");
+                    userRef.update({
+                        MarketplaceTransactions: marketplacelistings
+                    })
+                    
+                })
+                .catch((error) => {
+                    console.error("Error updating document: ", error);
+                });
+            }).catch((error) => {
+                console.log("Error getting document:", error);
+            });
+            break;
+            case "PrepaidVisas":
+                var listingRef = db.collection("marketplace").doc("Buy Listings");
+                var userRef = db.collection("users").doc(Auth.currentUser.uid);
+                listingRef.get().then((doc) => {
+                    data = doc.data();
+                
+    
+                var newSellListingObjPaypal = {
+                    amount: amount,
+                    price: price,
+                    description:description,
+                    user: Auth.currentUser.uid,
+                    userName: userName, 
+                    completedTransactions: completedTransactions,
+                    listingID: makeid(15)
+                }
+                var newMarketplaceListingObj = {
+                    document: "Buy listings",
+                    array: "prepaidListings",
+                    amount: amount,
+                    price: price,
+                    description: description,
+                    listingId:newSellListingObjPaypal.listingID
+                }
+    
+                var tempPaypalListObj = data.prepaidListings;
+    
+                tempPaypalListObj.push(newSellListingObjPaypal);
+                marketplacelistings.push(newMarketplaceListingObj);
+    
+               return listingRef.update({
+                prepaidListings: tempPaypalListObj
+                })
+                .then(() => {
+                    Alert("listing sucessfully created!", "Create Listing Information", "green");
+                    userRef.update({
+                        MarketplaceTransactions: marketplacelistings
+                    })
+                    
+                })
+                .catch((error) => {
+                    console.error("Error updating document: ", error);
+                });
+            }).catch((error) => {
+                console.log("Error getting document:", error);
+            });
+            break;
+    }
+}
+    }
+}
+    }
+})
+}
+
+function CreateTransaction(sellOrBuy, seller, amount, type, usd,description, user, sellerUser, listingID, maxAmount)
+{
+    var listingRef = db.collection("marketplace").doc("Sell listings");
+    var userRef = db.collection("users").doc(seller);
+    userRef.get().then((doc2) => {
+        data2 = doc2.data();
+        var marketTransaction = data2.MarketplaceTransactions;
+        var marketLength = marketTransaction.length;
+
+        for(var i = 0; i < marketLength; i++)
+        {
+            if(listingID == marketTransaction[i].listingId)
+            {
+                var g = Number(marketTransaction[i].amount);
+                g -= Number(amount);
+                marketTransaction[i].amount = g;
+            }
+        }
+       console.log(marketTransaction);
+        userRef.update({
+            MarketplaceTransactions: marketTransaction
+        })
+    listingRef.get().then((doc) => {
+        data = doc.data();
+    if(document.getElementById('amount123').value != null && document.getElementById('amount123').value != ""){
+    if(Number(document.getElementById('amount123').value < Number(maxAmount)))
+    {
+    if(seller == Auth.currentUser.uid)
+    {
+    if(sellOrBuy == "sell")
+    {
+        
+        var docData ={
+            seller: seller,
+            amount: amount,
+            receivedTransaction: false,
+            type: type,
+            usdDue: usd,
+            description:description,
+            userName: user,
+            sellerUser: sellerUser,
+            listingId: listingID
+        }
+        switch (type){
+            case "applePay":
+                var tempPaypalListObj = data.applePayListings;
+                var tempArrayLength = tempPaypalListObj.length;
+                for(var i = 0; i < tempArrayLength; i++)
+                {
+                    if(tempPaypalListObj[i].listingID == listingID)
+                    {
+                        tempPaypalListObj[i].amount -= amount
+                    }
+                }
+                listingRef.update({
+                    applePayListings:tempPaypalListObj
+                })
+                break;
+             case "bitcoin":
+                var tempPaypalListObj = data.bitcoinListings;
+                var tempArrayLength = tempPaypalListObj.length;
+                for(var i = 0; i < tempArrayLength; i++)
+                {
+                    if(tempPaypalListObj[i].listingID == listingID)
+                    {
+                        tempPaypalListObj[i].amount -= amount
+                    }
+                }
+                listingRef.update({
+                    bitcoinListings:tempPaypalListObj
+                })
+                break;
+             case "dogecoin":
+                var tempPaypalListObj = data.dogecoinListings;
+                var tempArrayLength = tempPaypalListObj.length;
+                for(var i = 0; i < tempArrayLength; i++)
+                {
+                    if(tempPaypalListObj[i].listingID == listingID)
+                    {
+                        tempPaypalListObj[i].amount -= amount
+                    }
+                }
+                listingRef.update({
+                    dogecoinListings:tempPaypalListObj
+                })
+                break;
+             case "eTransfer":
+                var tempPaypalListObj = data.eTransferListings;
+                var tempArrayLength = tempPaypalListObj.length;
+                for(var i = 0; i < tempArrayLength; i++)
+                {
+                    if(tempPaypalListObj[i].listingID == listingID)
+                    {
+                        tempPaypalListObj[i].amount -= amount
+                    }
+                }
+                listingRef.update({
+                    eTransferListings:tempPaypalListObj
+                })
+                break;
+             case "ethereum":
+                var tempPaypalListObj = data.ethereumListings;
+                var tempArrayLength = tempPaypalListObj.length;
+                for(var i = 0; i < tempArrayLength; i++)
+                {
+                    if(tempPaypalListObj[i].listingID == listingID)
+                    {
+                        tempPaypalListObj[i].amount -= amount
+                    }
+                }
+                listingRef.update({
+                    ethereumListings:tempPaypalListObj
+                })
+                break;
+             case "giftCard":
+                var tempPaypalListObj = data.giftCardListings;
+                var tempArrayLength = tempPaypalListObj.length;
+                for(var i = 0; i < tempArrayLength; i++)
+                {
+                    if(tempPaypalListObj[i].listingID == listingID)
+                    {
+                        tempPaypalListObj[i].amount -= amount
+                    }
+                }
+                listingRef.update({
+                    giftCardListings:tempPaypalListObj
+                })
+                break;
+             case "googlePay":
+                var tempPaypalListObj = data.googlePayListings;
+                var tempArrayLength = tempPaypalListObj.length;
+                for(var i = 0; i < tempArrayLength; i++)
+                {
+                    if(tempPaypalListObj[i].listingID == listingID)
+                    {
+                        tempPaypalListObj[i].amount -= amount
+                    }
+                }
+                listingRef.update({
+                    googlePayListings:tempPaypalListObj
+                })
+                break;
+             case "paypal":
+                var tempPaypalListObj = data.paypalListings;
+                var tempArrayLength = tempPaypalListObj.length;
+                for(var i = 0; i < tempArrayLength; i++)
+                {
+                    if(tempPaypalListObj[i].listingID == listingID)
+                    {
+                        tempPaypalListObj[i].amount -= amount
+                    }
+                }
+                listingRef.update({
+                    paypalListings:tempPaypalListObj
+                })
+                break;
+             case "prepaid":
+                var tempPaypalListObj = data.prepaidListings;
+                var tempArrayLength = tempPaypalListObj.length;
+                for(var i = 0; i < tempArrayLength; i++)
+                {
+                    if(tempPaypalListObj[i].listingID == listingID)
+                    {
+                        tempPaypalListObj[i].amount -= amount
+                    }
+                }
+                listingRef.update({
+                    prepaidListings:tempPaypalListObj
+                })
+                break
+            case "tether":
+                var tempPaypalListObj = data.tetherListings;
+                var tempArrayLength = tempPaypalListObj.length;
+                for(var i = 0; i < tempArrayLength; i++)
+                {
+                    if(tempPaypalListObj[i].listingID == listingID)
+                    {
+                        tempPaypalListObj[i].amount -= amount
+                    }
+                }
+                listingRef.update({
+                    tetherListings:tempPaypalListObj
+                })
+                break;
+            
+
+            
+        }
+
+        if(db.collection("OpenSellTransactions").doc(Auth.currentUser.uid) == null)
+        {
+            Alert("You can only have one active buy request! Cancel your current one to create a new one!", "Listings Information", "yellow")
+        }
+        else{
+        var userRef = db.collection("users").doc(seller);
+        userRef.get().then((doc) => {
+            data1 = doc.data();
+            console.log(user);
+            if(data.IncomingMarketplaceTransactions != null)
+            {
+            var marketplacetransactions = data.IncomingMarketplaceTransactions;
+            marketplacetransactions.push(seller);
+            }
+            else{
+                var marketplacetransactions= [];
+                marketplacetransactions.push(seller);
+            }
+        var tempData = {
+            Coins: data1.Coins,
+            Address: data1.Address,
+            Transactions: data1.Transactions,
+            Notifications:data1.Notifications,
+            Username: data1.Username,
+            HashesMined:data1.HashesMined,
+            newFaucetTime: data1.newFaucetTime,
+            ReferralCode: data1.ReferralCode,
+            Referrals: data1.Referrals,
+            Referrer: data1.Referrer,
+            Multiplier: data1.Multiplier,
+            PreviousTransactions: data1.PreviousTransactions,
+            MarketplaceTransactions: data1.MarketplaceTransactions,
+            FinishedMarketplaceTransactions: data1.FinishedMarketplaceTransactions,
+            IncomingMarketplaceTransactions: marketplacetransactions
+        }
+        db.collection("OpenSellTransactions").doc(Auth.currentUser.uid).set(docData).then(() => {
+            db.collection("users").doc(seller).set(tempData).then(() => {
+                Alert("Order Created! Go to your Orders page to check its status!", "Sell Listings Information", "green");
+            })
+        })
+    })
+    }
+    
+}
+}
+else{
+    Alert("You cant click on your own offer!", "Sell Listings Information", "yellow")
+}
+    }
+    else{
+        Alert("You cant order more PEPPAS than the user has in stock!", "Sell Listing Information", "yellow")
+    }
+    }
+    else{
+        Alert("You need to input how many PEPPAS you would like to buy from this vendor!", "Sell Listings Information", "yellow");
+    }
+})
+    })
+}
+function openMarketplaceTransactionModal(seller, type, user,sellerUser,listingId, maxAmount, price)
+{
+    let html = '';
+
+
+    var modal = document.getElementById("sellModal");
+    modal.style.display = "block";
+    var Amount = document.getElementById("amount");
+    list = document.getElementById("button")
+    document.getElementById('maxAmount').innerHTML = 'Transaction Amount(max: ' + maxAmount.toString() + ' PEPPAS )'
+    $(".startTransaction").on('click',function () {
+        CreateTransaction('sell', seller, Amount.value, type)
+        });
+    
+        var PeppaValue = Number(0.00007)
+        $("#amount123").on("change", function(){
+            var amount = document.getElementById('amount123').value;
+            if(Number(amount) > Number(maxAmount))
+            {
+                amount = maxAmount;
+            var usdDue = Number(price) * Number(amount);
+            $('#amount123').val(amount.toString())
+            $("#usdDue").text('Total Amount Due: ' + usdDue.toFixed(4).toString()+ 'USD');
+            }
+            else{
+                var usdDue = Number(price) * Number(amount);
+            $("#usdDue").text('Total Amount Due: ' + usdDue.toFixed(4).toString()+ 'USD');
+  
+            }
+        })
+    const li = `<button style="margin-left:35%;"onClick="CreateTransaction('sell', '${seller}', document.getElementById('amount123').value, '${type}', document.getElementById('amount123').value * ${PeppaValue}, document.getElementById('description').value, '${user}','${sellerUser}', '${listingId}', '${maxAmount}')
+    " class = "button2" id="startTransaction">Order PEPPAS!</button>`
+    html += li;
+    list.innerHTML = html
+}
+
+
+function loadPage(sellOrBuy, method)
+{
+
+    if(sellOrBuy == "sell")
+    {
+        switch(method)
+        {
+            case "paypal":
+                var listingRef1 = db.collection("marketplace").doc("Sell listings");
+                listingRef1.get().then((doc) => {
+                    var userRef = db.collection("users").doc(Auth.currentUser.uid);
+                    userRef.get().then((doc1) => {
+                    data = doc.data();
+                    data1 = doc1.data();
+                    var paypalListing = data.paypalListings;
+                    
+
+                    var paypalListings = paypalListing.sort(
+                        function (a, b){
+                            return a.price-b.price;
+                        });
+                    var arrayLength = paypalListings.length;
+                var j = 0;
+                let html = '';
+                var list = document.getElementById('List');
+                if(arrayLength <= 0)
+                {
+                    const li = `
+                    <li>
+                        <h3 style="color:black">There Are no Listings here yet! Be the first to create a listing in this category by going to the Create Listing Page!</h3>
+                    </li>
+                    `;
+                    html += li;
+                    list.innerHTML = html
+                }
+                for (var i = 0; i < arrayLength; i++) {
+                    j++
+                    if(j>25)
+                    {
+                        break;
+                    }
+                    var percDiff =  100 * Number(paypalListings[i].price)/0.00007023;
+                    if(Number(paypalListings[i].price) > 0.00007023)
+                    {
+                        percDiff -= 100
+                    const li = `
+                    <li onclick="openMarketplaceTransactionModal('${paypalListings[i].user}','paypal', '${data1.Username}','${paypalListings[i].userName}','${paypalListings[i].listingID}','${paypalListings[i].amount}', '${paypalListings[i].price}')">
+                        <h3 style="color:black">${paypalListings[i].userName}</h3>
+                        
+                        <h4 style="color:black">User has completed ${paypalListings[i].completedTransactions} successful Transactions</h4>
+
+                        1 Peppa for ${paypalListings[i].price}USD
+                    <br>
+                    ${paypalListings[i].amount} PEPPAS left in stock
+                        
+                        <h2 style="color:black;"> +${percDiff.toFixed(4)}% (compared to current market price)</h2>
+    
+                        <h5 style="color:black">${paypalListings[i].description}</h5>
+                    </li>
+                    `;
+                    html += li;
+                    list.innerHTML = html
+                    }
+                    else{
+                        percDiff = 100 - percDiff;
+                        const li = `
+                        <li onclick="openMarketplaceTransactionModal('${paypalListings[i].user}','paypal', '${data1.Username}','${paypalListings[i].userName}','${paypalListings[i].listingID}','${paypalListings[i].amount}', '${paypalListings[i].price}')">
+                        <h3 style="color:black">${paypalListings[i].userName}</h3>
+                        <h4 style="color:black">User has completed ${paypalListings[i].completedTransactions} successful Transactions</h4>
+                        1 Peppa for ${paypalListings[i].price}USD
+                    <br>
+                        ${paypalListings[i].amount} PEPPAS left in stock
+                        
+                        <h2 style="color:black;"> -${percDiff.toFixed(4)}% (compared to current market price)</h2>
+    
+                        <h5 style="color:black">${paypalListings[i].description}</h5>
+                    </li>
+                    `;
+                    html += li;
+                    list.innerHTML = html;
+                    }
+                
+                }
+                list.innerHTML = html;
+                var drop = document.getElementById('dropbtn');
+                drop.innerHTML = "Paypal";
+            })
+        })
+            break;
+             case "giftCard":
+                var listingRef1 = db.collection("marketplace").doc("Sell listings");
+                listingRef1.get().then((doc) => {
+                    var userRef = db.collection("users").doc(Auth.currentUser.uid);
+                    userRef.get().then((doc1) => {
+                    data1 = doc1.data();
+                    data = doc.data();
+                    var paypalListing = data.giftCardListings;
+                    
+
+                    var paypalListings = paypalListing.sort(
+                        function (a, b){
+                            return a.price-b.price;
+                        
+                        });
+                    var arrayLength = paypalListings.length;
+                var j = 0;
+                let html = '';
+                var list = document.getElementById('List');
+                if(arrayLength <= 0)
+                {
+                    const li = `
+                    <li>
+                        <h3 style="color:black">There Are no Listings here yet! Be the first to create a listing in this category by going to the Create Listing Page!</h3>
+                    </li>
+                    `;
+                    html += li;
+                    list.innerHTML = html
+                }
+                for (var i = 0; i < arrayLength; i++) {
+                    j++
+                    if(j>25)
+                    {
+                        break;
+                    }
+                    var percDiff =  100 * Number(paypalListings[i].price)/0.00007023;
+                    if(Number(paypalListings[i].price) > 0.00007023)
+                    {
+                        percDiff -= 100
+                    const li = `
+                    <li onclick="openMarketplaceTransactionModal('${paypalListings[i].user}','giftCards', '${data1.Username}','${paypalListings[i].userName}','${paypalListings[i].listingID}','${paypalListings[i].amount}', '${paypalListings[i].price}')">
+                        <h3 style="color:black">${paypalListings[i].userName}</h3>
+                        <h4 style="color:black">User has completed ${paypalListings[i].completedTransactions} successful Transactions</h4>
+
+                        1 Peppa for ${paypalListings[i].price}USD
+                    <br>
+                    ${paypalListings[i].amount} PEPPAS left in stock
+                        
+                        <h2 style="color:black;"> +${percDiff.toFixed(4)}% (compared to current market price)</h2>
+    
+                        <h5 style="color:black">${paypalListings[i].description}</h5>
+                    </li>
+                    `;
+                    html += li;
+                    list.innerHTML = html
+                    }
+                    else{
+                        percDiff = 100 - percDiff;
+                        const li = `
+                        <li onclick="openMarketplaceTransactionModal('${paypalListings[i].user}','giftCards', '${data1.Username}','${paypalListings[i].userName}','${paypalListings[i].listingID}','${paypalListings[i].amount}', '${paypalListings[i].price}')">
+                        <h3 style="color:black">${paypalListings[i].userName}</h3>
+                        <h4 style="color:black">User has completed ${paypalListings[i].completedTransactions} successful Transactions</h4>
+
+                        1 Peppa for ${paypalListings[i].price}USD
+                    <br>
+                    ${paypalListings[i].amount} PEPPAS left in stock
+                        
+                        <h2 style="color:black;"> -${percDiff.toFixed(4)}% (compared to current market price)</h2>
+    
+                        <h5 style="color:black">${paypalListings[i].description}</h5>
+                    </li>
+                    `;
+                    html += li;
+                    list.innerHTML = html;
+                    }
+                
+                }
+                list.innerHTML = html;
+                var drop = document.getElementById('dropbtn');
+                drop.innerHTML = "Gift Card";
+            })
+        })
+            break;
+            case "bitcoin":
+                var listingRef1 = db.collection("marketplace").doc("Sell listings");
+                listingRef1.get().then((doc) => {
+                    var userRef = db.collection("users").doc(Auth.currentUser.uid);
+                    userRef.get().then((doc1) => {
+                    data1 = doc1.data();
+                    data = doc.data();
+                    var paypalListing = data.bitcoinListings;
+                    
+
+                    var paypalListings = paypalListing.sort(
+                        function (a, b){
+                            return a.price-b.price;
+                        
+                        });
+                    var arrayLength = paypalListings.length;
+                var j = 0;
+                let html = '';
+                var list = document.getElementById('List');
+                if(arrayLength <= 0)
+                {
+                    const li = `
+                    <li>
+                        <h3 style="color:black">There Are no Listings here yet! Be the first to create a listing in this category by going to the Create Listing Page!</h3>
+                    </li>
+                    `;
+                    html += li;
+                    list.innerHTML = html
+                }
+                for (var i = 0; i < arrayLength; i++) {
+                    j++
+                    if(j>25)
+                    {
+                        break;
+                    }
+                    var percDiff =  100 * Number(paypalListings[i].price)/0.00007023;
+                    if(Number(paypalListings[i].price) > 0.00007023)
+                    {
+                        percDiff -= 100
+                    const li = `
+                    <li onclick="openMarketplaceTransactionModal('${paypalListings[i].user}','bitcoin', '${data1.Username}','${paypalListings[i].userName}','${paypalListings[i].listingID}','${paypalListings[i].amount}', '${paypalListings[i].price}')">
+                    <h3 style="color:black">${paypalListings[i].userName}</h3>
+                        <h4 style="color:black">User has completed ${paypalListings[i].completedTransactions} successful Transactions</h4>
+
+                        1 Peppa for ${paypalListings[i].price}USD
+                    <br>
+                    ${paypalListings[i].amount} PEPPAS left in stock
+                        
+                        <h2 style="color:black;"> +${percDiff.toFixed(4)}% (compared to current market price)</h2>
+    
+                        <h5 style="color:black">${paypalListings[i].description}</h5>
+                    </li>
+                    `;
+                    html += li;
+                    list.innerHTML = html
+                    }
+                    else{
+                        percDiff = 100 - percDiff;
+                        const li = `
+                        <li onclick="openMarketplaceTransactionModal('${paypalListings[i].user}','bitcoin', '${data1.Username}','${paypalListings[i].userName}','${paypalListings[i].listingID}','${paypalListings[i].amount}', '${paypalListings[i].price}')">
+                        <h3 style="color:black">${paypalListings[i].userName}</h3>
+                        <h4 style="color:black">User has completed ${paypalListings[i].completedTransactions} successful Transactions</h4>
+
+                        1 Peppa for ${paypalListings[i].price}USD
+                    <br>
+                    ${paypalListings[i].amount} PEPPAS left in stock
+                        
+                        <h2 style="color:black;"> -${percDiff.toFixed(4)}% (compared to current market price)</h2>
+    
+                        <h5 style="color:black">${paypalListings[i].description}</h5>
+                    </li>
+                    `;
+                    html += li;
+                    list.innerHTML = html;
+                    }
+                
+                }
+                list.innerHTML = html;
+                var drop = document.getElementById('dropbtn');
+                drop.innerHTML = "Bitcoin";
+            })
+        })
+            break;
+        }
+        
+    }
+    else{
+
+    }
+}
+
+function openRefill(type, listingId)
+{
+    var refill = document.getElementById('refillModal');
+    refill.style.display = "block";
+    let html = '';
+
+    list = document.getElementById("buttonR")
+
+    
+    const li = `<button style="margin-left:20%;"onClick="refillPeppas('${type}', '${listingId}',  document.getElementById('amount1234').value)
+    " class = "button2" id="startTransaction">Refill PEPPAS!</button>`
+    html += li;
+    list.innerHTML = html
+}
+
+function refillPeppas(type, listingId, refillAmount)
+{
+    if(refillAmount == " " || refillAmount == null || refillAmount == "")
+    {
+        Alert("You cant Refill nothing!", "Profile Information", "yellow")
+    }
+    else{
+        var listingRef = db.collection("marketplace").doc("Sell listings");
+        var userRef = db.collection("users").doc(Auth.currentUser.uid);
+        userRef.get().then((doc2) => {
+        listingRef.get().then((doc) => {
+            data = doc.data();
+            data2 = doc2.data();
+            var coins = data2.Coins
+            if(coins >= refillAmount)
+            {
+                
+            coins -= refillAmount
+            var incomTransactions = data2.MarketplaceTransactions;
+            var incomLength = incomTransactions.length;
+            for(var i = 0;i <incomLength;i++ )
+            {
+                if(incomTransactions[i].listingId == listingId)
+                {
+                    var jj = parseFloat(incomTransactions[i].amount);
+
+                    jj += Number(refillAmount);
+                    incomTransactions[i].amount = jj;
+                }
+            }
+        
+
+        switch (type){
+            case "applePayListings":
+                var tempPaypalListObj = data.applePayListings;
+                break;
+             case "bitcoinListings":
+                var tempPaypalListObj = data.bitcoinListings;
+                break;
+             case "dogecoinListings":
+                var tempPaypalListObj = data.dogecoinListings;
+                break;
+             case "eTransferListings":
+                var tempPaypalListObj = data.eTransferListings;
+                break;
+             case "ethereumListings":
+                var tempPaypalListObj = data.ethereumListings;
+                break;
+             case "giftCardListings":
+                var tempPaypalListObj = data.giftCardListings;
+                break;
+             case "googlePayListings":
+                var tempPaypalListObj = data.googlePayListings;
+                break;
+             case "paypalListings":
+                var tempPaypalListObj = data.paypalListings;
+                break;
+             case "prepaidListings":
+                var tempPaypalListObj = data.prepaidListings;
+                break;
+            case "tetherListings":
+                var tempPaypalListObj = data.tetherListings;
+                break;
+                
+        }
+
+            var paypalLength = tempPaypalListObj.length;
+            for(var i = 0;i <paypalLength;i++ )
+            {
+                if(tempPaypalListObj[i].listingID == listingId)
+                {
+                    var jj = parseFloat(tempPaypalListObj[i].amount);
+
+                    jj += Number(refillAmount);
+                    tempPaypalListObj[i].amount = jj;
+                }
+            }
+            var TransactionObj = {
+                ReceiverAddress: "PeppaTrade",
+                SenderAddress: data2.Address,
+                TransactionDate: new Date(),
+                Amount: Number(refillAmount),
+                NetworkFee: "0",
+                send: true
+            }
+            var transactions = data2.Transactions
+            transactions.push(TransactionObj);
+            switch (type){
+                case "applePayListings":
+                    return listingRef.update({
+                        applePayListings: tempPaypalListObj
+                        })
+                        .then(() => {
+                            Alert("listing sucessfully updated!", "Profile Information", "green");
+                            userRef.update({
+                                MarketplaceTransactions: incomTransactions,
+                                Coins: coins,
+                                Transactions:transactions
+                            })
+                            .then(() =>{
+                                location.reload();
+                            })
+                            
+                        })
+                        .catch((error) => {
+                            console.error("Error updating document: ", error);
+                        });                    
+                        break;
+                 case "bitcoinListings":
+                    return listingRef.update({
+                        bitcoinListings: tempPaypalListObj
+                        })
+                        .then(() => {
+                            Alert("listing sucessfully updated!", "Profile Information", "green");
+                            userRef.update({
+                                MarketplaceTransactions: incomTransactions,
+                                Coins: coins,
+                                Transactions:transactions
+                            }).then(() =>{
+                                location.reload();
+                            })
+                        })
+                        .catch((error) => {
+                            console.error("Error updating document: ", error);
+                        });                    
+                        
+                        break;
+                 case "dogecoinListings":
+                    return listingRef.update({
+                        dogecoinListings: tempPaypalListObj
+                        })
+                        .then(() => {
+                            Alert("listing sucessfully updated!", "Profile Information", "green");
+                            userRef.update({
+                                MarketplaceTransactions: incomTransactions,
+                                Coins: coins,
+                                Transactions:transactions
+                            })
+                            .then(() =>{
+                                location.reload();
+                            })
+                        })
+                        .catch((error) => {
+                            console.error("Error updating document: ", error);
+                        });                    
+                        
+                        break;
+                 case "eTransferListings":
+                    return listingRef.update({
+                        eTransferListings: tempPaypalListObj
+                        })
+                        .then(() => {
+                            Alert("listing sucessfully updated!", "Profile Information", "green");
+                            userRef.update({
+                                MarketplaceTransactions: incomTransactions,
+                                Coins: coins,
+                                Transactions:transactions
+                            }).then(() =>{
+                                location.reload();
+                            })
+                        })
+                        .catch((error) => {
+                            console.error("Error updating document: ", error);
+                        });        
+                                            break;
+                 case "ethereumListings":
+                    return listingRef.update({
+                        ethereumListings: tempPaypalListObj
+                        })
+                        .then(() => {
+                            Alert("listing sucessfully updated!", "Profile Information", "green");
+                            userRef.update({
+                                MarketplaceTransactions: incomTransactions,
+                                Coins: coins,
+                                Transactions:transactions
+                            }).then(() =>{
+                                location.reload();
+                            })
+                        })
+                        .catch((error) => {
+                            console.error("Error updating document: ", error);
+                        });        
+                                                  break;
+                 case "giftCardListings":
+                    return listingRef.update({
+                        giftCardListings: tempPaypalListObj
+                        })
+                        .then(() => {
+                            Alert("listing sucessfully updated!", "Profile Information", "green");
+                            userRef.update({
+                                MarketplaceTransactions: incomTransactions,
+                                Coins: coins,
+                                Transactions:transactions
+                            })
+                            .then(() =>{
+                                location.reload();
+                            })
+                        })
+                        .catch((error) => {
+                            console.error("Error updating document: ", error);
+                        });                     break;
+                 case "googlePayListings":
+                    return listingRef.update({
+                        googlePayListings: tempPaypalListObj
+                        })
+                        .then(() => {
+                            Alert("listing sucessfully updated!", "Profile Information", "green");
+                            userRef.update({
+                                MarketplaceTransactions: incomTransactions,
+                                Coins: coins,
+                                Transactions:transactions
+                            })
+                            .then(() =>{
+                                location.reload();
+                            })
+                        })
+                        .catch((error) => {
+                            console.error("Error updating document: ", error);
+                        });                     break;
+                 case "paypalListings":
+                    return listingRef.update({
+                        paypalListings: tempPaypalListObj
+                        })
+                        .then(() => {
+                            Alert("listing sucessfully updated!", "Profile Information", "green");
+                            userRef.update({
+                                MarketplaceTransactions: incomTransactions,
+                                Coins: coins,
+                                Transactions:transactions
+                            })
+                            .then(() =>{
+                                location.reload();
+                            })
+                        })
+                        .catch((error) => {
+                            console.error("Error updating document: ", error);
+                        });                         break;
+                 case "prepaidListings":
+                    return listingRef.update({
+                        prepaidListings: tempPaypalListObj
+                        })
+                        .then(() => {
+                            Alert("listing sucessfully updated!", "Profile Information", "green");
+                            userRef.update({
+                                MarketplaceTransactions: incomTransactions,
+                                Coins: coins,
+                                Transactions:transactions
+                            }).then(() =>{
+                                location.reload();
+                            })
+                        })
+                        .catch((error) => {
+                            console.error("Error updating document: ", error);
+                        });                       break;
+                case "tetherListings":
+                    return listingRef.update({
+                        tetherListings: tempPaypalListObj
+                        })
+                        .then(() => {
+                            Alert("listing sucessfully updated!", "Profile Information", "green");
+                            userRef.update({
+                                MarketplaceTransactions: incomTransactions,
+                                Coins: coins,
+                                Transactions:transactions
+                            }).then(() =>{
+                                location.reload();
+                            })
+                        })
+                        .catch((error) => {
+                            console.error("Error updating document: ", error);
+                        });   
+                                            
+                        break;
+                    
+            }
+
+    }
+    else{
+        Alert("You cant refill more than the amount of PEPPAS you have!", "Profile Information!", "yellow")
+    }
+    }).catch((error) => {
+        console.log("Error getting document:", error);
+    });
+                
+})
+    }
+}
+
+function CloseListing(type,listingID)
+{
+    var refill = document.getElementById('closeModal');
+    refill.style.display = "block";
+    let html = '';
+
+    list = document.getElementById("buttonC")
+
+    
+    const li = `<button style="margin-left:5%;"onClick="CloseListingBackEnd('${type}', '${listingID}')
+    " class = "button2" id="startTransaction">Close Transaction!</button>`
+    html += li;
+    list.innerHTML = html
+}
+
+
+
+function CloseListingBackEnd(type, listingID)
+{
+    var listingRef = db.collection("marketplace").doc("Sell listings");
+    var userRef = db.collection("users").doc(Auth.currentUser.uid);
+    userRef.get().then((doc2) => {
+    listingRef.get().then((doc) => {
+        data = doc.data();
+        data2 = doc2.data();
+        var coins = data2.Coins
+        var plusAmount = 0;
+            
+        var incomTransactions = data2.MarketplaceTransactions;
+        var incomLength = incomTransactions.length;
+        for(var i = 0;i <incomLength;i++ )
+        {        
+
+            if(incomTransactions[i].listingId == listingID)
+            {
+                coins += incomTransactions[i].amount;
+                plusAmount = incomTransactions[i].amount;
+                incomTransactions.splice(i, 1); 
+                break;
+            }
+        }
+        db.collection("OpenSellTransactions").where("listingId", "==", listingID)        
+        .get()
+        .then((querySnapshot) => {
+        if(!querySnapshot.empty)
+            {
+                querySnapshot.forEach((doc5) => {
+                    if(doc5.exists)
+                    {
+                        db.collection("OpenSellTransactions").doc(doc5.id).delete().then(()=>{
+                            console.log("cool");
+                            var userRef2 = db.collection("users").doc(doc5.id);
+                            userRef2.get().then((doc6) => {
+                                console.log(doc6);
+                                var notifications = doc6.Notifications
+                                var NotificationsObj = {
+                                    NotifType: "red",
+                                    NotifContent: data.sellerUser + " Has cancelled your transaction request! Got scammed or think there was a mistake? Join our discord server and create a ticket or proceed to the report a problem page! Make sure to copy the username of the seller.",
+                                    NotifTitle: "Transaction Cancelled!"
+                                }
+                                notifications.push(NotificationsObj);
+                                
+                                userRef2.update({
+                                    Notifications: notifications,
+                                })   
+                            })
+                        });
+                    }
+                })
+            }
+
+        })
+    
+return;
+    switch (type){
+        case "applePayListings":
+            var tempPaypalListObj = data.applePayListings;
+            break;
+         case "bitcoinListings":
+            var tempPaypalListObj = data.bitcoinListings;
+            break;
+         case "dogecoinListings":
+            var tempPaypalListObj = data.dogecoinListings;
+            break;
+         case "eTransferListings":
+            var tempPaypalListObj = data.eTransferListings;
+            break;
+         case "ethereumListings":
+            var tempPaypalListObj = data.ethereumListings;
+            break;
+         case "giftCardListings":
+            var tempPaypalListObj = data.giftCardListings;
+            break;
+         case "googlePayListings":
+            var tempPaypalListObj = data.googlePayListings;
+            break;
+         case "paypalListings":
+            var tempPaypalListObj = data.paypalListings;
+            break;
+         case "prepaidListings":
+            var tempPaypalListObj = data.prepaidListings;
+            break;
+        case "tetherListings":
+            var tempPaypalListObj = data.tetherListings;
+            break;
+            
+    }
+
+        var paypalLength = tempPaypalListObj.length;
+        for(var i = 0;i <paypalLength;i++ )
+        {
+            if(tempPaypalListObj[i].listingID == listingID)
+            {
+                tempPaypalListObj.splice(i, 1); 
+            }
+        }
+
+        var TransactionObj = {
+            ReceiverAddress: data2.Address,
+            SenderAddress: "PeppaTrade",
+            TransactionDate: new Date(),
+            Amount: Number(plusAmount),
+            NetworkFee: "0",
+            send: false
+        }
+        var transactions = data2.Transactions
+        transactions.push(TransactionObj);
+        switch (type){
+            case "applePayListings":
+                return listingRef.update({
+                    applePayListings: tempPaypalListObj
+                    })
+                    .then(() => {
+                        Alert("listing sucessfully closed! You have been reimbursed your Peppacoins!", "Profile Information", "green");
+                        userRef.update({
+                            MarketplaceTransactions: incomTransactions,
+                            Coins: coins,
+                            Transactions:transactions
+                        })                        
+                        .then(() =>{
+                            location.reload();
+                        })
+                    })
+                    .catch((error) => {
+                        console.error("Error updating document: ", error);
+                    });                    
+                    break;
+             case "bitcoinListings":
+                return listingRef.update({
+                    bitcoinListings: tempPaypalListObj
+                    })
+                    .then(() => {
+                        Alert("listing sucessfully closed! You have been reimbursed your Peppacoins!", "Profile Information", "green");
+                        userRef.update({
+                            MarketplaceTransactions: incomTransactions,
+                            Coins: coins,
+                            Transactions:transactions
+                        }) .then(() =>{
+                            location.reload();
+                        })                       
+                    })
+                    .catch((error) => {
+                        console.error("Error updating document: ", error);
+                    });                    
+                    
+                    break;
+             case "dogecoinListings":
+                return listingRef.update({
+                    dogecoinListings: tempPaypalListObj
+                    })
+                    .then(() => {
+                        Alert("listing sucessfully closed! You have been reimbursed your Peppacoins!", "Profile Information", "green");
+                        userRef.update({
+                            MarketplaceTransactions: incomTransactions,
+                            Coins: coins,
+                            Transactions:transactions
+                        }) .then(() =>{
+                            location.reload();
+                        })                       
+                    })
+                    .catch((error) => {
+                        console.error("Error updating document: ", error);
+                    });                    
+                    
+                    break;
+             case "eTransferListings":
+                return listingRef.update({
+                    eTransferListings: tempPaypalListObj
+                    })
+                    .then(() => {
+                        Alert("listing sucessfully closed! You have been reimbursed your Peppacoins!", "Profile Information", "green");
+                        userRef.update({
+                            MarketplaceTransactions: incomTransactions,
+                            Coins: coins,
+                            Transactions:transactions
+                        })                        
+                        .then(() =>{
+                            location.reload();
+                        })
+                    })
+                    .catch((error) => {
+                        console.error("Error updating document: ", error);
+                    });        
+                                        break;
+             case "ethereumListings":
+                return listingRef.update({
+                    ethereumListings: tempPaypalListObj
+                    })
+                    .then(() => {
+                        Alert("listing sucessfully closed! You have been reimbursed your Peppacoins!", "Profile Information", "green");
+                        userRef.update({
+                            MarketplaceTransactions: incomTransactions,
+                            Coins: coins,
+                            Transactions:transactions
+                        }).then(() =>{
+                            location.reload();
+                        })
+                    })
+                    .catch((error) => {
+                        console.error("Error updating document: ", error);
+                    });        
+                                              break;
+             case "giftCardListings":
+                return listingRef.update({
+                    giftCardListings: tempPaypalListObj
+                    })
+                    .then(() => {
+                        Alert("listing sucessfully closed! You have been reimbursed your Peppacoins!", "Profile Information", "green");
+                        userRef.update({
+                            MarketplaceTransactions: incomTransactions,
+                            Coins: coins,
+                            Transactions:transactions
+                        }).then(() =>{
+                            location.reload();
+                        })
+                    })
+                    .catch((error) => {
+                        console.error("Error updating document: ", error);
+                    });                     break;
+             case "googlePayListings":
+                return listingRef.update({
+                    googlePayListings: tempPaypalListObj
+                    })
+                    .then(() => {
+                        Alert("listing sucessfully closed! You have been reimbursed your Peppacoins!", "Profile Information", "green");
+                        userRef.update({
+                            MarketplaceTransactions: incomTransactions,
+                            Coins: coins,
+                            Transactions:transactions
+                        }).then(() =>{
+                            location.reload();
+                        })
+                    })
+                    .catch((error) => {
+                        console.error("Error updating document: ", error);
+                    });                     break;
+             case "paypalListings":
+                return listingRef.update({
+                    paypalListings: tempPaypalListObj
+                    })
+                    .then(() => {
+                        Alert("listing sucessfully closed! You have been reimbursed your Peppacoins!", "Profile Information", "green");
+                        userRef.update({
+                            MarketplaceTransactions: incomTransactions,
+                            Coins: coins,
+                            Transactions:transactions
+                        })
+                        .then(() =>{
+                            location.reload();
+                        })
+                    })
+                    .catch((error) => {
+                        console.error("Error updating document: ", error);
+                    });                         break;
+             case "prepaidListings":
+                return listingRef.update({
+                    prepaidListings: tempPaypalListObj
+                    })
+                    .then(() => {
+                        Alert("listing sucessfully closed! You have been reimbursed your Peppacoins!", "Profile Information", "green");
+                        userRef.update({
+                            MarketplaceTransactions: incomTransactions,
+                            Coins: coins,
+                            Transactions:transactions
+                        })
+                        .then(() =>{
+                            location.reload();
+                        })
+                    })
+                    .catch((error) => {
+                        console.error("Error updating document: ", error);
+                    });                       break;
+            case "tetherListings":
+                return listingRef.update({
+                    tetherListings: tempPaypalListObj
+                    })
+                    .then(() => {
+                        Alert("listing sucessfully closed! You have been reimbursed your Peppacoins!", "Profile Information", "green");
+                        userRef.update({
+                            MarketplaceTransactions: incomTransactions,
+                            Coins: coins,
+                            Transactions:transactions
+                        })
+                        .then(() =>{
+                            location.reload();
+                        })
+                    })
+                    .catch((error) => {
+                        console.error("Error updating document: ", error);
+                    });   
+                                        
+                    break;
+                
+        }
+    })
+})
+}
+
+function CloseTransactions(id)
+{
+    var refill = document.getElementById('closeModal');
+    refill.style.display = "block";
+    let html = '';
+
+    list = document.getElementById("buttonC")
+
+    
+    const li = `<button style="margin-left:5%;"onClick="CloseTransactionBackEnd('${id}')
+    " class = "button2" id="startTransaction">Close Transaction!</button>`
+    html += li;
+    list.innerHTML = html
+}
+function CloseTransactionBackEnd(id)
+{
+    var listingRef = db.collection("OpenSellTransactions").doc(id);
+    var userRef = db.collection("users").doc(Auth.currentUser.uid);
+    var userRef3 = db.collection("users").doc(id);
+    var listingRef2 = db.collection("marketplace").doc("Sell listings");
+    userRef.get().then((doc2) => {
+    listingRef.get().then((doc) => {
+        userRef3.get().then((doc3) => {
+            listingRef2.get().then((doc4) => {
+
+            data3 = doc3.data();
+            data4 = doc4.data();
+        data = doc.data();
+        data2 = doc2.data();
+
+        if(data.seller == Auth.currentUser.uid)
+        {
+            var marketplaceArr = data2.IncomingMarketplaceTransactions;
+            var marketLength = marketplaceArr.length;
+
+            for(var i = 0;i<marketLength;i++)
+            {
+                if(marketplaceArr[i] == id)
+                {
+                    marketplaceArr.splice(i, 1);
+                    break;
+                }
+            }
+            switch (data.type){
+                case "applePay":
+                    var tempPaypalListObj = data4.applePayListings;
+                    var tempArrayLength = tempPaypalListObj.length;
+                    for(var i = 0; i < tempArrayLength; i++)
+                    {
+                        if(tempPaypalListObj[i].listingID == data.listingId)
+                        {
+                            var g = Number(tempPaypalListObj[i].amount);
+                           g += Number(data.amount);
+                           tempPaypalListObj[i].amount = g;
+                        }
+                    }
+                    listingRef2.update({
+                        applePayListings:tempPaypalListObj
+                    })
+                    break;
+                 case "bitcoin":
+                    var tempPaypalListObj = data4.bitcoinListings;
+                    var tempArrayLength = tempPaypalListObj.length;
+                    for(var i = 0; i < tempArrayLength; i++)
+                    {
+                        if(tempPaypalListObj[i].listingID == data.listingId)
+                        {
+                            var g = Number(tempPaypalListObj[i].amount);
+                            g += Number(data.amount);
+                            tempPaypalListObj[i].amount = g;
+                        }
+                    }
+                    listingRef2.update({
+                        bitcoinListings:tempPaypalListObj
+                    })
+                    break;
+                 case "dogecoin":
+                    var tempPaypalListObj = data4.dogecoinListings;
+                    var tempArrayLength = tempPaypalListObj.length;
+                    for(var i = 0; i < tempArrayLength; i++)
+                    {
+                        if(tempPaypalListObj[i].listingID == data.listingId)
+                        {
+                            var g = Number(tempPaypalListObj[i].amount);
+                            g += Number(data.amount);
+                            tempPaypalListObj[i].amount = g;                        }
+                    }
+                    listingRef2.update({
+                        dogecoinListings:tempPaypalListObj
+                    })
+                    break;
+                 case "eTransfer":
+                    var tempPaypalListObj = data4.eTransferListings;
+                    var tempArrayLength = tempPaypalListObj.length;
+                    for(var i = 0; i < tempArrayLength; i++)
+                    {
+                        if(tempPaypalListObj[i].listingID == data.listingId)
+                        {
+                            var g = Number(tempPaypalListObj[i].amount);
+                            g += Number(data.amount);
+                            tempPaypalListObj[i].amount = g;                        }
+                    }
+                    listingRef2.update({
+                        eTransferListings:tempPaypalListObj
+                    })
+                    break;
+                 case "ethereum":
+                    var tempPaypalListObj = data4.ethereumListings;
+                    var tempArrayLength = tempPaypalListObj.length;
+                    for(var i = 0; i < tempArrayLength; i++)
+                    {
+                        if(tempPaypalListObj[i].listingID == data.listingId)
+                        {
+                            var g = Number(tempPaypalListObj[i].amount);
+                            g += Number(data.amount);
+                            tempPaypalListObj[i].amount = g;                        }
+                    }
+                    listingRef2.update({
+                        ethereumListings:tempPaypalListObj
+                    })
+                    break;
+                 case "giftCard":
+                    var tempPaypalListObj = data4.giftCardListings;
+                    var tempArrayLength = tempPaypalListObj.length;
+                    for(var i = 0; i < tempArrayLength; i++)
+                    {
+                        if(tempPaypalListObj[i].listingID == data.listingId)
+                        {
+                            var g = Number(tempPaypalListObj[i].amount);
+                            g += Number(data.amount);
+                            tempPaypalListObj[i].amount = g;                        }
+                    }
+                    listingRef2.update({
+                        giftCardListings:tempPaypalListObj
+                    })
+                    break;
+                 case "googlePay":
+                    var tempPaypalListObj = data4.googlePayListings;
+                    var tempArrayLength = tempPaypalListObj.length;
+                    for(var i = 0; i < tempArrayLength; i++)
+                    {
+                        if(tempPaypalListObj[i].listingID == data.listingId)
+                        {
+                            var g = Number(tempPaypalListObj[i].amount);
+                            g += Number(data.amount);
+                            tempPaypalListObj[i].amount = g;                        }
+                    }
+                    listingRef2.update({
+                        googlePayListings:tempPaypalListObj
+                    })
+                    break;
+                 case "paypal":
+                    var tempPaypalListObj = data4.paypalListings;
+                    var tempArrayLength = tempPaypalListObj.length;
+                    for(var i = 0; i < tempArrayLength; i++)
+                    {
+                        if(tempPaypalListObj[i].listingID == data.listingId)
+                        {
+                            var g = Number(tempPaypalListObj[i].amount);
+                            g += Number(data.amount);
+                            tempPaypalListObj[i].amount = g;                        }
+                    }
+                    listingRef2.update({
+                        paypalListings:tempPaypalListObj
+                    })
+                    break;
+                 case "prepaid":
+                    var tempPaypalListObj = data4.prepaidListings;
+                    var tempArrayLength = tempPaypalListObj.length;
+                    for(var i = 0; i < tempArrayLength; i++)
+                    {
+                        if(tempPaypalListObj[i].listingID == data.listingId)
+                        {
+                            var g = Number(tempPaypalListObj[i].amount);
+                            g += Number(data.amount);
+                            tempPaypalListObj[i].amount = g;                        }
+                    }
+                    listingRef2.update({
+                        prepaidListings:tempPaypalListObj
+                    })
+                    break
+                case "tether":
+                    var tempPaypalListObj = data4.tetherListings;
+                    var tempArrayLength = tempPaypalListObj.length;
+                    for(var i = 0; i < tempArrayLength; i++)
+                    {
+                        if(tempPaypalListObj[i].listingID == data.listingId)
+                        {
+                            var g = Number(tempPaypalListObj[i].amount);
+                            g += Number(data.amount);
+                            tempPaypalListObj[i].amount = g;                        }
+                    }
+                    listingRef2.update({
+                        tetherListings:tempPaypalListObj
+                    })
+                    break;
+                
+    
+                
+            }
+            var marketTransaction = data3.MarketplaceTransactions;
+        var marketLength = marketTransaction.length;
+
+        for(var i = 0; i < marketLength; i++)
+        {
+            if(data.listingId == marketTransaction[i].listingId)
+            {
+                var g = Number(marketTransaction[i].amount);
+               g += Number(data.amount);
+               marketTransaction[i].amount = g;
+                userRef.update({
+                    MarketplaceTransactions: marketTransaction
+                })
+            }
+        }
+            var NotificationsObj = {
+                NotifType: "red",
+                NotifContent: data.sellerUser + " Has cancelled your transaction request! Got scammed or think there was a mistake? Join our discord server and create a ticket or proceed to the report a problem page! Make sure to copy the username of the seller.",
+                NotifTitle: "Transaction Cancelled!"
+            }
+            var notification = data3.Notifications;
+            notification.push(NotificationsObj);
+
+            listingRef.delete().then(() => {
+                Alert("You have sucessfully denied the transaction request!", "Profile Information", "green");
+                userRef.update({
+                    IncomingMarketplaceTransactions:marketplaceArr,
+                }).then(()=>{
+                userRef3.update({
+                    Notifications:  notification
+                }).then(()=>{
+                    location.reload();
+                })
+            })
+            }).catch((error) => {
+                console.error("Error removing document: ", error);
+            });
+        }
+        else{
+            Alert("INTERNAL ERROR CODE 69420", "PeppaCoins ERROR", "red");
+        }
+    })
+})
+    })
+})
+}
+function CompleteTransactions(id)
+{
+    var refill = document.getElementById('finishModal');
+    refill.style.display = "block";
+    let html = '';
+
+    list = document.getElementById("buttonF")
+
+    
+    const li = `<button style="margin-left:5%;"onClick="CompleteTrnasactionBackEnd('${id}')
+    " class = "button2" id="startTransaction">Finish Transaction!</button>`
+    html += li;
+    list.innerHTML = html
+}
+
+function CompleteTrnasactionBackEnd(id)
+{
+    var listingRef = db.collection("OpenSellTransactions").doc(id);
+    var userRef = db.collection("users").doc(Auth.currentUser.uid);
+    var userRef3 = db.collection("users").doc(id);
+    var listingRef2 = db.collection("marketplace").doc("Sell listings");
+
+    userRef.get().then((doc2) => {
+    listingRef.get().then((doc) => {
+        userRef3.get().then((doc3) => {
+    listingRef2.get().then((doc4)=>{
+        data4 = doc4.data();
+            data3 = doc3.data();
+        data = doc.data();
+        data2 = doc2.data();
+        var plusAmount = data.amount;
+        var type = data.type;
+        switch (type){
+            case "applePay":
+                var tempPaypalListObj = data4.applePayListings;
+                break;
+             case "bitcoin":
+                var tempPaypalListObj = data4.bitcoinListings;
+                break;
+             case "dogecoin":
+                var tempPaypalListObj = data4.dogecoinListings;
+                break;
+             case "eTransfer":
+                var tempPaypalListObj = data4.eTransferListings;
+                break;
+             case "ethereum":
+                var tempPaypalListObj = data4.ethereumListings;
+                break;
+             case "giftCard":
+                var tempPaypalListObj = data4.giftCardListings;
+                break;
+             case "googlePay":
+                var tempPaypalListObj = data4.googlePayListings;
+                break;
+             case "paypal":
+                var tempPaypalListObj = data4.paypalListings;
+                break;
+             case "prepaid":
+                var tempPaypalListObj = data4.prepaidListings;
+                break;
+            case "tether":
+                var tempPaypalListObj = data4.tetherListings;
+                break;
+                
+        }
+
+        var tempLength = tempPaypalListObj.length;
+
+        for(var i = 0; i < tempLength; i++)
+        {
+            if(tempPaypalListObj[i].listingID == data.listingId)
+            {
+                tempPaypalListObj[i].completedTransactions++;
+                break;
+            }
+        }
+
+        
+
+        var incomingMarket = data2.IncomingMarketplaceTransactions;
+        var incomLength = incomingMarket.length;
+
+        for(var i = 0; i < incomLength; i++)
+        {
+            if(id == incomingMarket[i])
+            {
+                incomingMarket.splice(i, 1);
+            }
+        }
+        var receiverCoins = data3.Coins
+        receiverCoins += plusAmount
+
+        var receiverTransactionObj = data3.Transactions
+
+        var receiverNotificationsObj = data3.Notifications
+        var NotificationsObj = {
+            NotifType: "green",
+            NotifContent: data2.Username + " has completed your outgoing transaction! Thank you for using PeppaTrade!",
+            NotifTitle: "Transaction Accepted!"
+        }
+        receiverNotificationsObj.push(NotificationsObj);
+        var TransactionObj = {
+            ReceiverAddress: data3.Address,
+            SenderAddress: data2.Address,
+            TransactionDate: new Date(),
+            Amount: Number(plusAmount),
+            NetworkFee: "0",
+            send: false
+        }
+
+        receiverTransactionObj.push(TransactionObj);
+
+        listingRef.delete().then(() => {
+            Alert("You have sucessfully Completed the transaction request! The wanted amount has been paid through your listing Balance.", "Profile Information", "green");
+            userRef.update({
+                IncomingMarketplaceTransactions:incomingMarket,
+            }).then(()=>{
+            userRef3.update({
+                Transactions:  receiverTransactionObj,
+                Coins: receiverCoins,
+                Notifications: receiverNotificationsObj
+            }).then(()=>{
+                location.reload();
+            })
+        })
+        }).catch((error) => {
+            console.error("Error removing document: ", error);
+        });
+})
+        })
+})
+    })
+}
+
+function InitializeProfile()
+{
+    var userRef = db.collection("users").doc(Auth.currentUser.uid);
+    userRef.get().then((doc) => {
+        var data = doc.data();
+        let html = '';
+        var list = document.getElementById('userListings');
+        var transactions = data.MarketplaceTransactions;
+        var arrayLength = transactions.length;
+        if(arrayLength >= 1)
+        {
+        for (var i = 0; i < arrayLength; i++) {
+            var transactionObj = transactions[i];
+            const li = `
+            <li>
+                <h1 style="color:black">Transaction ${i +1}</h1>
+                <h3 style="color:black">Payment Method: ${transactionObj.array}</h3>
+                <h4 style="color:black">Description: ${transactionObj.description}</h4>
+
+                1 Peppa for ${Number(transactionObj.price).toFixed(4)}USD
+            <br>
+            ${Number(transactionObj.amount).toFixed(4)} PEPPAS left in stock
+            <Br><Br>
+            <button class="button1"onClick="openRefill('${transactionObj.array}','${transactionObj.listingId}')">Refill PEPPAS</button>
+            <button class="button1"onClick="CloseListing('${transactionObj.array}','${transactionObj.listingId}')">Close Listing</button>
+                
+            </li>
+            `;
+            var count = document.getElementById('listingsCount');
+            count.innerHTML = 'Here are your listings ( ' + (i + 1).toString() + '/3 )'
+            html = li;
+            list.innerHTML += html
+        }
+
+    }
+        var Itransactions = data.IncomingMarketplaceTransactions;
+        var arrayLength1 = Itransactions.length;
+        
+        var list2 = document.getElementById('incomingTransactions');
+        for (var i = 0; i < arrayLength1; i++) {
+            var transactionObj1 = Itransactions[i];
+            var sellRef = db.collection("OpenSellTransactions").doc(transactionObj1);
+            sellRef.get().then((doc1) => {
+                if(doc1.exists)
+                {
+                var refObj = doc1.data();
+                    const li = `
+                    <li onclick="">
+                    <h1 style="color:black">Transaction ${i }</h1>
+                    <h3 style="color:black">Request from ${refObj.userName}</h3>
+                    <h3 style="color:black">Payment Method: ${refObj.type}</h3>
+                    <h4 style="color:black">Incoming Message: ${refObj.description}</h4>
+                    
+                    <br>
+                    ${Number(refObj.amount).toFixed(4)} PEPPAS wanted
+                    ${Number(refObj.usdDue).toFixed(4)} USD due
+                        <Br><Br>
+                        <button class="button1"onClick="CompleteTransactions('${transactionObj1}')">Complete Transaction</button>
+                        <button class="button1"onClick="CloseTransactions('${transactionObj1}')">Close Transaction</button>
+                        </li> 
+                    `;
+                    var count1 = document.getElementById('incomingRequeststext');
+                    count1.innerHTML = 'Here are your incoming requests ( ' + (i).toString() + '/100 )'
+                    html = li;
+                    list2.innerHTML += html;
+                }
+            })
+        }
+    
+        var list3 = document.getElementById('outgoingTransaction');
+        var userRef1 = db.collection("OpenSellTransactions").doc(Auth.currentUser.uid);
+        if(userRef1 != null)
+        {
+        userRef1.get().then((doc4) => {
+            if(doc4.exists)
+            {
+            var data2 = doc4.data();
+            const li = `
+            <li onclick="">
+            <h3 style="color:black">Request from ${data2.sellerUser}</h3>
+            <h3 style="color:black">Payment Method: ${data2.type}</h3>
+            <h4 style="color:black">Your message to seller: ${data2.description}</h4>
+            
+            <br>
+            ${Number(data2.amount).toFixed(4)} PEPPAS wanted
+            ${Number(data2.usdDue).toFixed(4)} USD due
+                <Br><Br>
+                <button class="button1">Report Seller</button>
+                <button class="button1">Close Transaction</button>
+        </li> 
+            `;
+            var count2 = document.getElementById('outgoingRequeststext');
+            count2.innerHTML = 'Here are your outgoing requests ( ' + (i).toString() + '/1 )'
+            html = li;
+            list3.innerHTML += html
+            }
+        })
+    }
+    else{
+
+    }
+    })
 }

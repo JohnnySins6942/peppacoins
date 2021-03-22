@@ -21,8 +21,8 @@
         <div class="sellList">
             <div class="topnav" style="z-index:99">
                 <a style="margin-top:10px;margin-left:1%;"><button class="btn pink"id="PeppaBet"style="z-index: 3;">PeppaMarket</button></a>
-                <a style="margin-top:10px;"><button class="btn pink"id="Fairness"style="z-index: 3;">Buy</button></a>
-                <a style="margin-top:10px;"><button class="btn pink"id="FAQ"style="z-index: 3;">Sell</button></a>
+                <a style="margin-top:10px;"><button class="btn pink"id="Fairness"style="z-index: 3;"onClick="window.location.href = 'profile.html'">Marketplace Profile</button></a>
+                <a style="margin-top:10px;"><button class="btn pink"id="FAQ"style="z-index: 3;"onClick="window.location.href = 'sell.html'">Sell</button></a>
                 <a style="margin-top:10px;"><button class="btn pink"id="FAQ"style="z-index: 3;"onClick="window.location.href = 'createListing.html'">Create a listing</button></a>
                 <a style="margin-top:-65px; margin-left:85%;"><h4 style="text-align:center" id= "peppaAmount" >Balance: 500 PEPPAS</h4></a>
             </div>
@@ -32,19 +32,19 @@
                 <h3>Payment Method:</h3>
                 
                 <div class="dropdown" style="margin-left:5%;margin-top:-5%">
-                    <button class="dropbtn">Paypal</button>
-                    <div class="dropdown-content">
-                    <a onclick="loadPage('sell', 'paypal')">Paypal</a>
-                    <a onclick="loadPage('sell', 'giftCard')">Gift Cards</a>
-                    <a>Bitcoin</a>
-                    <a>Bitcoin</a>
-                    <a>Ethereum</a>
-                    <a>DogeCoin</a>
-                    <a>Tether</a>
-                    <a>Apple Pay</a>
-                    <a>Google Pay</a>
-                    <a>E-Transfer</a>
-                    <a>Prepaid Visas</a>
+                    <button class="dropbtn" onclick="document.getElementById('dropdown-content').style.visibility = 'visible';" id="dropbtn">Paypal</button>
+                    <div class="dropdown-content"id="dropdown-content">
+                    <a onclick="loadPage('sell', 'paypal'); 
+                    parentElement.style.visibility  = 'hidden';">Paypal</a>
+                    <a onclick="loadPage('sell', 'giftCard');parentElement.style.visibility  = 'hidden';">Gift Cards</a>
+                    <a onclick="loadPage('sell', 'bitcoin');parentElement.style.visibility  = 'hidden';">Bitcoin</a>
+                    <a onclick="loadPage('sell', 'ethereum');parentElement.style.visibility  = 'hidden';">Ethereum</a>
+                    <a onclick="loadPage('sell', 'dogecoin');parentElement.style.visibility  = 'hidden';">DogeCoin</a>
+                    <a onclick="loadPage('sell', 'tether');parentElement.style.visibility  = 'hidden';">Tether</a>
+                    <a onclick="loadPage('sell', 'applePay');parentElement.style.visibility  = 'hidden';">Apple Pay</a>
+                    <a onclick="loadPage('sell', 'googlePay');parentElement.style.visibility  = 'hidden';">Google Pay</a>
+                    <a onclick="loadPage('sell', 'eTransfer');parentElement.style.visibility  = 'hidden';">E-Transfer</a>
+                    <a onclick="loadPage('sell', 'prepaid');parentElement.style.visibility  = 'hidden';">Prepaid Visas</a>
                     </div>
                   </div>
                   <br>
@@ -64,9 +64,32 @@
         })
     </script>
             </div>
+            <div id="sellModal" class="modal" style="display:none">
+                <div style="border-radius:12px;background-color:rgb(63, 59, 59);height:75%;width:70%;"class="modal-content">
+                    <h1 style="text-align:center">Create Trade</h1>    
+                    <h4 id="maxAmount" style="font-size:20px;color:rgba(251, 183, 198, 1); text-align:center;"for="fname">Transaction Amount(max 13232 PEPPAS)</h4>
+                <input style="margin-left:20%;"type="number" class="receiverAddress" placeholder="Transaction Amount" id="amount123"/>
+                <h4 id="usdDue" style="font-size:17px;color:rgba(251, 183, 198, 1); text-align:center;"for="fname">Total Amount Due: 0 USD</h4>
+                <h3 style="font-size:18px;color:rgba(251, 183, 198, 1); text-align:center;"for="fname">Transaction Details(Paypal Email, Estimated Transfer Time)</h3>
+                <textarea style="margin-left:20.5%;"type="number" class="receiverAddress" placeholder="Transaction Details. We suggest you put in the anything the seller can use to make verify your purhcase" id="description"></textarea>
+
+                <div id="button">
+
+                </div>                  
+            </div>
+            </div>
             <br><Br>
     </div>
     
     </div>
+    <script>
+     $(document).ready(function(){
+    var modal = document.getElementById("sellModal");
+    window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+    }
+    })</script>
     </body>
 </html>

@@ -181,7 +181,11 @@
                                     Referrals: userData.Referrals,
                                     Referrer: userData.Referrer,
                                     Multiplier: userData.Multiplier,
-                                    PreviousTransactions: userData.PreviousTransactions
+                                    PreviousTransactions: userData.PreviousTransactions,
+                                    MarketplaceTransactions: userData.MarketplaceTransactions,
+                                            FinishedMarketplaceTransactions: userData.FinishedMarketplaceTransactions,
+                                            IncomingMarketplaceTransactions: userData.IncomingMarketplaceTransactions
+
                                 }
                                 tempData.Transactions.push(TransactionObj);
 
@@ -272,7 +276,10 @@
                         Referrals: data.Referrals,
                         Referrer: data.Referrer,
                         Multiplier: data.Multiplier,
-                        PreviousTransactions: data.PreviousTransactions
+                        PreviousTransactions: data.PreviousTransactions,
+                        MarketplaceTransactions: data.MarketplaceTransactions,
+                        FinishedMarketplaceTransactions: data.FinishedMarketplaceTransactions,
+                        IncomingMarketplaceTransactions: data.IncomingMarketplaceTransactions
                     }
                     db.collection("users").doc(Auth.currentUser.uid).set(tempData).then(() => {
                         Alert("Pending Hashes Matured!", "Mining Information", "blue");
