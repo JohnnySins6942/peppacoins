@@ -311,6 +311,17 @@
             <a style="margin-top:10px;"><button style="margin-left:17px;"class="btn pink"id="faucet"style="z-index: 3;"onclick = "Navigate('faucet')">Faucet</button></a>
             <a style="margin-top:-65px; margin-left:76%;"><h4 style="text-align:center" id= "peppaAmount" >Balance: 500 PEPPAS</h4></a>
     </div>
+    <Script>
+        var price = document.getElementById("PeppaPrice");
+        var docRef = db.collection("data").doc("data");
+        docRef.get().then((doc) => {
+            if (doc.exists) {
+                var data = doc.data();
+                price.innerHTML = "1 PEPPA = " + data.PeppaValue + "USD";
+            }
+        })
+             
+    </Script>
     <div class="BetPanel">
         <br style="display: block;
         line-height:0px;">

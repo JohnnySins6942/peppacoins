@@ -31,15 +31,38 @@
             </div>
         <div style="z-index: 4;" class="notifications"id="notifications">
         </div>
+        <Script>
+            var price = document.getElementById("PeppaPrice");
+            var docRef = db.collection("data").doc("data");
+            docRef.get().then((doc) => {
+                if (doc.exists) {
+                    var data = doc.data();
+                    price.innerHTML = "1 PEPPA = " + data.PeppaValue + "USD";
+                }
+            })
+                 
+        </Script>
         <div class="marketplace" >
         
-            <div class="topnav" >
-                <a style="margin-top:10px;margin-left:1%;"><button class="btn pink"id="PeppaBet"style="z-index: 3;">PeppaMarket</button></a>
-                <a style="margin-top:10px;"><button class="btn pink"id="Fairness"style="z-index: 3;">Buy</button></a>
-                <a style="margin-top:10px;"><button class="btn pink"id="FAQ"style="z-index: 3;">Sell</button></a>
+            <div class="topnav" style="z-index:99">
+                <a style="margin-top:10px;margin-left:1%;"><button class="btn pink"id="PeppaBet"style="z-index: 3;"onClick="Navigate('marketplace')">PeppaMarket</button></a>
+                <a style="margin-top:10px;"><button class="btn pink"id="Fairness"style="z-index: 3;"onClick="window.location.href = 'profile.html'">Marketplace Profile</button></a>
+                <a style="margin-top:10px;"><button class="btn pink"id="FAQ"style="z-index: 3;"onClick="window.location.href = 'sell.html'">Sell</button></a>
                 <a style="margin-top:10px;"><button class="btn pink"id="FAQ"style="z-index: 3;"onClick="window.location.href = 'createListing.html'">Create a listing</button></a>
-                <a style="margin-top:-65px; margin-left:80%;"><h4 style="text-align:center" id= "peppaAmount" >Balance: 500 PEPPAS</h4></a>
+                <a style="margin-top:-65px; margin-left:85%;"><h4 style="text-align:center" id= "peppaAmount" >Balance: 500 PEPPAS</h4></a>
             </div>
+            <script>$(document).ready(function(){
+                firebase.auth().onAuthStateChanged(user => {
+                var docRef = db.collection("users").doc(Auth.currentUser.uid);
+                    docRef.get().then((doc) => {
+                    if (doc.exists) {
+                        data = doc.data();
+                        $("#peppaAmount").text("Balance: " + Number(data.Coins).toFixed(4).toString() + " PEPPAS");    
+                    }
+                })
+            })
+        })
+            </script>
 
         <div id="LoginModal" class="modal">
             <div style="border-radius:12px;background-color:rgb(63, 59, 59);height:74%;"class="modal-content">

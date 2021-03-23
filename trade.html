@@ -80,7 +80,17 @@
  
         </div>
 
-
+        <Script>
+          var price = document.getElementById("PeppaPrice");
+          var docRef = db.collection("data").doc("data");
+          docRef.get().then((doc) => {
+              if (doc.exists) {
+                  var data = doc.data();
+                  price.innerHTML = "1 PEPPA = " + data.PeppaValue + "USD";
+              }
+          })
+               
+      </Script>
 
         <div class="trade">
 

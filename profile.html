@@ -20,13 +20,24 @@
         </div>
         <div class="sellList">
             <div class="topnav" style="z-index:99">
-                <a style="margin-top:10px;margin-left:1%;"><button class="btn pink"id="PeppaBet"style="z-index: 3;">PeppaMarket</button></a>
+                <a style="margin-top:10px;margin-left:1%;"><button class="btn pink"id="PeppaBet"style="z-index: 3;"onClick="Navigate('marketplace')">PeppaMarket</button></a>
                 <a style="margin-top:10px;"><button class="btn pink"id="Fairness"style="z-index: 3;"onClick="window.location.href = 'profile.html'">Marketplace Profile</button></a>
                 <a style="margin-top:10px;"><button class="btn pink"id="FAQ"style="z-index: 3;"onClick="window.location.href = 'sell.html'">Sell</button></a>
                 <a style="margin-top:10px;"><button class="btn pink"id="FAQ"style="z-index: 3;"onClick="window.location.href = 'createListing.html'">Create a listing</button></a>
                 <a style="margin-top:-65px; margin-left:85%;"><h4 style="text-align:center" id= "peppaAmount" >Balance: 500 PEPPAS</h4></a>
             </div>
-           
+            <script>$(document).ready(function(){
+                firebase.auth().onAuthStateChanged(user => {
+                var docRef = db.collection("users").doc(Auth.currentUser.uid);
+                    docRef.get().then((doc) => {
+                    if (doc.exists) {
+                        data = doc.data();
+                        $("#peppaAmount").text("Balance: " + Number(data.Coins).toFixed(4).toString() + " PEPPAS");    
+                    }
+                })
+            })
+        })
+            </script>
             <ul class="List" id = "userListings">
                 <h2 id="listingsCount">Here are your listings ( 0/3 )</h2>
                 

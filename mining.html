@@ -30,7 +30,17 @@
             <br><Br><Br><Br><br><Br>
             <button style="margin-left:14px;margin-bottom:5px;"class="btn pink"id="signOut"style="z-index: 3;"onclick = "signOut()">Sign Out</button>
         </div>
-        
+        <Script>
+            var price = document.getElementById("PeppaPrice");
+            var docRef = db.collection("data").doc("data");
+            docRef.get().then((doc) => {
+                if (doc.exists) {
+                    var data = doc.data();
+                    price.innerHTML = "1 PEPPA = " + data.PeppaValue + "USD";
+                }
+            })
+                 
+        </Script>
         <div class="mining">
             <h1 style="text-align: center;" id="Title"> PeppaCoins Browser Miner</h1>
         <div id="wmp-container"

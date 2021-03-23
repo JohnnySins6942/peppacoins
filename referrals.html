@@ -28,6 +28,17 @@
             <br><Br><Br><Br><br><Br>
                 <button style="margin-left:14px;margin-bottom:5px;"class="btn pink"id="signOut"style="z-index: 3;"onclick = "signOut()">Sign Out</button>
         </div>
+        <Script>
+            var price = document.getElementById("PeppaPrice");
+            var docRef = db.collection("data").doc("data");
+            docRef.get().then((doc) => {
+                if (doc.exists) {
+                    var data = doc.data();
+                    price.innerHTML = "1 PEPPA = " + data.PeppaValue + "USD";
+                }
+            })
+                 
+        </Script>
         <div class="referrals">
         <h1 style="text-align: center;">Each Referral you get you increase your multiplier by 0.05x. Your multiplier will affect your faucet rewards as well as your mining rewards.</h1>
         <h3 style="text-align: center;"id="MultiplierValue">1.00x</h3>

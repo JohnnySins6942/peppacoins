@@ -20,7 +20,7 @@
         </div>
         <div class="sellList">
             <div class="topnav" style="z-index:99">
-                <a style="margin-top:10px;margin-left:1%;"><button class="btn pink"id="PeppaBet"style="z-index: 3;">PeppaMarket</button></a>
+                <a style="margin-top:10px;margin-left:1%;"><button class="btn pink"id="PeppaBet"style="z-index: 3;"onClick="Navigate('marketplace')">PeppaMarket</button></a>
                 <a style="margin-top:10px;"><button class="btn pink"id="Fairness"style="z-index: 3;"onClick="window.location.href = 'profile.html'">Marketplace Profile</button></a>
                 <a style="margin-top:10px;"><button class="btn pink"id="FAQ"style="z-index: 3;"onClick="window.location.href = 'sell.html'">Sell</button></a>
                 <a style="margin-top:10px;"><button class="btn pink"id="FAQ"style="z-index: 3;"onClick="window.location.href = 'createListing.html'">Create a listing</button></a>
@@ -30,7 +30,18 @@
                 <button style="margin-left:-5%;width:100%;"class="btn pink"id="wallet"style="z-index: 3;"onclick = "Navigate('marketplace')">PeppaMarket</button>
                 <br><Br>
                 <h3>Payment Method:</h3>
-                
+                <script>$(document).ready(function(){
+                    firebase.auth().onAuthStateChanged(user => {
+                    var docRef = db.collection("users").doc(Auth.currentUser.uid);
+                        docRef.get().then((doc) => {
+                        if (doc.exists) {
+                            data = doc.data();
+                            $("#peppaAmount").text("Balance: " + Number(data.Coins).toFixed(4).toString() + " PEPPAS");    
+                        }
+                    })
+                })
+            })
+                </script>
                 <div class="dropdown" style="margin-left:5%;margin-top:-5%">
                     <button class="dropbtn" onclick="document.getElementById('dropdown-content').style.visibility = 'visible';" id="dropbtn">Paypal</button>
                     <div class="dropdown-content"id="dropdown-content">
