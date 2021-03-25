@@ -31,6 +31,7 @@
     top:0;
     left:0;
     overflow-x:hidden;
+    overflow-y:hidden;
     padding-top:20px;
     height:80%;
   }.alert {
@@ -56,6 +57,18 @@
     cursor: pointer;
     transition: 0.3s;
   }
+  #body {
+    width:100vw;
+    height:100vh;
+    text-align:center;
+}
+#content {
+    transform: translateY(-50%);
+    -webkit-transform:translateY(-50%);
+    top:50%;
+    transform: scale(2);
+    transform-origin: 0%;
+}
   
   .closebtn:hover {
     color: black;
@@ -71,7 +84,7 @@
     overflow-x: hidden;
     padding-top: 20px;
   }
-  h1, h2, h3, h4, h5{
+  h1, h2, h3, h4, h5, p{
     font-family: Helvetica;
     color:rgb(243, 179, 193);
   }
@@ -90,7 +103,7 @@
   }
   .topnav {
       overflow: hidden;
-      width:100%;
+      width:101%;
       background-color: rgb(20, 20, 20);
       margin-left:-13px;
       margin-top:-25px;
@@ -105,7 +118,7 @@
     font-size: 17px;
   }
   .marketplace {
-    margin-left: 175px; /* Same as the width of the sidenav */
+    margin-left: 12.9%; /* Same as the width of the sidenav */
     padding: 0px 10px;
     background-color:rgb(48, 45, 45);
     width:87.3%;

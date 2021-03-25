@@ -7,18 +7,19 @@
     left: 0;
     background-color: #111;
     overflow-x: hidden;
-    padding-top: 20px;
+    padding-top: 3%;
+    overflow-y:hidden;
   }
 
   .accordion {
     background-color: rgb(250, 223, 229);
     cursor: pointer;
-    padding: 18px;
+    padding: 3%;
     width: 95%;
     border: none;
     text-align: left;
     outline: none;
-    font-size: 25px;
+    font-size: 150%;
     transition: 0.4s;
   }
 
@@ -32,7 +33,7 @@
     color: #777;
     font-weight: bold;
     float: right;
-    margin-left: 5px;
+    margin-left: 1%;
   }
   
   .active:after {
@@ -40,7 +41,7 @@
   }
   
   .panel {
-    padding: 0 18px;
+    padding: 0 2.5%;
     background-color: rgb(63, 59, 59);
     max-height: 0;
     overflow: hidden;
@@ -51,37 +52,37 @@
     background-color: #4c93af; /* Green */
     border: none;
     color: white;
-    padding: 15px 32px;
+    padding: 1.8% 5.1%;
     cursor: pointer;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 21px;
+    font-size: 60%;
     border-radius: 35px;
-    width:150px;
-    height:50px;
+    width:20%;
+    height:6.6%;
   }
 .button1:hover {
     background-color: #387086;
   }
   .button2 {
-    background-color: #4c93af; /* Green */
+    background-color: #4c93af; 
     border: none;
     color: white;
-    padding: 15px 32px;
+    padding: 1.8% 5.1%;
     cursor: pointer;
     text-decoration: none;
     display: inline-block;
     border-radius: 35px;
-    font-size:21;
+    font-size:60%;
   }
 .button2:hover {
     background-color: #387086;
   }
   .sidenav a {
-    padding: 6px 8px 6px 16px;
+    padding: 1% 2% 3% 8%;
     text-decoration: none;
-    font-size: 25px;
+    font-size: 60%;
     color: #818181;
     display: block;
   }
@@ -90,12 +91,12 @@
     color: #f1f1f1;
   }
   .qr-code { 
-    max-width: 200px; 
-    margin: 10px; 
+    max-width: 50%; 
+    margin: 5%; 
   } 
   .balance {
     margin-left: 12.9%; /* Same as the width of the sidenav */
-    padding: 0px 10px;
+    padding: 0px 1%;
     background-color:black;
     width:31.3%;
     z-index: 1;
@@ -103,11 +104,11 @@
     top:0;
     left:0;
     overflow-x:hidden;
-    padding-top:20px;
+    padding-top:3%;
     height:100%;
   }
   .notifications {
-    padding: 0px 10px;
+    padding: 0px 2%;
     pointer-events: none;
     margin-left: 72.9%; /* Same as the width of the sidenav */
     width:25%;
@@ -117,13 +118,13 @@
     left:0;
     overflow-x:hidden;
     overflow-y:hidden;
-    padding-top:20px;
+    padding-top:3%;
     height:80%;
   }
 
   .transactions{
     margin-left: 45.2%; /* Same as the width of the sidenav */
-    padding: 0px 10px;
+    padding: 0px 2%;
     background-color:rgb(0, 0, 0);
     width:55.8%;
     z-index: 1;
@@ -131,7 +132,7 @@
     top:0;
     left:0;
     overflow-x:hidden;
-    padding-top:20px;
+    padding-top:3%;
     height:100%;
   }
 
@@ -139,11 +140,11 @@
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
+    padding-top: 10%; /* Location of the box */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
-    height: 420px;
+    height: 42%;
     height: 100%; /* Full height */
     overflow: hidden;
     background-color: rgb(0,0,0); /* Fallback color */
@@ -152,29 +153,29 @@
   .modal-content {
     background-color: #fefefe;
     margin: auto;
-    height: 350px;
-    padding: 20px;
-    border: 1px solid #888;
+    height: 25%;
+    padding: 1%;
+    border: 3% solid #888;
     width: 25%;
     overflow: hidden;
   }
   .modal-content1 {
     background-color: #fefefe;
     margin: auto;
-    height: 450px;
-    padding: 20px;
-    border: 1px solid #888;
+    height: 60%;
+    padding: 1%;
+    border: 3% solid #888;
     width: 25%;
     overflow: hidden;
   }
   .alert {
-    padding: 20px;
+    padding: 6%;
     background-color: #f44336;
     color: white;
     opacity: 1;
     z-index:inherit;
     transition: opacity 0.6s;
-    margin-bottom: 15px;
+    margin-bottom: 5%;
     border-radius:34px;
   }
   
@@ -183,12 +184,12 @@
   .alert.warning {background-color: #ff9900;}
   
   .closebtn {
-    margin-left: 15px;
+    margin-left: 7%;
     color: white;
     font-weight: bold;
     float: right;
-    font-size: 22px;
-    line-height: 20px;
+    font-size: 250%;
+    line-height: 10%;
     cursor: pointer;
     transition: 0.3s;
   }
@@ -199,15 +200,15 @@
 
   .receiverAddress{
     width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
+    padding: 5% 8%;
+    margin: 4% 0;
     box-sizing: border-box;
-    font-size:24px;
+    font-size: 110%;
     color:rgb(0, 0, 0);
     border-radius: 12px;
   }
   .receiverAddress[type=text]:focus {
-    border: 3px solid rgba(251, 183, 198, 1);
+    border: 2% solid rgba(251, 183, 198, 1);
     border-radius: 12px;
   }
   #loading {
@@ -235,8 +236,8 @@
   .btn {
     border: none;
     background-color: inherit;
-    padding: 14px 28px;
-    font-size: 21px;
+    padding: 7% 14%;
+    font-size: 130%;
     cursor: pointer;
     display: inline-block;
     font-family: Helvetica;
@@ -249,15 +250,15 @@
     .blue {color: dodgerblue;}
     .orange {color: #f4511e;}
     .red {color: red;}
-    .pink {color: rgba(251, 183, 198, 1);}
+    .pink {color: rgb(251, 183, 198);}
     .black {color: black;}
     .white {color: rgb(255, 255, 255);}
 
     .btnTransparent {
         border: none;
         background-color: inherit;
-        padding: 14px 28px;
-        font-size: 21px;
+        padding: 7% 14%;
+        font-size: 130%;
         cursor: pointer;
         display: inline-block;
         font-family: Helvetica;

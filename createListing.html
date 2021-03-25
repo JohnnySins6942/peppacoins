@@ -22,7 +22,7 @@
             <div class="topnav" style="z-index:99">
                 <a style="margin-top:10px;margin-left:1%;"><button class="btn pink"id="PeppaBet"style="z-index: 3;"onClick="Navigate('marketplace')">PeppaMarket</button></a>
                 <a style="margin-top:10px;"><button class="btn pink"id="Fairness"style="z-index: 3;"onClick="window.location.href = 'profile.html'">Marketplace Profile</button></a>
-                <a style="margin-top:10px;"><button class="btn pink"id="FAQ"style="z-index: 3;"onClick="window.location.href = 'sell.html'">Sell</button></a>
+                <a style="margin-top:10px;"><button class="btn pink"id="FAQ"style="z-index: 3;"onClick="window.location.href = 'sell.html'">Buy</button></a>
                 <a style="margin-top:10px;"><button class="btn pink"id="FAQ"style="z-index: 3;"onClick="window.location.href = 'createListing.html'">Create a listing</button></a>
                 <a style="margin-top:-65px; margin-left:85%;"><h4 style="text-align:center" id= "peppaAmount" >Balance: 500 PEPPAS</h4></a>
             </div>
@@ -35,10 +35,7 @@
                 <input type="radio" id="sell" name="sellorbuy" value="sell">
                 <label for="sell" style="font-family: Helvetica;color:rgb(243, 179, 193);font-size:24;">Sell PeppaCoins</label>
                 <h4 style="margin-left:5%"> Your offer will be listed on the sell page</h4><br>
-                <input type="radio" id="buy" name="sellorbuy" value="buy">
-                <label for="sell" style="font-family: Helvetica;color:rgb(243, 179, 193);font-size:24;">Buy PeppaCoins</label>
-                <h4 style="margin-left:5%">    Your offer will be listed on the buy page</h4><br>
-                    
+ 
                 
                 <h2 style="margin-left:2%;">How much PeppaCoins would you like transacted? (Min Transaction amount: 100k PEPPAS)</h2>
                 <input class="receiverAddress" id = "amount" type="number" style="margin-left:3%;"placeholder="Enter your amount here."></input>
@@ -85,7 +82,7 @@
                 
                 <br><Br><Br>
                 <h2 style="margin-left:2%;">Payment instructions/description</h2>
-                <textarea class="receiverAddress"id="instructions" style="margin-left:3%;"placeholder="Enter your instructions here."></textarea>
+                <textarea class="receiverAddress"id="instructions" style="margin-left:3%;"placeholder="Enter your instructions here. We recommend you also put a way to contact you for your buyers"></textarea>
             
                 <Br><Br>
                 <button class="btn pink"style="margin-left:42%;" onclick="createListing()">Create Listing!</button>
