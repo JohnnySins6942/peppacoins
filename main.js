@@ -1240,6 +1240,13 @@ function onReady(callback) {
     function InitializeWallet(auth){
         let html = '';
         let html1='';
+        //localStorage.setItem('name','Chris');
+        let saveTime = localStorage.getItem('saveTime');
+        if(saveTime == null)
+        {
+            saveTime = new Date();
+            console.log(saveTime);
+        }
         var docRef = db.collection("users").doc(auth.uid);
         docRef.get().then((doc) => {
             if (doc.exists) {
@@ -1269,9 +1276,7 @@ function onReady(callback) {
                     {
                         var data4 = DataDoc3.data();
                         var gg = Number(data4.peppaPriceYesterday);
-                        console.log(gg);
                         var percDiff =  100 * gg/Number(data1.PeppaValue);
-                        console.log(percDiff)
                     if(data1.PeppaValue >= gg)
                     {
                         percDiff = 100 - percDiff
