@@ -1112,7 +1112,7 @@ function onReady(callback) {
                                             Notifications:Rdata.Notifications,
                                             Transactions: Rdata.Transactions,
                                             Username: Rdata.Username,
-                                            HashesMined:data.HashesMined,
+                                            HashesMined:Rdata.HashesMined,
                                             newFaucetTime: Rdata.newFaucetTime,
                                             ReferralCode: Rdata.ReferralCode,
                                             Referrals: Rdata.Referrals,
