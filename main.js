@@ -2759,11 +2759,11 @@ function CreateTransaction(sellOrBuy, seller, amount, type, usd,description, use
             if(data.IncomingMarketplaceTransactions != null)
             {
             var marketplacetransactions = data.IncomingMarketplaceTransactions;
-            marketplacetransactions.push(seller);
+            marketplacetransactions.push(Auth.currentUser.uid);
             }
             else{
                 var marketplacetransactions= [];
-                marketplacetransactions.push(seller);
+                marketplacetransactions.push(Auth.currentUser.uid);
             }
         var tempData = {
             Coins: data1.Coins,
@@ -5117,6 +5117,7 @@ function InitializeProfile()
         html = li;
         list.innerHTML += html
     }
+
         var Itransactions = data.IncomingMarketplaceTransactions;
         var arrayLength1 = Itransactions.length;
         
@@ -5131,7 +5132,7 @@ function InitializeProfile()
                     const li = `
                     <li onclick="">
                     <h1 style="color:black">Transaction ${i }</h1>
-                    <h3 style="color:black">Request from ${refObj.Username}</h3>
+                    <h3 style="color:black">Request from ${refObj.userName}</h3>
                     <h3 style="color:black">Payment Method: ${refObj.type}</h3>
                     <h4 style="color:black">Incoming Message: ${refObj.description}</h4>
                     
