@@ -24,6 +24,7 @@
                 <a style="margin-top:10px;"><button class="btn pink"id="Fairness"style="z-index: 3;"onClick="window.location.href = 'profile.html'">Marketplace Profile</button></a>
                 <a style="margin-top:10px;"><button class="btn pink"id="FAQ"style="z-index: 3;"onClick="window.location.href = 'sell.html'">Buy</button></a>
                 <a style="margin-top:10px;"><button class="btn pink"id="FAQ"style="z-index: 3;"onClick="window.location.href = 'createListing.html'">Create a listing</button></a>
+                <a style="margin-top:-65px; margin-left:60%;"><h4 style="text-align:center"id="peppaPrice" >1 PEPPA = 0.000008 USD</h4></a>
                 <a style="margin-top:-65px; margin-left:85%;"><h4 style="text-align:center" id= "peppaAmount" >Balance: 500 PEPPAS</h4></a>
             </div>
             <script>$(document).ready(function(){
@@ -49,14 +50,21 @@
             <ul class="List" id = "outgoingTransaction">
                 <h2 id="outgoingRequeststext">Here are your outgoing Transaction requests</h2>
             </ul>
-            
+            <script>
+                var docRef69 = db.collection("data").doc("data");
+docRef69.get().then((doc) =>{
+var data = doc.data();
+var value = data.PeppaValue;
+            document.getElementById("peppaPrice").innerHTML = "1 PEPPA = " + value.toFixed(8);
+})
+        </script>
             <div id="refillModal" class="modal" style="display:none">
                 <div style="border-radius:12px;background-color:rgb(63, 59, 59);height:55%;width:30%;"class="modal-content">
                     <h1 style="text-align:center">Refill Peppas</h1>    
                     <h4 style="font-size:20px;color:rgba(251, 183, 198, 1); text-align:center;"for="fname">Refill Amount(min 50k PEPPAS)</h4>
                 <input style="margin-left:20%;"type="number" class="receiverAddress" placeholder="Refill Amount" id="amount1234"/>
                 <br><br>
-                <div id="buttonR">
+                <div id="buttonR" sstyle=" width:100% ">
                     
                 </div>                    
             </div>
@@ -65,7 +73,7 @@
                 <div style="border-radius:12px;background-color:rgb(63, 59, 59);height:55%;width:30%;"class="modal-content">
                     <h1 style="text-align:center">Are you sure you want to close this Transaction?</h1>    
                 <br><br>
-                <div id="buttonC">
+                <div id="buttonC" style=" width:100% ">
                     
                 </div>                    
             </div>
@@ -74,7 +82,7 @@
                 <div style="border-radius:12px;background-color:rgb(63, 59, 59);height:55%;width:30%;"class="modal-content">
                     <h1 style="text-align:center">Are you sure you received payment for this Transaction?</h1>    
                 <br><br>
-                <div id="buttonF">
+                <div id="buttonF" style=" width:100% ">
                     
                 </div>                    
             </div>

@@ -24,6 +24,7 @@
                 <a style="margin-top:10px;"><button class="btn pink"id="Fairness"style="z-index: 3;"onClick="window.location.href = 'profile.html'">Marketplace Profile</button></a>
                 <a style="margin-top:10px;"><button class="btn pink"id="FAQ"style="z-index: 3;"onClick="window.location.href = 'sell.html'">Buy</button></a>
                 <a style="margin-top:10px;"><button class="btn pink"id="FAQ"style="z-index: 3;"onClick="window.location.href = 'createListing.html'">Create a listing</button></a>
+                <a style="margin-top:-65px; margin-left:60%;"><h4 style="text-align:center"id="peppaPrice" >1 PEPPA = 0.000008 USD</h4></a>
                 <a style="margin-top:-65px; margin-left:85%;"><h4 style="text-align:center" id= "peppaAmount" >Balance: 500 PEPPAS</h4></a>
             </div>
             <div class="sidenav">
@@ -41,6 +42,14 @@
                     })
                 })
             })
+                </script>
+                <script>
+                        var docRef69 = db.collection("data").doc("data");
+    docRef69.get().then((doc) =>{
+        var data = doc.data();
+        var value = data.PeppaValue;
+                    document.getElementById("peppaPrice").innerHTML = "1 PEPPA = " + value.toFixed(8);
+    })
                 </script>
                 <div class="dropdown" style="margin-left:5%;margin-top:-5%">
                     <button class="dropbtn" onclick="document.getElementById('dropdown-content').style.visibility = 'visible';" id="dropbtn">Paypal</button>

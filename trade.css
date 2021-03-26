@@ -27,7 +27,7 @@
     background-position: center;
   }
   .selector {
-    margin-left: 175px; /* Same as the width of the sidenav */
+    margin-left: 12.9%; /* Same as the width of the sidenav */
     padding: 0px 10px;
     background-color:rgb(44, 38, 38);
     width:38%;
@@ -78,7 +78,7 @@
   .show {display: block;}
 
   .trade{
-    margin-left: 695px; /* Same as the width of the sidenav */
+    margin-left: 50.9%; /* Same as the width of the sidenav */
     padding: 0px 10px;
     background-color:rgb(48, 45, 45);
     width:52.2%;

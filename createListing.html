@@ -24,8 +24,17 @@
                 <a style="margin-top:10px;"><button class="btn pink"id="Fairness"style="z-index: 3;"onClick="window.location.href = 'profile.html'">Marketplace Profile</button></a>
                 <a style="margin-top:10px;"><button class="btn pink"id="FAQ"style="z-index: 3;"onClick="window.location.href = 'sell.html'">Buy</button></a>
                 <a style="margin-top:10px;"><button class="btn pink"id="FAQ"style="z-index: 3;"onClick="window.location.href = 'createListing.html'">Create a listing</button></a>
+                <a style="margin-top:-65px; margin-left:60%;"><h4 style="text-align:center"id="peppaPrice" >1 PEPPA = 0.000008 USD</h4></a>
                 <a style="margin-top:-65px; margin-left:85%;"><h4 style="text-align:center" id= "peppaAmount" >Balance: 500 PEPPAS</h4></a>
             </div>
+            <script>
+                var docRef69 = db.collection("data").doc("data");
+docRef69.get().then((doc) =>{
+var data = doc.data();
+var value = data.PeppaValue;
+            document.getElementById("peppaPrice").innerHTML = "1 PEPPA = " + value.toFixed(8);
+})
+        </script>
             <div class="form" style="width:80%; height:230%;background-color:rgb(59, 59, 59);border-radius: 34px;margin-left:9%;margin-top:1%">
                <br>
                 <h1 style="text-align:center;color:rgb(212, 212, 212);font-size: 40;">Create a Listing</h1>
