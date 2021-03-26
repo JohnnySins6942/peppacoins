@@ -5127,8 +5127,6 @@ function InitializeProfile()
             var transactionObj1 = Itransactions[i];
             var sellRef = db.collection("OpenSellTransactions").doc(transactionObj1);
             sellRef.get().then((doc1) => {
-                if(doc1.exists)
-                {
                 var refObj = doc1.data();
                     const li = `
                     <li onclick="">
@@ -5145,11 +5143,11 @@ function InitializeProfile()
                         <button class="button1"onClick="CloseTransactions('${transactionObj1}')">Close Transaction</button>
                         </li> 
                     `;
+                    console.log(i);
                     var count1 = document.getElementById('incomingRequeststext');
                     count1.innerHTML = 'Here are your incoming requests ( ' + (i).toString() + '/100 )'
                     html = li;
                     list2.innerHTML += html;
-                }
             })
         }
     }else{
@@ -5186,9 +5184,10 @@ function InitializeProfile()
         </li> 
             `;
             var count2 = document.getElementById('outgoingRequeststext');
-            count2.innerHTML = 'Here are your outgoing requests ( ' + (i).toString() + '/1 )'
+            count2.innerHTML = 'Here are your outgoing requests ( 1/1 )'
             html = li;
             list3.innerHTML += html
+            console.log(list3);
             }
             else{
                 const li = `
