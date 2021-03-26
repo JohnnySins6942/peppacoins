@@ -5131,7 +5131,7 @@ function InitializeProfile()
                     const li = `
                     <li onclick="">
                     <h1 style="color:black">Transaction ${i }</h1>
-                    <h3 style="color:black">Request from ${refObj.userName}</h3>
+                    <h3 style="color:black">Request from ${refObj.Username}</h3>
                     <h3 style="color:black">Payment Method: ${refObj.type}</h3>
                     <h4 style="color:black">Incoming Message: ${refObj.description}</h4>
                     
