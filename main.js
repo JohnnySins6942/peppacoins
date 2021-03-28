@@ -2305,14 +2305,15 @@ function onReady(callback) {
                             localStorage.setItem('PeppaValueYesterday', priceYesterday)
                             var peppaValue = localStorage.getItem('PeppaValue')
                             var price = document.getElementById("PeppaPrice");
-                    price.innerHTML = "1 PEPPA = " + peppaValue + "USD";
-                    var modal = document.getElementById("GoToWallet");
-                    var modal2 = document.getElementById("Loginbtn");
-                    modal2.style.display = "block";
-                    modal.style.display = "none";
-            var towalletbtn = document.getElementById("GoToWallet");
-            towalletbtn.onclick = function(){
-                window.location.href = "wallet.html";
+                            price.innerHTML = "1 PEPPA = " + peppaValue + "USD";
+                            var modal = document.getElementById("GoToWallet");
+                            var modal2 = document.getElementById("Loginbtn");
+                            modal2.style.display = "block";
+                            console.log(peppaValue);
+                            modal.style.display = "none";
+                            var towalletbtn = document.getElementById("GoToWallet");
+                            towalletbtn.onclick = function(){
+                            window.location.href = "wallet.html";
         }
                         }
                     })
@@ -2336,12 +2337,22 @@ function onReady(callback) {
                             var coins69 = data69.PeppaValue;
                             localStorage.setItem('PeppaValue', coins69);
                             localStorage.setItem('PeppaValueYesterday', priceYesterday)
-                            
-                        }
+                            var peppaValue = localStorage.getItem('PeppaValue')
+                            var price = document.getElementById("PeppaPrice");
+                            price.innerHTML = "1 PEPPA = " + peppaValue.toString() + "USD";
+                            console.log(peppaValue);
+                            var modal = document.getElementById("GoToWallet");
+                            var modal2 = document.getElementById("Loginbtn");
+                            modal2.style.display = "block";
+                            modal.style.display = "none";
+                    var towalletbtn = document.getElementById("GoToWallet");
+                    towalletbtn.onclick = function(){
+                        window.location.href = "wallet.html";
+                        
+                    }}
                     })
                     })
                     }
-
                     var peppaValue = localStorage.getItem('PeppaValue')
                     var price = document.getElementById("PeppaPrice");
                     price.innerHTML = "1 PEPPA = " + peppaValue.toString() + "USD";
@@ -2352,7 +2363,9 @@ function onReady(callback) {
             var towalletbtn = document.getElementById("GoToWallet");
             towalletbtn.onclick = function(){
                 window.location.href = "wallet.html";
-        }
+            }
+
+                    
                 }
                 
     }
@@ -2650,23 +2663,7 @@ function onReady(callback) {
                                         var Rdata = Receivedoc.data();
                                         var Rcoins = Rdata.Coins;
                                         var ReceivetempCoin = Number(Number(Rcoins) + Number(TransactionAmount.value)); 
-                                        var tempReceiveData = {
-                                            Coins: ReceivetempCoin,
-                                            Address: Rdata.Address,
-                                            Notifications:Rdata.Notifications,
-                                            Transactions: Rdata.Transactions,
-                                            Username: Rdata.Username,
-                                            HashesMined:Rdata.HashesMined,
-                                            newFaucetTime: Rdata.newFaucetTime,
-                                            ReferralCode: Rdata.ReferralCode,
-                                            Referrals: Rdata.Referrals,
-                                            Referrer: Rdata.Referrer,
-                                            Multiplier: Rdata.Multiplier,
-                                            PreviousTransactions: Rdata.PreviousTransactions,
-                                            MarketplaceTransactions: Rdata.MarketplaceTransactions,
-                                            FinishedMarketplaceTransactions: Rdata.FinishedMarketplaceTransactions,
-                                            IncomingMarketplaceTransactions: Rdata.IncomingMarketplaceTransactions
-                                        }
+
 
                                         var ReceiveTransactionObj = {
                                             userName: data.Username,
@@ -2806,6 +2803,260 @@ function onReady(callback) {
                 }
             })
             })
+            var docRef = db.collection("users").doc(auth.uid);
+            docRef.get().then((doc) => {
+                if (doc.exists) {
+    
+                    var peppaValue = Number(localStorage.getItem('PeppaValue'));
+                    
+                    var peppaPriceYesterday = Number(localStorage.getItem('PeppaValueYesterday'));
+                    var data = doc.data();
+                    var coins = data.Coins;
+                    var address = data.Address;
+                    var transactions = data.Transactions;
+                    var notifications=  data.Notifications;
+                    document.getElementById("Coins").innerHTML = Number(coins).toFixed(4) + " PEPPAS";
+                    document.getElementById("Coins2").innerHTML = Number(coins).toFixed(4) + " PEPPAS";
+                    document.getElementById("UserAddress").innerHTML =  address;
+                    document.getElementById("UserAddress2").innerHTML =  address;
+                    document.getElementById("UserAddress3").innerHTML = address;
+                    document.getElementById("username").innerHTML =  data.Username + "'s wallet";
+                    document.getElementById("MultiplierValue").innerHTML = "Multiplier: " + data.Multiplier.toFixed(2) + "x";
+                    
+                        document.getElementById("USDValue").innerHTML = "$" + (Number(Number(coins) * Number(peppaValue))).toFixed(4);
+                        document.getElementById("USDValue2").innerHTML = "$" + (Number(Number(coins) * Number(peppaValue))).toFixed(4);
+                        document.getElementById("USDValue3").innerHTML = "$" + (Number(Number(coins) * Number(peppaValue))).toFixed(4);
+                   
+                    
+    
+                            var gg = Number(peppaPriceYesterday);
+                            var percDiff =  100 * gg/Number(peppaValue);
+                        if(peppaValue >= gg)
+                        {
+                            percDiff = 100 - percDiff
+                            document.getElementById("priceChange").innerHTML = "+" + percDiff.toFixed(5) + "% (" + peppaPriceYesterday.toFixed(8)+" 24 HR change)";
+                        }
+                        else{
+                            percDiff -= 100
+                            document.getElementById("priceChange").innerHTML = "-" + percDiff.toFixed(5) + "% (" + peppaPriceYesterday.toFixed(8)+" 24 HR change)";
+                        }
+    
+                
+    
+                    arrayLength = transactions.length;
+                    arrayLength1 = notifications.length;
+                    if(arrayLength1 > 0)
+                    {
+                        var list1 = document.getElementById('notifications');
+                        for (var i = arrayLength1 - 1; i >= 0; i--) {
+    
+                            if(notifications[i].NotifType == "green")
+                            {
+                                const li = `
+                                <div class="alert success" style="pointer-events: auto;">
+                                <span class="closebtn">&times;</span>  
+                                <strong>${notifications[i].NotifTitle}</strong><br>${notifications[i].NotifContent}
+                                </div>
+                                `;
+                                html1 += li;
+                            }
+                            else if(notifications[i].NotifType == "yellow"){
+                                const li = `
+                                <div class="alert" style="pointer-events: auto;">
+                                <span class="closebtn">&times;</span>  
+                                <strong>${notifications[i].NotifTitle}</strong><Br>${notifications[i].NotifContent}
+                                </div>
+                                `;
+                                html1 += li;
+                            }
+                            else if(notifications[i].NotifType == "red"){
+                                const li = `
+                                <div class="alert warning" style="pointer-events: auto;">
+                                <span class="closebtn">&times;</span>  
+                                <strong>${notifications[i].NotifTitle}</strong><br>${notifications[i].NotifContent}
+                                </div>
+                                `;
+                                html1 += li;
+                            }
+                            else if(notifications[i].NotifType == "blue"){
+                                const li = `
+                                <div class="alert info" style="pointer-events: auto;">
+                                <span class="closebtn">&times;</span>  
+                                <strong>${notifications[i].NotifTitle}</strong><Br>${notifications[i].NotifContent}
+                                </div>
+                                `;
+                                html1 += li;
+                            }
+    
+                            notifications.splice(i, 1);
+                            list1.innerHTML = html1;
+                            var close = document.getElementsByClassName("closebtn");
+                            var z;
+    
+                            for (z = 0; z < close.length; z++) {
+                            close[z].onclick = function(){
+                                var div = this.parentElement;
+                                div.style.opacity = "0";
+                                setTimeout(function(){ div.style.display = "none"; }, 600);
+                            }
+                            }
+                        }
+                      
+                      
+                    }
+                    var j = 0;
+                    var tempData = {
+                        PreviousTransactions: Number(data.PreviousTransactions),
+                    }
+                    var list = document.getElementById('transactionList');
+                    if(arrayLength == 0)
+                    {
+                        const li = `
+                        <li>
+                        
+                        <button style="border-radius:10px;" class="accordion">Example Transaction <br> +A lot of PEPPAS</button>
+                        <div style="border-radius:10px;"class="panel">
+                        <h2 style="text-align:center">Sender Address: </h2>
+                        <button onclick="copyToClipboard('#addressexample')"class="btnTransparent pink" style="z-index: 2;    display: block;
+                        width: 30em;
+                        line-height: 3em;
+                        padding: 0.2em;
+                        margin:0.3em;	
+                        border: 1px solid  #ccc ;  
+                        border-radius: 8px;
+                        -webkit-appearance:normal;
+                        font-size: 1em;
+                        word-wrap: break-word;margin-left:14.5%"><h2 id="addressexample" style="text-align:center;">Some random Pig</h2></button>
+                        <h5 style="text-align:center;">TransactionTime: A certain time</h5>
+                        </div>
+                        </li>
+                        `;
+                        html += li;
+                        list.innerHTML = html;
+                        var acc = document.getElementsByClassName("accordion");
+                        var p;
+                        
+                        for (p = 0; p < acc.length; p++) {
+                          acc[p].addEventListener("click", function() {
+                            this.classList.toggle("active");
+                            var panel = this.nextElementSibling;
+                            if (panel.style.maxHeight) {
+                              panel.style.maxHeight = null;
+                            } else {
+                              panel.style.maxHeight = panel.scrollHeight + "px";
+                            } 
+                          });
+                        }
+                    }
+                    for (var i = arrayLength - 1; i >= 0; i--) {
+                        j++;
+                        if (j <= 50)
+                        {
+                        if(transactions[i].send == true)
+                        {
+                            const li = `
+                            <li>
+                            <button style="border-radius:10px;"class="accordion">Transaction Number ${(Number((i+1)) + Number(data.PreviousTransactions)).toString()} <br> -${Number(transactions[i].Amount).toFixed(4).toString()} PEPPA (-$${(Number(transactions[i].Amount) *  Number(peppaValue)).toFixed(4).toString()})</button>
+                            <div style="border-radius:10px;"class="panel">
+                            <h2 style="text-align:center">Receiver Address: </h2>
+                            <button onclick="copyToClipboard('#address${[i]}')"class="btnTransparent pink" style="z-index: 2;    display: block;
+                            width: 30em;
+                            line-height: 3em;
+                            padding: 0.2em;
+                            margin:0.3em;	
+                            border: 1px solid  #ccc ;  
+                            border-radius: 8px;
+                            -webkit-appearance:normal;
+                            font-size: 1em;
+                            word-wrap: break-word;margin-left:14.5%"><h2 id="address${[i]}" style="text-align:center;">${transactions[i].ReceiverAddress}</h2></button>
+                            <h5 style="text-align:center;">TransactionTime: ${transactions[i].TransactionDate.toDate()}</h5>
+                            </div>
+                            </li>
+                            `;
+                            html += li;
+                        }
+                        else{
+                            const li = `
+                            <li>
+                            
+                            <button style="border-radius:10px;" class="accordion">Transaction Number ${(Number((i+1)) + Number(data.PreviousTransactions)).toString()} <br> +${Number(transactions[i].Amount).toFixed(4).toString()} PEPPA (+$${(Number(transactions[i].Amount) *  Number(peppaValue)).toFixed(4).toString()})</button>
+                            <div style="border-radius:10px;"class="panel">
+                            <h2 style="text-align:center">Sender Address: </h2>
+                            <button onclick="copyToClipboard('#address${[i]}')"class="btnTransparent pink" style="z-index: 2;    display: block;
+                            width: 30em;
+                            line-height: 3em;
+                            padding: 0.2em;
+                            margin:0.3em;	
+                            border: 1px solid  #ccc ;  
+                            border-radius: 8px;
+                            -webkit-appearance:normal;
+                            font-size: 1em;
+                            word-wrap: break-word;margin-left:14.5%"><h2 id="address${[i]}" style="text-align:center;">${transactions[i].SenderAddress}</h2></button>
+                            <h5 style="text-align:center;">TransactionTime: ${transactions[i].TransactionDate.toDate()}</h5>
+                            </div>
+                            </li>
+                            `;
+                            html += li;
+                        }
+                        
+                        list.innerHTML = html;
+    
+                       
+                        var acc = document.getElementsByClassName("accordion");
+                        var p;
+                        
+                        for (p = 0; p < acc.length; p++) {
+                          acc[p].addEventListener("click", function() {
+                            this.classList.toggle("active");
+                            var panel = this.nextElementSibling;
+                            if (panel.style.maxHeight) {
+                              panel.style.maxHeight = null;
+                            } else {
+                              panel.style.maxHeight = panel.scrollHeight + "px";
+                            } 
+                          });
+                        }
+                    } 
+                    else{
+                        transactions.splice(transactions[i], 1);   
+                        tempData.PreviousTransactions = tempData.PreviousTransactions+1;
+                    } 
+                    db.collection("users").doc(auth.uid).update({
+                        PreviousTransactions: tempData.PreviousTransactions,
+                        Transactions:transactions
+                    })
+    
+    
+                }                
+    
+                    } else {
+                    var randomString = "Peppa_" + makeid(44);
+                   
+                    var docData = {
+                        Coins: 0.0,
+                        Address: randomString,
+                        Notifications: [],
+                        Transactions: [],
+                        Username: "",
+                        newFaucetTime: new Date(),
+                        ReferralCode: makeid(8),
+                        HashesMined:0,
+                        Referrals: [],
+                        Referrer: empty,
+                        Multiplier: 1,
+                        PreviousTransactions: 0,
+                        MarketplaceTransactions: [],
+                        FinishedMarketplaceTransactions: 0,
+                        IncomingMarketplaceTransactions: []
+                    }
+        
+                    db.collection("users").doc(Auth.currentUser.uid).set(docData).then(() => {
+                        InitializeWallet(Auth.currentUser);
+                    })
+                }
+            }).catch((error) => {
+                console.log("Error getting document:", error);
+            });
         }
         else{
             var currentTimeTemp = new Date().getTime() / 1000;
@@ -2828,7 +3079,6 @@ function onReady(callback) {
             })
             })
             }
-        }
 
         var docRef = db.collection("users").doc(auth.uid);
         docRef.get().then((doc) => {
@@ -3084,6 +3334,7 @@ function onReady(callback) {
         }).catch((error) => {
             console.log("Error getting document:", error);
         });
+    }
     }
     function signOut(){
             
