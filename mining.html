@@ -32,14 +32,55 @@
             <button style="margin-left:14px;margin-bottom:5px;"class="btn pink"id="signOut"style="z-index: 3;"onclick = "signOut()">Sign Out</button>
         </div>
         <Script>
-            var price = document.getElementById("PeppaPrice");
-            var docRef = db.collection("data").doc("data");
-            docRef.get().then((doc) => {
-                if (doc.exists) {
-                    var data = doc.data();
-                    price.innerHTML = "1 PEPPA = " + data.PeppaValue + "USD";
+             var price = document.getElementById("PeppaPrice");
+                let saveTime = localStorage.getItem('saveTime');
+                var g = Number(saveTime);
+                saveTime = g;
+                if(saveTime == null)
+                {
+                    saveTimetemp = new Date().getTime() / 1000;
+        
+                    localStorage.setItem('saveTime',saveTimetemp);
+                    var docRef69 = db.collection("data").doc("data");
+                    docRef69.get().then((Datadoc69) => {
+                        var docRef4 = db.collection("data").doc("PeppaPrice");
+                        docRef4.get().then((DataDoc3) => {
+                        if (Datadoc69.exists) {
+                            var data69 = Datadoc69.data();
+                            var data3 = DataDoc3.data();
+                            var priceYesterday = data3.peppaPriceYesterday
+                            var coins69 = data69.PeppaValue;
+                            localStorage.setItem('PeppaValue', coins69);
+                            localStorage.setItem('PeppaValueYesterday', priceYesterday)
+                        }
+                    })
+                    })
                 }
-            })
+                else{
+                    var currentTimeTemp = new Date().getTime() / 1000;
+                    if(currentTimeTemp >= saveTime + Number(86400))
+                    {
+                        saveTimetemp = new Date().getTime() / 1000;
+                        console.log(saveTime);
+                    localStorage.setItem('saveTime',saveTimetemp);
+                    var docRef69 = db.collection("data").doc("data");
+                    docRef69.get().then((Datadoc69) => {
+                        var docRef4 = db.collection("data").doc("PeppaPrice");
+                        docRef4.get().then((DataDoc3) => {
+                        if (Datadoc69.exists) {
+                            var data69 = Datadoc69.data();
+                            var data3 = DataDoc3.data();
+                            var priceYesterday = data3.peppaPriceYesterday
+                            var coins69 = data69.PeppaValue;
+                            localStorage.setItem('PeppaValue', coins69);
+                            localStorage.setItem('PeppaValueYesterday', priceYesterday)
+                        }
+                    })
+                    })
+                    }
+                }
+                var peppaValue = localStorage.getItem("PeppaValue");
+                        price.innerHTML = "1 PEPPA = " + peppaValue + "USD";
                  
         </Script>
         <div class="mining">
@@ -57,7 +98,7 @@
             <h2 style="text-align: center;" id="InPeppaValue"></h2>
             <h3 style="text-align: center;" id="Multiplier"></h3>
             <h3 style="text-align: center;" id="ValueAfterMultiplier"></h3>
-            <h3 style="text-align: center;">Every 1350 Hashes = One PeppaCoin</h3>
+            <h3 style="text-align: center;">Every 500 Hashes = One PeppaCoin</h3>
 
             <button style="margin-left:38.8%;" class = "button1" id="ExchangeOpen">Exchange Hashes to PeppaCois!</button>
 
@@ -94,7 +135,7 @@
 
                     <input type="number" style="margin-left:21%; color:rgb(139, 93, 103);"class="receiverAddress" placeholder="Hashes to convert" id="ConvertHashes"/>   
                     
-                    <h3 style="text-align: center;">Min Hash withdrawal amount: 180,000 (1350 Hashes = 1 PEPPA)</h3>
+                    <h3 style="text-align: center;">Min Hash withdrawal amount: 180,000 (500 Hashes = 1 PEPPA)</h3>
                     <h3 style="text-align: center;" id="DisplayTotalHashes">14000 hashes</h3>
                     <h3 style="text-align: center;" id="DisplayTotalWithdrawPeppas">140 PEPPAS</h3>
                     <h3 style="text-align: center;" id="AfterMultiplier">140 PEPPAS</h3>
@@ -137,8 +178,8 @@
                     docRef.get().then((doc) => {
                         var data = doc.data();
                         document.getElementById("DisplayTotalHashes").innerHTML = "Total Redeemable Hashes: " + data.HashesMined.toFixed(4).toString();
-                        document.getElementById("DisplayTotalWithdrawPeppas").innerHTML = "Hashes in PEPPAS value: " + (data.HashesMined/1350).toFixed(4).toString();
-                        document.getElementById("AfterMultiplier").innerHTML = "Hashes in PEPPAS value after referral multiplier: " + (data.HashesMined/1350).toFixed(4).toString();
+                        document.getElementById("DisplayTotalWithdrawPeppas").innerHTML = "Hashes in PEPPAS value: " + (data.HashesMined/500).toFixed(4).toString();
+                        document.getElementById("AfterMultiplier").innerHTML = "Hashes in PEPPAS value after referral multiplier: " + (data.HashesMined/500).toFixed(4).toString();
                         var modal = document.getElementById("exchangeModal");
                 modal.style.display = "block";
                 var btn2=document.getElementById("finishExchange");
@@ -147,17 +188,13 @@
                     modal.style.display = "none";
                 }
                 btn2.onclick= function(event){
-                    var docRef1 = db.collection("users").doc(Auth.currentUser.uid);
-                    docRef1.get().then((doc) => {
                         var withdrawalAddress = document.getElementById("receiverAddress").value;
                         var HashesToConvert = document.getElementById("ConvertHashes").value;
-                        var data1 = doc.data();
                         db.collection("users").where("Address", "==", withdrawalAddress)
                     .get()
                     .then((querySnapshot) => {
                     if(!querySnapshot.empty)
                     {
-                        console.log(HashesToConvert);
                             querySnapshot.forEach((doc) => {   
                         var userRef = db.collection("users").doc(doc.id);
                         userRef.get().then((userdoc) => {
@@ -167,7 +204,7 @@
                             if (HashesToConvert >= 180000){
                                 if(HashesToConvert <= userData.HashesMined)
                                 {
-                                    var TransactionAmount = Number((HashesToConvert/1350) * userData.Multiplier).toFixed(4);
+                                    var TransactionAmount = Number((HashesToConvert/500) * userData.Multiplier).toFixed(4);
                                     var tempHashAmount = userData.HashesMined - Number(HashesToConvert);
                                     var tempCoin = coins + (TransactionAmount * userData.Multiplier);
                                 
@@ -180,42 +217,20 @@
                                 }
 
 
-                                var tempData = {
+                               transactions = userData.Transactions
+                                transactions.push(TransactionObj);
+                                db.collection("users").doc(doc.id).update({
                                     Coins: tempCoin,
-                                    Address: userData.Address,
-                                    HashesMined:tempHashAmount,
-                                    Notifications:data.Notifications,
-                                    Transactions: userData.Transactions,
-                                    newFaucetTime: userData.newFaucetTime,
-                                    Username:data.Username,
-                                    ReferralCode: userData.ReferralCode,
-                                    Referrals: userData.Referrals,
-                                    Referrer: userData.Referrer,
-                                    Multiplier: userData.Multiplier,
-                                    PreviousTransactions: userData.PreviousTransactions,
-                                    MarketplaceTransactions: userData.MarketplaceTransactions,
-                                            FinishedMarketplaceTransactions: userData.FinishedMarketplaceTransactions,
-                                            IncomingMarketplaceTransactions: userData.IncomingMarketplaceTransactions
-
-                                }
-                                tempData.Transactions.push(TransactionObj);
-
-                                db.collection("users").doc(doc.id).set(tempData).then(() => {
+                                    Transactions:transactions,
+                                    HashesMined: tempHashAmount
+                                }).then(() => {
                                     var docRef2 = db.collection("data").doc("data");
                                     docRef2.get().then((doc1) => {
                                                     var data2 = doc1.data();
                                                     var tempTotalSupply = data2.TotalSupply - TransactionAmount;
-                                                    var tempData1= {
-                                                        BitcoinValue: data2.BitcoinValue,
-                                                        MiningRewards: data2.MiningRewards,
-                                                        PeppaValue: data2.PeppaValue,
-                                                        PeppasTransacted: data2.PeppasTransacted,
-                                                        TotalSupply: tempTotalSupply,
-                                                        TransactionsMade: data2.TransactionsMade,
-                                                        miningDifficulty: data2.miningDifficulty,
-                                                        users: data2.users
-                                                    }
-                                                    db.collection("data").doc("data").set(tempData1).then(() =>{
+                                                    db.collection("data").doc("data").update({
+                                                        TotalSupply: tempTotalSupply
+                                                    }).then(() =>{
                                                         Alert("You withdrew "+ TransactionAmount.toString() + " Peppas successfully with a " + userData.Multiplier + " Referral Multiplier!", "Mining Information","green")
                                                         location.reload();
                                                     })
@@ -236,7 +251,6 @@
                     Alert("No such PeppaCoins Address!", "Mining Information", "red")
                 }
             })             
-                    })
                 }
             }
             })
@@ -256,9 +270,9 @@
                     docRef.get().then((doc) => {
                         var data = doc.data();
                     document.getElementById("PreviousHashesMined").innerHTML = "Total Previous Hashes: " + data.HashesMined.toString();
-                    document.getElementById("InPeppaValue").innerHTML = "Total Value of hashes in PEPPAS: " + Number(data.HashesMined/1350).toFixed(4).toString() + " PEPPAS";
+                    document.getElementById("InPeppaValue").innerHTML = "Total Value of hashes in PEPPAS: " + Number(data.HashesMined/500).toFixed(4).toString() + " PEPPAS";
                     document.getElementById("Multiplier").innerHTML = "Your Referral Multiplier: " + data.Multiplier + "x";
-                    document.getElementById("ValueAfterMultiplier").innerHTML = "Total Value of hashes in PEPPAS after Multiplier: " + Number((data.HashesMined/1350) * data.Multiplier).toFixed(4).toString()  + " PEPPAS";
+                    document.getElementById("ValueAfterMultiplier").innerHTML = "Total Value of hashes in PEPPAS after Multiplier: " + Number((data.HashesMined/500) * data.Multiplier).toFixed(4).toString()  + " PEPPAS";
 
                     GetHash();
                     })

@@ -29,12 +29,55 @@
                 <a style="margin-top:-65px; margin-left:85%;"><h4 style="text-align:center" id= "peppaAmount" >Balance: 500 PEPPAS</h4></a>
             </div>
             <script>
-                var docRef69 = db.collection("data").doc("data");
-docRef69.get().then((doc) =>{
-var data = doc.data();
-var value = data.PeppaValue;
-            document.getElementById("peppaPrice").innerHTML = "1 PEPPA = " + value.toFixed(8);
-})
+                var price = document.getElementById("peppaPrice");
+                let saveTime = localStorage.getItem('saveTime');
+                var g = Number(saveTime);
+                saveTime = g;
+                if(saveTime == null)
+                {
+                    saveTimetemp = new Date().getTime() / 1000;
+        
+                    localStorage.setItem('saveTime',saveTimetemp);
+                    var docRef69 = db.collection("data").doc("data");
+                    docRef69.get().then((Datadoc69) => {
+                        var docRef4 = db.collection("data").doc("PeppaPrice");
+                        docRef4.get().then((DataDoc3) => {
+                        if (Datadoc69.exists) {
+                            var data69 = Datadoc69.data();
+                            var data3 = DataDoc3.data();
+                            var priceYesterday = data3.peppaPriceYesterday
+                            var coins69 = data69.PeppaValue;
+                            localStorage.setItem('PeppaValue', coins69);
+                            localStorage.setItem('PeppaValueYesterday', priceYesterday)
+                        }
+                    })
+                    })
+                }
+                else{
+                    var currentTimeTemp = new Date().getTime() / 1000;
+                    if(currentTimeTemp >= saveTime + Number(86400))
+                    {
+                        saveTimetemp = new Date().getTime() / 1000;
+                        console.log(saveTime);
+                    localStorage.setItem('saveTime',saveTimetemp);
+                    var docRef69 = db.collection("data").doc("data");
+                    docRef69.get().then((Datadoc69) => {
+                        var docRef4 = db.collection("data").doc("PeppaPrice");
+                        docRef4.get().then((DataDoc3) => {
+                        if (Datadoc69.exists) {
+                            var data69 = Datadoc69.data();
+                            var data3 = DataDoc3.data();
+                            var priceYesterday = data3.peppaPriceYesterday
+                            var coins69 = data69.PeppaValue;
+                            localStorage.setItem('PeppaValue', coins69);
+                            localStorage.setItem('PeppaValueYesterday', priceYesterday)
+                        }
+                    })
+                    })
+                    }
+                }
+                var peppaValue = localStorage.getItem("PeppaValue");
+                        price.innerHTML = "1 PEPPA = " + peppaValue + "USD";
         </script>
             <div class="form" style="width:80%; height:230%;background-color:rgb(59, 59, 59);border-radius: 34px;margin-left:9%;margin-top:1%">
                <br>
@@ -53,7 +96,9 @@ var value = data.PeppaValue;
                 <h2 style="margin-left:2%;">How much USD will you trade for each PEPPA?</h2>
                 <input class="receiverAddress" type="number" id = "price"style="margin-left:3%;"placeholder="Enter your amount here."></input>
                 
-
+                <br>
+                <h2 id="profit"style="margin-left:2%;">Total Price: 0 USD</h2>
+                <br><br>
                 <h2 style="margin-left:2%">How would you like to get paid?</h2>
                 <script>$(document).ready(function(){
                     firebase.auth().onAuthStateChanged(user => {
@@ -66,7 +111,28 @@ var value = data.PeppaValue;
                     })
                 })
             })
+            
                 </script>
+                
+                <script>$(document).ready(function(){
+
+                    $('#amount').on('change', function() {
+                        if($("#price").val() != null || $("#price").val() != "" || $("#price").val() != " ")
+                        {
+                            var totalPrice = Number($("#price").val()) * Number($("#amount").val())
+                            $("#profit").text("Total Price: " + totalPrice.toFixed(8).toString() + " USD")
+                        }
+                    });
+                    $('#price').on('change', function() {
+                        if($("#amount").val() != null || $("#amount").val() != "" || $("#amount").val() != " ")
+                        {
+                            var totalPrice = Number($("#price").val()) * Number($("#amount").val())
+                            $("#profit").text("Total Price: " + totalPrice.toFixed(8).toString() + " USD")
+                        }
+                    });
+                })
+                </script>
+
                     <div style="margin-left:3%">
                     <input type="radio" id="paypal" name="method" value="Paypal">
                 <label for="paypal" style="font-family: Helvetica;color:rgb(243, 179, 193);font-size:24;">Paypal</label><Br>
@@ -91,6 +157,57 @@ var value = data.PeppaValue;
                 </div>
                 
                 <br><Br><Br>
+
+                <h2 style="margin-left:3%" id="paymentExplanation">Please select a payment method</h2>
+                <br>
+                <script>
+                    
+                    $(document).ready(function(){
+                    $("input[type='radio']").click(function(){
+                        var radioValue = $("input[name='method']:checked").val();
+                        if(radioValue == "Paypal"){
+                            $("#paymentExplanation").text("For Paypal Payments, please specify in the listing description your paypal email, your preferred transfer method (eg. Friends and family / goods and services) and most importantly a way to contact you")
+                        }
+                        else if(radioValue == "GiftCard")
+                        {
+                            $("#paymentExplanation").text("For Gift Card Payments, please specify in the listing description which type of gift card you would like to receive and a way for you to receive it. (eg. Email address, contact information, or mailing address) Make sure to check the gift card before releasing the payment and include a way to contact you in the description.")
+                        }
+                        else if(radioValue == "Bitcoin")
+                        {
+                            $("#paymentExplanation").text("For Bitcoin Payments, please specify in the listing description your bitcoin Address, whether your price includes the fees or not and most importantly a way to contact you")
+                        }
+                        else if(radioValue == "Ethereum")
+                        {
+                            $("#paymentExplanation").text("For Ethereum Payments, please specify in the listing description your Ethereum Address, whether your price includes the fees or not and most importantly a way to contact you")
+                        }
+                        else if(radioValue == "Dogecoin")
+                        {
+                            $("#paymentExplanation").text("For DogeCoin Payments, please specify in the listing description your DogeCoin Address, whether your price includes the fees or not and most importantly a way to contact you")
+                        }
+                        else if(radioValue == "Tether")
+                        {
+                            $("#paymentExplanation").text("For Tether Payments, please specify in the listing description your Tether Address, whether your price includes the fees or not and most importantly a way to contact you")
+                        }
+                        else if(radioValue == "ApplePay")
+                        {
+                            $("#paymentExplanation").text("For Apple Pay Payments, please specify in the listing description your Apple phone number/email address")
+                        }
+                        else if(radioValue == "GooglePay")
+                        {
+                            $("#paymentExplanation").text("For Google Pay Payments, please specify in the listing description your Google Pay Information/Contact information.")
+                        }
+                        else if(radioValue == "ETransfer")
+                        {
+                            $("#paymentExplanation").text("For E-Transfer Payments, please specify in the listing description your Interac Email/Phone Number.")
+                        }
+                        else if(radioValue == "PrepaidVisas")
+                        {
+                            $("#paymentExplanation").text("For Prepaid Visa Payments, please specify in the listing description your way of receiving the Visa information (eg. Email, phone number). Then proceed to check on https://onevanilla.com/ if the visa does have funds on it. PeppaCoins is not responsible for any scams or exploits that happen within the PeppaMarket. ")
+                        }
+                    });
+                });
+                </script>
+
                 <h2 style="margin-left:2%;">Payment instructions/description</h2>
                 <textarea class="receiverAddress"id="instructions" style="margin-left:3%;"placeholder="Enter your instructions here. We recommend you also put a way to contact you for your buyers"></textarea>
             
@@ -98,6 +215,35 @@ var value = data.PeppaValue;
                 <button class="btn pink"style="margin-left:42%;" onclick="createListing()">Create Listing!</button>
             </div>
             </div>
+            <div id="LoginModal" class="modal">
+                <div style="border-radius:12px;background-color:rgb(63, 59, 59);height:74%;"class="modal-content">
+                    <h1 style="text-align:center">Login To use Wallet</h1>
+                    <label style="font-size:25px;color:rgba(251, 183, 198, 1); text-align:center; margin-left:40%;"for="fname">Email</label>
+            
+                    <input type="text" class="receiverAddress" style="width:90%;margin-left:6%" placeholder="Email" id="email1"/>
+                    <label style="font-size:25px;color:rgba(251, 183, 198, 1); text-align:center;margin-left:34%;"for="fname">Word List</label>
+                <textarea class="receiverAddress" style="width:90%;margin-left:6%" placeholder="Word List" id="password1"></textarea>
+                <br><br>
+                    <button style="margin-left:33%;font-size:150%;" class = "button2" onclick="signIn('createListing')" id="send">Sign In!</button>
+                    <Br><br><br><br>
+                        <button style= "margin-left:5%;font-size:150%;" class = "button2" onClick="window.location.href='index.html'" id="send">I dont have an account yet...</button>
+                    <br><br><br><Br>
+                
+                </div>
+            </div>
+            <script>
+                $(document).ready(function(){
+    firebase.auth().onAuthStateChanged((user) =>{
+    if(user){
+        var modal = document.getElementById("LoginModal");
+        modal.style.display = "none";
+    }else{
+        var modal = document.getElementById("LoginModal");
+        modal.style.display = "block";
+    }
+});
+})
+            </script>
             <br><Br>
     </div>
     

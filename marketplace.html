@@ -32,25 +32,8 @@
             </div>
         <div style="z-index: 4;" class="notifications"id="notifications">
         </div>
-        <Script>
-            var price = document.getElementById("PeppaPrice");
-            var docRef = db.collection("data").doc("data");
-            docRef.get().then((doc) => {
-                if (doc.exists) {
-                    var data = doc.data();
-                    price.innerHTML = "1 PEPPA = " + data.PeppaValue + "USD";
-                }
-            })
-                 
-        </Script>
-       <script>
-        var docRef69 = db.collection("data").doc("data");
-docRef69.get().then((doc) =>{
-var data = doc.data();
-var value = data.PeppaValue;
-    document.getElementById("peppaPrice").innerHTML = "1 PEPPA = " + value.toFixed(8);
-})
-</script>
+       
+      
         <div class="marketplace" >
         
             <div class="topnav" style="z-index:99">
@@ -58,7 +41,7 @@ var value = data.PeppaValue;
                 <a style="margin-top:10px;"><button class="btn pink"id="Fairness"style="z-index: 3;"onClick="window.location.href = 'profile.html'">Marketplace Profile</button></a>
                 <a style="margin-top:10px;"><button class="btn pink"id="FAQ"style="z-index: 3;"onClick="window.location.href = 'sell.html'">Buy</button></a>
                 <a style="margin-top:10px;"><button class="btn pink"id="FAQ"style="z-index: 3;"onClick="window.location.href = 'createListing.html'">Create a listing</button></a>
-                <a style="margin-top:-65px; margin-left:60%;"><h4 style="text-align:center"id="peppaPrice" >1 PEPPA = 0.000008 USD</h4></a>
+                <a style="margin-top:-65px; margin-left:60%;"><h4 style="text-align:center"id="peppaPrice1" >1 PEPPA = 0.000008 USD</h4></a>
                 <a style="margin-top:-65px; margin-left:85%;"><h4 style="text-align:center" id= "peppaAmount" >Balance: 500 PEPPAS</h4></a>
            
             </div>
@@ -74,6 +57,60 @@ var value = data.PeppaValue;
             })
         })
             </script>
+             <Script>
+                var price = document.getElementById("PeppaPrice");
+                var price1 = document.getElementById("peppaPrice1");
+                    let saveTime = localStorage.getItem('saveTime');
+                    var g = Number(saveTime);
+                    saveTime = g;
+                    if(saveTime == null)
+                    {
+                        saveTimetemp = new Date().getTime() / 1000;
+            
+                        localStorage.setItem('saveTime',saveTimetemp);
+                        var docRef69 = db.collection("data").doc("data");
+                        docRef69.get().then((Datadoc69) => {
+                            var docRef4 = db.collection("data").doc("PeppaPrice");
+                            docRef4.get().then((DataDoc3) => {
+                            if (Datadoc69.exists) {
+                                var data69 = Datadoc69.data();
+                                var data3 = DataDoc3.data();
+                                var priceYesterday = data3.peppaPriceYesterday
+                                var coins69 = data69.PeppaValue;
+                                localStorage.setItem('PeppaValue', coins69);
+                                localStorage.setItem('PeppaValueYesterday', priceYesterday)
+                            }
+                        })
+                        })
+                    }
+                    else{
+                        var currentTimeTemp = new Date().getTime() / 1000;
+                        if(currentTimeTemp >= saveTime + Number(86400))
+                        {
+                            saveTimetemp = new Date().getTime() / 1000;
+                            console.log(saveTime);
+                        localStorage.setItem('saveTime',saveTimetemp);
+                        var docRef69 = db.collection("data").doc("data");
+                        docRef69.get().then((Datadoc69) => {
+                            var docRef4 = db.collection("data").doc("PeppaPrice");
+                            docRef4.get().then((DataDoc3) => {
+                            if (Datadoc69.exists) {
+                                var data69 = Datadoc69.data();
+                                var data3 = DataDoc3.data();
+                                var priceYesterday = data3.peppaPriceYesterday
+                                var coins69 = data69.PeppaValue;
+                                localStorage.setItem('PeppaValue', coins69);
+                                localStorage.setItem('PeppaValueYesterday', priceYesterday)
+                            }
+                        })
+                        })
+                        }
+                    }
+                    var peppaValue = localStorage.getItem("PeppaValue");
+                            price.innerHTML = "1 PEPPA = " + peppaValue + "USD";
+                            price1.innerHTML = "1 PEPPA = " + peppaValue + "USD";
+                     
+            </Script>
 <div>
     <img src="https://i.ibb.co/7yjyZZj/trading-platform-isometric-vector-28837327-removebg-preview-1-1.png" style="float:left"alt="trading-platform-isometric-vector-28837327-removebg-preview" >
     <br><br><br><br><br>

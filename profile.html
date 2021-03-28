@@ -52,11 +52,83 @@
                 <h2 id="outgoingRequeststext">Here are your outgoing Transaction requests</h2>
             </ul>
             <script>
-                var docRef69 = db.collection("data").doc("data");
-docRef69.get().then((doc) =>{
-var data = doc.data();
-var value = data.PeppaValue;
-            document.getElementById("peppaPrice").innerHTML = "1 PEPPA = " + value.toFixed(8);
+                var price = document.getElementById("peppaPrice");
+                    let saveTime = localStorage.getItem('saveTime');
+                    var g = Number(saveTime);
+                    saveTime = g;
+                    if(saveTime == null)
+                    {
+                        saveTimetemp = new Date().getTime() / 1000;
+            
+                        localStorage.setItem('saveTime',saveTimetemp);
+                        var docRef69 = db.collection("data").doc("data");
+                        docRef69.get().then((Datadoc69) => {
+                            var docRef4 = db.collection("data").doc("PeppaPrice");
+                            docRef4.get().then((DataDoc3) => {
+                            if (Datadoc69.exists) {
+                                var data69 = Datadoc69.data();
+                                var data3 = DataDoc3.data();
+                                var priceYesterday = data3.peppaPriceYesterday
+                                var coins69 = data69.PeppaValue;
+                                localStorage.setItem('PeppaValue', coins69);
+                                localStorage.setItem('PeppaValueYesterday', priceYesterday)
+                            }
+                        })
+                        })
+                    }
+                    else{
+                        var currentTimeTemp = new Date().getTime() / 1000;
+                        if(currentTimeTemp >= saveTime + Number(86400))
+                        {
+                            saveTimetemp = new Date().getTime() / 1000;
+                            console.log(saveTime);
+                        localStorage.setItem('saveTime',saveTimetemp);
+                        var docRef69 = db.collection("data").doc("data");
+                        docRef69.get().then((Datadoc69) => {
+                            var docRef4 = db.collection("data").doc("PeppaPrice");
+                            docRef4.get().then((DataDoc3) => {
+                            if (Datadoc69.exists) {
+                                var data69 = Datadoc69.data();
+                                var data3 = DataDoc3.data();
+                                var priceYesterday = data3.peppaPriceYesterday
+                                var coins69 = data69.PeppaValue;
+                                localStorage.setItem('PeppaValue', coins69);
+                                localStorage.setItem('PeppaValueYesterday', priceYesterday)
+                            }
+                        })
+                        })
+                        }
+                    }
+                    var peppaValue = localStorage.getItem("PeppaValue");
+                            price.innerHTML = "1 PEPPA = " + peppaValue + "USD";
+        </script>
+          <div id="LoginModal" class="modal">
+            <div style="border-radius:12px;background-color:rgb(63, 59, 59);height:74%;"class="modal-content">
+                <h1 style="text-align:center">Login To use Wallet</h1>
+                <label style="font-size:25px;color:rgba(251, 183, 198, 1); text-align:center; margin-left:40%;"for="fname">Email</label>
+        
+                <input type="text" class="receiverAddress" style="width:90%;margin-left:6%" placeholder="Email" id="email1"/>
+                <label style="font-size:25px;color:rgba(251, 183, 198, 1); text-align:center;margin-left:34%;"for="fname">Word List</label>
+            <textarea class="receiverAddress" style="width:90%;margin-left:6%" placeholder="Word List" id="password1"></textarea>
+            <br><br>
+                <button style="margin-left:33%;font-size:150%;" class = "button2" onclick="signIn('sell')" id="send">Sign In!</button>
+                <Br><br><br><br>
+                    <button style= "margin-left:5%;font-size:150%;" class = "button2" onClick="window.location.href='index.html'" id="send">I dont have an account yet...</button>
+                <br><br><br><Br>
+            
+            </div>
+        </div>
+        <script>
+            $(document).ready(function(){
+firebase.auth().onAuthStateChanged((user) =>{
+if(user){
+    var modal = document.getElementById("LoginModal");
+    modal.style.display = "none";
+}else{
+    var modal = document.getElementById("LoginModal");
+    modal.style.display = "block";
+}
+});
 })
         </script>
             <div id="refillModal" class="modal" style="display:none">

@@ -164,24 +164,7 @@
                                         if(Rcoins > 0)
                                         {
                                         var ReceivetempCoin = Number(Rcoins) + (Number(betAmount * bettingReturn) - betAmount);  
-                                        console.log(ReceivetempCoin)
-                                        var tempReceiveData = {
-                                            Coins: ReceivetempCoin,
-                                            HashesMined: Rdata.HashesMined,
-                                            Address: Rdata.Address,
-                                            Transactions: Rdata.Transactions,
-                                            Notifications:Rdata.Notifications,
-                                            newFaucetTime: Rdata.newFaucetTime,
-                                            Username: Rdata.Username,
-                                            ReferralCode: Rdata.ReferralCode,
-                                            Referrals: Rdata.Referrals,
-                                            Referrer: Rdata.Referrer,
-                                            Multiplier: Rdata.Multiplier,
-                                            PreviousTransactions: Rdata.PreviousTransactions,
-                                            MarketplaceTransactions: Rdata.MarketplaceTransactions,
-                                            FinishedMarketplaceTransactions: Rdata.FinishedMarketplaceTransactions,
-                                            IncomingMarketplaceTransactions: Rdata.IncomingMarketplaceTransactions
-                                        }
+                                  
 
                                         var ReceiveTransactionObj = {
                                             SenderAddress: "PeppaCoins Casino",
@@ -189,8 +172,12 @@
                                             Amount: Number((betAmount * bettingReturn) - betAmount),
                                             send: false
                                         }
-                                        tempReceiveData.Transactions.push(ReceiveTransactionObj);
-                                        db.collection("users").doc(Auth.currentUser.uid).set(tempReceiveData).then(() => {
+                                        var transactions = Rdata.Transactions
+                                        transactions.push(ReceiveTransactionObj);
+                                        db.collection("users").doc(Auth.currentUser.uid).update({
+                                            Coins: ReceivetempCoin,
+                                            Transactions: transactions
+                                        }).then(() => {
                                             $("#finalRoll").val(rolledNumber.toString());
                                             Alert("You won " + (betAmount * bettingReturn).toFixed(4).toString() + " PEPPAS with a " + (bettingReturn) + "x return rate. You rolled a " + rolledNumber.toString(), "PeppaBet Win!", "green");
                                             doubleReload();
@@ -227,24 +214,7 @@
                                         if(Rcoins2 > 0)
                                         {
                                         var ReceivetempCoin2 = Number(Rcoins2) - betAmount;  
-                                        var tempReceiveData2 = {
-                                            Coins: ReceivetempCoin2,
-                                            HashesMined: Rdata2.HashesMined,
-                                            Address: Rdata2.Address,
-                                            Transactions: Rdata2.Transactions,
-                                            Notifications:Rdata2.Notifications,
-                                            newFaucetTime: Rdata2.newFaucetTime,
-                                            Username: Rdata2.Username,
-                                            ReferralCode: Rdata2.ReferralCode,
-                                            Referrals: Rdata2.Referrals,
-                                            Referrer: Rdata2.Referrer,
-                                            Multiplier: Rdata2.Multiplier,
-                                            PreviousTransactions: Rdata2.PreviousTransactions,
-                                            MarketplaceTransactions: Rdata2.MarketplaceTransactions,
-                                            FinishedMarketplaceTransactions: Rdata2.FinishedMarketplaceTransactions,
-                                            IncomingMarketplaceTransactions: Rdata2.IncomingMarketplaceTransactions
-                                        }
-
+                                        
                                         var ReceiveTransactionObj2 = {
                                             ReceiverAddress: "PeppaCoins Casino",
                                             TransactionDate: new Date(),
@@ -252,8 +222,12 @@
                                             send: true,
                                             NetworkFee: 0
                                         }
-                                        tempReceiveData2.Transactions.push(ReceiveTransactionObj2);
-                                        db.collection("users").doc(Auth.currentUser.uid).set(tempReceiveData2).then(() => {
+                                        var transactions = Rdata2.Transactions
+                                        transactions.push(ReceiveTransactionObj2);
+                                        db.collection("users").doc(Auth.currentUser.uid).update({
+                                            Transactions: transactions,
+                                            Coins: ReceivetempCoin2
+                                        }).then(() => {
                                             $("#finalRoll").val(rolledNumber.toString());
                                             Alert("You lost " + Number(betAmount).toFixed(4).toString() + " PEPPAS with a " + (bettingReturn) + "x return rate. You rolled a " + rolledNumber.toString(),"PeppaBet Loss!", "red");
                                             doubleReload();

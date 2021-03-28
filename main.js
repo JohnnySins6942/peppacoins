@@ -2385,6 +2385,7 @@ function onReady(callback) {
             docRef.get().then((doc) => {
                 var data = doc.data();
                 var referrals = data.Referrals;
+                var referralList2 = data.Referrals;
                 arrayLength = referrals.length;
                 document.getElementById("MultiplierValue").innerHTML = "Multiplier: " + data.Multiplier.toFixed(2) + "x";
                 document.getElementById("ReferralsCode").innerHTML="Your Referral Code: " + data.ReferralCode;
@@ -2395,13 +2396,17 @@ function onReady(callback) {
                     if (j <= 20)
                     {
                     var docRef1 = db.collection("users").doc(referrals[i]);
-                    docRef1.get().then((doc1) => {
+                    docRef1.get().then((doc1) => 
+                    {
+                        if(doc1.exists)
+                        {
+                        var data1 = doc1.data()
                     const li = `
                     <li>
                     <button style="border-radius:10px;width:85%;margin-left:7.5%"class="accordion">Referral Number ${(i+2).toString()}</button>
                     <div style="border-radius:10px;width:82%;margin-left:7.5%"class="panel">
                     <h2 style="text-align:center">Referral Address: </h2>
-                    <button onclick="copyToClipboard('#address${doc1.data().Address}')"class="btnTransparent pink" style="z-index: 2;    display: block;
+                    <button onclick="copyToClipboard('#address${data1.Address}')"class="btnTransparent pink" style="z-index: 2;    display: block;
                     width: 30em;
                     line-height: 3em;
                     padding: 0.2em;
@@ -2410,7 +2415,8 @@ function onReady(callback) {
                     border-radius: 8px;
                     -webkit-appearance:normal;
                     font-size: 1em;
-                    word-wrap: break-word;margin-left:26.5%"><h2 id="address${doc1.data().Address}" style="text-align:center;">${doc1.data().Address}</h2></button>
+                    word-wrap: break-word;margin:0 auto"><h2 id="address${data1.Address}" style="text-align:center;">${data1.Address}</h2></button>
+                    <br><br><br>
                     </div>
                     </li>
                     `;
@@ -2430,6 +2436,16 @@ function onReady(callback) {
                         } 
                       });
                     }
+                }
+                else{
+                    referralList2.splice(i, 1);
+                }
+                        })
+                    }
+                    if(referralList2 != referrals)
+                    {
+                        docRef.update({
+                            Referrals: referralList2
                         })
                     }
                 }
