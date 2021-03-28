@@ -2299,7 +2299,7 @@ function onReady(callback) {
                         if (Datadoc69.exists) {
                             var data69 = Datadoc69.data();
                             var data3 = DataDoc3.data();
-                            var priceYesterday = data3.peppaPriceYesterday
+                            var priceYesterday = data3.peppaPriceYesterday;
                             var coins69 = data69.PeppaValue;
                             localStorage.setItem('PeppaValue', coins69);
                             localStorage.setItem('PeppaValueYesterday', priceYesterday)
@@ -4292,25 +4292,12 @@ function CreateTransaction(sellOrBuy, seller, amount, type, usd,description, use
                 var marketplacetransactions= [];
                 marketplacetransactions.push(Auth.currentUser.uid);
             }
-        var tempData = {
-            Coins: data1.Coins,
-            Address: data1.Address,
-            Transactions: data1.Transactions,
-            Notifications:data1.Notifications,
-            Username: data1.Username,
-            HashesMined:data1.HashesMined,
-            newFaucetTime: data1.newFaucetTime,
-            ReferralCode: data1.ReferralCode,
-            Referrals: data1.Referrals,
-            Referrer: data1.Referrer,
-            Multiplier: data1.Multiplier,
-            PreviousTransactions: data1.PreviousTransactions,
-            MarketplaceTransactions: data1.MarketplaceTransactions,
-            FinishedMarketplaceTransactions: data1.FinishedMarketplaceTransactions,
-            IncomingMarketplaceTransactions: marketplacetransactions
-        }
+      
+
         db.collection("OpenSellTransactions").doc(Auth.currentUser.uid).set(docData).then(() => {
-            db.collection("users").doc(seller).set(tempData).then(() => {
+            db.collection("users").doc(seller).update({
+                IncomingMarketplaceTransactions: marketplacetransactions
+            }).then(() => {
                 Alert("Order Created! Go to your Orders page to check its status!", "Sell Listings Information", "green");
                 location.reload();
             })
