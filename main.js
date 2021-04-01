@@ -2633,7 +2633,7 @@ function onReady(callback) {
         if(TransactionAmount.value >= 250)
         {
         var modal = document.getElementById("sendModal");
-        var NetworkFee = (Number(TransactionAmount.value) * 0.01).toFixed(4);
+        var NetworkFee = (Number(TransactionAmount.value) * 0.001).toFixed(4);
         db.collection("users").where("Address", "==", receiverAddress.value)
         .get()
         .then((querySnapshot) => {
